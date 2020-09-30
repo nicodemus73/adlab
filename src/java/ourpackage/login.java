@@ -62,22 +62,19 @@ public class login extends HttpServlet {
             ResultSet rs = statement.executeQuery();
             boolean found = false;
             while (rs.next() & !(found)){
-                if (rs.getString("id_usuario").equals(usu)){
+                if ((rs.getString("id_usuario").equals(usu)) & (request.getParameter("password").equals(rs.getString("password")))) {
                     found = true;
-                    out.println("<p>L'usuari "+usu + " existeix");
-                    if (request.getParameter("password").equals(rs.getString("password")))
-                        response.sendRedirect("login");
+                    
+                    response.sendRedirect("menu.jsp");
                 }
             }
-         
-            if (!found) {
-                out.println("<p>L'usuari "+usu+ " s'ha creat correctament</p>");
-                query = "insert into usuarios values(?,?)";
-                statement = connection.prepareStatement(query);    
-                statement.setString(1, request.getParameter("usuari"));
-                statement.setString(2, request.getParameter("password"));
-                statement.executeUpdate();
+            if (found){
+                if (request.getParameter("password").equals(rs.getString("password")))
+                    response.sendRedirect("login");
             }
+            if (!found) 
+                response.sendRedirect("error.jsp");
+            
             
             out.println("</body>");
             out.println("</html>");
