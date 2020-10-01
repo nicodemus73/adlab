@@ -14,8 +14,8 @@
     <body>
         <h1>Hello World!</h1>
         <form action="login" method="POST">
-            <input type="Text"     name="usuari"/><br>
-            <input type="password" name="password"/><br>
+            Usuario: <input type="Text"     name="usuari"/><br>
+            Contraseña: <input type="password" name="password"/><br>
             <input type="Submit"   value="Enviar"/><br>
         </form>
     </body>
