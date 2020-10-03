@@ -9,12 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Bienvenido!</h1>
         <form action="login" method="POST">
-            Usuario: <input type="Text"     name="usuari"/><br>
+            Usuario: <input type="text"     name="usuari"/><br>
             Contraseña: <input type="password" name="password"/><br>
             <input type="Submit"   value="Enviar"/><br>
         </form>

@@ -45,36 +45,22 @@ public class login extends HttpServlet {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
             connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");       
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
             String usu = request.getParameter("usuari");
-            
+            String password = request.getParameter("password");
             query = "select * from usuarios";
-            statement = connection.prepareStatement(query); 
+            statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
+            
             boolean found = false;
-            while (rs.next() & !(found)){
-                if ((rs.getString("id_usuario").equals(usu)) & (request.getParameter("password").equals(rs.getString("password")))) {
+            while (rs.next() && !found){
+                if (rs.getString("id_usuario").equals(usu) && rs.getString("password").equals(password)) {
                     found = true;
-                    
-                    response.sendRedirect("menu.jsp");
+                    out.println("Encontrado!");
+                    //response.sendRedirect("menu.jsp");
                 }
             }
-            if (found){
-                if (request.getParameter("password").equals(rs.getString("password")))
-                    response.sendRedirect("login");
-            }
-            if (!found) 
-                response.sendRedirect("error.jsp");
             
+            if(!found) response.sendRedirect("error.jsp");
             
             out.println("</body>");
             out.println("</html>");
