@@ -96,9 +96,7 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
             
-            query = "select id from image";
-            statement = connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
+  
            
             query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(query);
