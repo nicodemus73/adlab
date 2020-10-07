@@ -12,7 +12,7 @@
         <title>Listar imagenes</title>
     </head>
     <body>
-        <h1></h1>
+        
         <a href="modificarImagen.jsp">Modificar Imagen</a> 
     </body>
 </html>
