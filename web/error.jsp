@@ -13,5 +13,7 @@
     </head>
     <body>
         <h1>Error. Usuari o password incorrectes</h1>
+        
+        <a href="login.jsp">Login</a>
     </body>
 </html>
