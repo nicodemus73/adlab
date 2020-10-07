@@ -137,8 +137,12 @@ public class registrarImagen extends HttpServlet {
                 
             }
             if (connection != null) {
+                try{
                     connection.close();
+                } catch(SQLException e){
+                    System.err.println(e.getMessage());
                 }
+            }
         }
         
         

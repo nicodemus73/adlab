@@ -1,7 +1,7 @@
 <%-- 
-    Document   : error
-    Created on : 30-sep-2020, 20:01:13
-    Author     : mo
+    Document   : eliminarImagen
+    Created on : 07-oct-2020, 16:51:19
+    Author     : Samuel
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Error. Usuari o password incorrectes</h1>
-        <a href="login.jsp">Tornar</a>
+        <h1>Hello World!</h1>
     </body>
 </html>
