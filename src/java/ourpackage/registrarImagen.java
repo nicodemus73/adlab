@@ -89,25 +89,13 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
             
-            query = "select id from image";
+            
+            /*query = "select id from image";
             statement = OurDao.connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();*/          
+        
+            OurDao.enregistrar(3, titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
            
-            query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
-            statement = OurDao.connection.prepareStatement(query);
-            statement.setInt(1, x+1);
-            statement.setString(2, titulo);
-            statement.setString(3, descripcion);
-            statement.setString(4, clave);
-            statement.setString(5, author);
-            statement.setString(6,fechaC);
-            statement.setString(7, fechaS);
-            statement.setString(8, fileName);
-            statement.executeUpdate();
-            
-            
-
-            
         
             
     } catch (FileNotFoundException fne){
