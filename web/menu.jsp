@@ -13,9 +13,9 @@
     </head>
     
         <h1>Has accedit al Menu</h1>
-        <a href="registrarImagen.jsp">Registra Imagen</a><br>
-        <a href="list.jsp">Lista Imagenes</a><br>
-        <a href="buscarImagen.jsp">Busca Imagen</a><br>
+        <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
+        <a href="list.jsp">Lista Imagenes</a><br><br>
+        <a href="buscarImagen.jsp">Busca Imagen</a><br><br>
         <a href="login.jsp">Vuelve al Login</a>
     
 
