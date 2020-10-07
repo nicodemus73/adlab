@@ -6,12 +6,18 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body>
+    
         <h1>Has accedit al Menu</h1>
-    </body>
-</html>
+        <a href="registrarImagen.jsp">Registra Imagen</a><br>
+        <a href="modificarImagen.jsp">Modifica Imagen</a><br>
+        <a href="eliminarImagen.jsp">Elimina Imagen</a><br>
+        <a href="list.jsp">Lista Imagenes</a><br>
+        <a href="buscarImagen.jsp">Busca Imagen</a><br>
+        <a href="login.jsp">Vuelve al Login</a>
+    
+
