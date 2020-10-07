@@ -51,19 +51,12 @@ public class login extends HttpServlet {
             statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             
-            boolean found = false;
-            while (rs.next() && !found){
+            while (rs.next()){
                 if (rs.getString("id_usuario").equals(usu) && rs.getString("password").equals(password)) {
-                    found = true;
-                    out.println("Encontrado!");
-                    //response.sendRedirect("menu.jsp");
+                    response.sendRedirect("menu.jsp");
                 }
             }
-            
-            if(!found) response.sendRedirect("error.jsp");
-            
-            out.println("</body>");
-            out.println("</html>");
+            response.sendRedirect("error.jsp");
             
          } catch (Exception e) {
             System.err.println(e.getMessage());
