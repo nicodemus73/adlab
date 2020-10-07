@@ -96,14 +96,12 @@ public class registrarImagen extends HttpServlet {
         
             OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
-            out.println("New file " + fileName + "created at " + path + "<br><br>");   
+            out.println("Nueva foto " + fileName + "subida al " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             
     } catch (FileNotFoundException fne){
-            out.println("\"You either did not specify a file to upload or are \"\n" +
-"                + \"trying to upload a file to a protected or nonexistent \"\n" +
-"                + \"location.");
-            out.println("<br/> ERROR: " + fne.getMessage());
+            response.sendRedirect("error.jsp?page=registrarImagen");
+            out.println("\"Error. No has especificado un archivo a subir");
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
