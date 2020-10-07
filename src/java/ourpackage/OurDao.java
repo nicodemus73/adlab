@@ -8,6 +8,7 @@ package ourpackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -19,6 +20,7 @@ public class OurDao {
     
     static PreparedStatement statement; 
     static Connection connection = null; 
+    static ResultSet rs = null;
     
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -37,13 +39,23 @@ public class OurDao {
             }
     }
     
-    public static void enregistrar(int id, String titulo, String desc, String clave, 
+    public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
         
-        String query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "SELECT id from image";
         statement = connection.prepareStatement(query);
-        Image myImg = new Image(1);
-        statement.setInt(1, id);
+        rs = statement.executeQuery();
+        int idI=0; 
+        while (rs.next()){
+            idI = rs.getInt("id"); 
+            System.out.println(idI);
+        }
+       
+        
+        
+        query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
+        statement = connection.prepareStatement(query);
+        statement.setInt(1, idI+1);
         statement.setString(2, titulo);
         statement.setString(3, desc);
         statement.setString(4, clave);

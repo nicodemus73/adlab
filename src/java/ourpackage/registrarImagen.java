@@ -78,7 +78,7 @@ public class registrarImagen extends HttpServlet {
             while((read = filecontent.read(bytes)) != -1){
                 outta.write(bytes, 0, read);
             }
-            out.println("New file " + fileName + "created at " + path);    
+             
                    
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -94,9 +94,10 @@ public class registrarImagen extends HttpServlet {
             statement = OurDao.connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();*/          
         
-            OurDao.enregistrar(3, titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
-           
-        
+            OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            
+            out.println("New file " + fileName + "created at " + path + "<br><br>");   
+            out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             
     } catch (FileNotFoundException fne){
             out.println("\"You either did not specify a file to upload or are \"\n" +
