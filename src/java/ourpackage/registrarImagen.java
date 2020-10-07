@@ -12,19 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
 import java.util.Date;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.swing.text.DateFormatter;
 
 
 /**
@@ -57,7 +52,6 @@ public class registrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = null; 
         response.setContentType("text/html;charset=UTF-8");
         
         //create path components to save the file
@@ -72,10 +66,9 @@ public class registrarImagen extends HttpServlet {
         try {
             String query; 
             PreparedStatement statement; 
-           
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-
+            
+            OurConnection.startDB(); 
+            
             outta = new FileOutputStream(new File(path + File.separator + fileName));
             filecontent = filePart.getInputStream();
             
@@ -97,11 +90,11 @@ public class registrarImagen extends HttpServlet {
             String fechaS = dateFormat.format(date); 
             
             query = "select id from image";
-            statement = connection.prepareStatement(query);
+            statement = OurConnection.connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
            
             query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
-            statement = connection.prepareStatement(query);
+            statement = OurConnection.connection.prepareStatement(query);
             statement.setInt(1, x+1);
             statement.setString(2, titulo);
             statement.setString(3, descripcion);
@@ -127,6 +120,7 @@ public class registrarImagen extends HttpServlet {
         System.err.println(e.getMessage());
     }
         finally {
+            OurConnection.stopDB();
             if (outta != null){
                 outta.close();
             }
