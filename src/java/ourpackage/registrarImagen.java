@@ -67,7 +67,7 @@ public class registrarImagen extends HttpServlet {
             String query; 
             PreparedStatement statement; 
             
-            OurConnection.startDB(); 
+            OurDao.startDB(); 
             
             outta = new FileOutputStream(new File(path + File.separator + fileName));
             filecontent = filePart.getInputStream();
@@ -90,11 +90,11 @@ public class registrarImagen extends HttpServlet {
             String fechaS = dateFormat.format(date); 
             
             query = "select id from image";
-            statement = OurConnection.connection.prepareStatement(query);
+            statement = OurDao.connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
            
             query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
-            statement = OurConnection.connection.prepareStatement(query);
+            statement = OurDao.connection.prepareStatement(query);
             statement.setInt(1, x+1);
             statement.setString(2, titulo);
             statement.setString(3, descripcion);
@@ -120,7 +120,7 @@ public class registrarImagen extends HttpServlet {
         System.err.println(e.getMessage());
     }
         finally {
-            OurConnection.stopDB();
+            OurDao.stopDB();
             if (outta != null){
                 outta.close();
             }

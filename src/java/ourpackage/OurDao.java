@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author mo
  */
    
-public class OurConnection {
+public class OurDao {
     static Connection connection = null; 
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
