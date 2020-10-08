@@ -7,24 +7,19 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author mo
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
+@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen"})
+public class modificarImagen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,46 +29,31 @@ public class login extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        //http session
-        HttpSession session  = request.getSession(true);
-        String id = session.getId();
-        Connection connection = null;
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
+        OurDao.startDB(); 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            String query;
-            PreparedStatement statement;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            String titulo = request.getParameter("titulo");
+            String descripcion = request.getParameter("descripcion");
+            String clave = request.getParameter("clave");
+            String author = request.getParameter("author");
+            String fechaC = request.getParameter("fechaC");
             
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            String usu = request.getParameter("usuari");
-            String password = request.getParameter("password");
-            query = "select * from usuarios";
-            statement = connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
-            
-            while (rs.next()){
-                if (rs.getString("id_usuario").equals(usu) && rs.getString("password").equals(password)) {
-                    response.sendRedirect("menu.jsp");
-                }
-            }
-            response.sendRedirect("error.jsp");
-            
-         } catch (Exception e) {
-            System.err.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet modificarImagen</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet modificarImagen at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

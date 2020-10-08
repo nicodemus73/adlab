@@ -3,7 +3,7 @@
     Created on : 30-sep-2020, 20:01:13
     Author     : mo
 --%>
-
+<%@ page isErrorPage="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Error. Usuari o password incorrectes</h1>
+        <h1>Error</h1>
+        <p>${pageContext.errorData.throwable.cause}</p>
         <a href="login.jsp">Tornar</a>
     </body>
 </html>

@@ -12,19 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
 import java.util.Date;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.swing.text.DateFormatter;
 
 
 /**
@@ -57,7 +52,6 @@ public class registrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = null; 
         response.setContentType("text/html;charset=UTF-8");
         
         //create path components to save the file
@@ -72,10 +66,9 @@ public class registrarImagen extends HttpServlet {
         try {
             String query; 
             PreparedStatement statement; 
-           
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-
+            
+            OurDao.startDB(); 
+            
             outta = new FileOutputStream(new File(path + File.separator + fileName));
             filecontent = filePart.getInputStream();
             
@@ -85,7 +78,7 @@ public class registrarImagen extends HttpServlet {
             while((read = filecontent.read(bytes)) != -1){
                 outta.write(bytes, 0, read);
             }
-            out.println("New file " + fileName + "created at " + path);    
+             
                    
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -96,37 +89,25 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
             
-            query = "select id from image";
-            statement = connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
-           
-            query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, x+1);
-            statement.setString(2, titulo);
-            statement.setString(3, descripcion);
-            statement.setString(4, clave);
-            statement.setString(5, author);
-            statement.setString(6,fechaC);
-            statement.setString(7, fechaS);
-            statement.setString(8, fileName);
-            statement.executeUpdate();
             
-            
-
-            
+            /*query = "select id from image";
+            statement = OurDao.connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();*/          
         
+            OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            
+            out.println("Nueva foto " + fileName + "subida al " + path + "<br><br>");   
+            out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             
     } catch (FileNotFoundException fne){
-            out.println("\"You either did not specify a file to upload or are \"\n" +
-"                + \"trying to upload a file to a protected or nonexistent \"\n" +
-"                + \"location.");
-            out.println("<br/> ERROR: " + fne.getMessage());
+            response.sendRedirect("error.jsp?page=registrarImagen");
+            out.println("\"Error. No has especificado un archivo a subir");
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
     }
         finally {
+            OurDao.stopDB();
             if (outta != null){
                 outta.close();
             }
