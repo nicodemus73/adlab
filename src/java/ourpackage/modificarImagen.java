@@ -29,14 +29,14 @@ public class modificarImagen extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
-        OurDao.startDB(); 
+            throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+            OurDao.startDB();
             
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -54,6 +54,8 @@ public class modificarImagen extends HttpServlet {
             out.println("<h1>Servlet modificarImagen at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+        } catch(Exception e){
+            System.err.println(e.getMessage());
         }
     }
 

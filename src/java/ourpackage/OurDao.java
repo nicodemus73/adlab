@@ -28,15 +28,10 @@ public class OurDao {
        }
         
     
-    public static void stopDB (){
-        try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
+    public static void stopDB () throws SQLException{
+        if(connection != null) {
+            connection.close();
+        }
     }
     
     public static void enregistrar(String titulo, String desc, String clave, 
@@ -45,6 +40,8 @@ public class OurDao {
         String query = "SELECT id from image";
         statement = connection.prepareStatement(query);
         rs = statement.executeQuery();
+        //rs.last();
+        //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
         int idI=0; 
         while (rs.next()){
             idI = rs.getInt("id"); 
@@ -72,5 +69,11 @@ public class OurDao {
     
     public static void consultar(){
         
+    }
+    
+    public static ResultSet getAllImages() throws SQLException {
+        String query = "select * from image";
+        ResultSet rs = connection.prepareStatement(query).executeQuery();
+        return rs;
     }
 }

@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -98,6 +97,7 @@ public class registrarImagen extends HttpServlet {
             
             out.println("Nueva foto " + fileName + "subida al " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
+            OurDao.stopDB();
             
     } catch (FileNotFoundException fne){
             response.sendRedirect("error.jsp?page=registrarImagen");
@@ -107,7 +107,6 @@ public class registrarImagen extends HttpServlet {
         System.err.println(e.getMessage());
     }
         finally {
-            OurDao.stopDB();
             if (outta != null){
                 outta.close();
             }
