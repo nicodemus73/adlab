@@ -25,8 +25,10 @@
                 <th>Nombre del archivo</th>
             </tr>
             <% 
-                ResultSet rs = OurDao.getAllImages();
-                while(rs.next()) {
+                try{
+                    OurDao.startDB();
+                    ResultSet rs = OurDao.getAllImages();
+                    while(rs.next()) {
             %>
             <tr>
                 <td><%out.println(rs.getString("TITLE"));%></td>
@@ -37,7 +39,12 @@
                 <td><%out.println(rs.getString("STORAGE_DATE"));%></td>
                 <td><%out.println(rs.getString("FILENAME"));%></td>
             </tr>
-            <%}%>
+            <%      }
+                    OurDao.stopDB();
+                } catch(Exception e){
+                    System.err.println(e.getMessage());
+                }
+            %>
         </table>
     </body>
 </html>

@@ -13,7 +13,6 @@
     </head>
     <body>
         <h1>Error</h1>
-        <p>${pageContext.errorData.throwable.cause}</p>
         <a href="login.jsp">Tornar</a>
     </body>
 </html>
