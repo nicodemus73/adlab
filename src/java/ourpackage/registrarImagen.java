@@ -59,12 +59,9 @@ public class registrarImagen extends HttpServlet {
         final String path ="/tmp";
         OutputStream outta = null;
         InputStream filecontent = null;
-        PrintWriter out = response.getWriter();
-        
-        
-        try {
+        try (PrintWriter out = response.getWriter()){
             String query; 
-            PreparedStatement statement; 
+            PreparedStatement statement;
             
             OurDao.startDB(); 
             
@@ -101,7 +98,7 @@ public class registrarImagen extends HttpServlet {
             
     } catch (FileNotFoundException fne){
             response.sendRedirect("error.jsp?page=registrarImagen");
-            out.println("\"Error. No has especificado un archivo a subir");
+            System.err.println("\"Error. No has especificado un archivo a subir");
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
@@ -112,10 +109,6 @@ public class registrarImagen extends HttpServlet {
             }
             if (filecontent != null){
                 outta.close();
-                
-            }
-            if (out != null){
-                out.close();
                 
             }
         }

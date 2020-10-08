@@ -73,6 +73,7 @@ public class OurDao {
     
     public static ResultSet getAllImages() throws SQLException {
         
+        if(connection == null) return null; //No se ha iniciado la conexión
         String query = "select * from image";
         ResultSet res = connection.prepareStatement(query).executeQuery();
         return res;
