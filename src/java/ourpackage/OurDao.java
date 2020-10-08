@@ -73,17 +73,8 @@ public class OurDao {
     
     public static ResultSet getAllImages() throws SQLException {
         
-        PreparedStatement ps = null;
-        ResultSet res = null;
-        try{
-            String query = "select * from image";
-            ps = connection.prepareStatement(query);
-            res = ps.executeQuery();
-        } catch(NullPointerException e){
-            if(connection==null) System.out.println("connection is null");
-            else if(ps==null) System.out.println("ps null");
-            else if(res == null) System.out.println("res null");
-        }
+        String query = "select * from image";
+        ResultSet res = connection.prepareStatement(query).executeQuery();
         return res;
     }
 }
