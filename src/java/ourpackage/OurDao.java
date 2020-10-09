@@ -18,9 +18,8 @@ import java.sql.SQLException;
    
 public class OurDao {
     
-    static PreparedStatement statement; 
     static Connection connection = null; 
-    static ResultSet rs = null;
+    
     
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -36,15 +35,18 @@ public class OurDao {
     
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
+        PreparedStatement statement; 
+        ResultSet rs = null;
         
-        String query = "SELECT id from image";
+        String query = "SELECT * from image";
+
         statement = connection.prepareStatement(query);
         rs = statement.executeQuery();
         //rs.last();
         //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
-        int idI=0; 
+       int idI=0;
         while (rs.next()){
-            idI = rs.getInt("id"); 
+            idI = rs.getInt("ID"); 
             System.out.println(idI);
         }
        
