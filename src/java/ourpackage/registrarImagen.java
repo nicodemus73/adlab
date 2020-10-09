@@ -55,11 +55,12 @@ public class registrarImagen extends HttpServlet {
         
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
-        final String fileName = (String) getFileName(filePart);
-        final String path ="/tmp";
+        final String fileName = getFileName(filePart);
+        final String path ="\\web\\images";
         OutputStream outta = null;
         InputStream filecontent = null;
-        try (PrintWriter out = response.getWriter()){
+        final PrintWriter out = response.getWriter();
+        try {
             String query; 
             PreparedStatement statement;
             
@@ -98,7 +99,7 @@ public class registrarImagen extends HttpServlet {
             
     } catch (FileNotFoundException fne){
             response.sendRedirect("error.jsp?page=registrarImagen");
-            System.err.println("\"Error. No has especificado un archivo a subir");
+            out.println("\"Error. No has especificado un archivo a subir");
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
@@ -108,24 +109,25 @@ public class registrarImagen extends HttpServlet {
                 outta.close();
             }
             if (filecontent != null){
-                outta.close();
-                
+                filecontent.close();
+            }
+            if(out != null){
+                out.close();
             }
         }
         
         
     }
     private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
-
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
+        
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+            }
         }
+        return null;
     }
-    return null;
-}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
