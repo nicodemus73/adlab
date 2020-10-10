@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,8 +25,8 @@
            Fecha creación:
            <input type="text" name="fechaC"><br><br>
            Archivo:
-           <input type="file" name="imagen" id="imagen"><br><br>
-            <input type="submit" name="submit" value="Submit">
+           <input type="file" name="imagen"><br><br>
+           <input type="submit" name="submit" value="Submit">
         </form>
     </body>
 </html>
