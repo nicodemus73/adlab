@@ -93,7 +93,7 @@ public class OurDao {
         String[] aux = {null};    
 
         palabra.forEach((String k, String v) -> {
-            String query = "SELECT id FROM IMAGE WHERE 1=1";
+            String query = "SELECT id FROM IMAGE WHERE ID is null";
 
             switch (k){
                 case "title": 
@@ -127,10 +127,11 @@ public class OurDao {
             }
             aux[0] = query;
         });
+        
             statement = connection.prepareStatement(aux[0]);
 
             rs = statement.executeQuery();
-
+            
             while (rs.next()){
                 String id = rs.getString("ID");
                 s.add(id);
