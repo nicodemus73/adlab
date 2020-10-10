@@ -81,6 +81,26 @@ public class OurDao {
         return 0;
     }
     
+    public static void enregistrarNou(String campo, String valor) throws SQLException{
+        PreparedStatement statement;
+        String query;
+        int id=0; 
+        query = "UPDATE image set "+campo+" = "+valor+" where ID = "+ id;
+        statement = connection.prepareStatement(query);
+        switch (campo){
+                case "titulo": 
+                    statement.setString(2, valor);
+                case "descripcion":
+                    statement.setString(3, valor);
+                case "clave":
+                    statement.setString(4, valor);
+                case "fechaC":
+                    statement.setString(6, valor);
+            }
+        statement.executeUpdate();
+    
+    }
+    
     public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
         
         PreparedStatement statement;

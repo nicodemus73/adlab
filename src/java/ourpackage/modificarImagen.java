@@ -39,17 +39,8 @@ public class modificarImagen extends HttpServlet {
             
             String campo = request.getParameter("campo");
             String valor = request.getParameter("valor");
-            switch (campo){
-                case "titulo": 
-                    ;
-                case "descripcion":
-                    ;
-                case "clave":
-                    ;
-                case "fechaC":
-                    ;
-                default: 
-            }
+            OurDao.enregistrarNou(campo, valor);
+            
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
             String clave = request.getParameter("clave");
