@@ -12,18 +12,19 @@
         <title>JSP Page</title>
     </head>
     <body>
-       <form method="POST" action="modificarImagen" >
-        <h1>Inserta los campos que quieras modificar</h1>
-        Titulo: 
-        <input type="text" name="titulo"><br><br>
-        Descripción: 
-        <input type="text" name="descripcion"><br><br>
-        Palabras clave: 
-        <input type="text" name="clave"><br><br>
-        Autor: 
-        <input type="text" name="author"><br><br>
-        Fecha creación:
-        <input type="text" name="fechaC"><br><br>
+     <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
+            <form method="POST" action="modificarImagen" >
+
+     <label for="campo">Elige un campo a modificar:</label>
+     <select name="campo" id="campo">
+        <option value="titulo">Título</option>
+        <option value="descripcion">Descripción</option>
+        <option value="clave">Palabras clave</option>
+        <option value="fechaC">Fecha creación</option>
+    </select> 
+           <br><br>
+        <input type="text" name="valor"><br><br>
+        
         <input type="submit" name="submit" value="Submit">
        </form>
     </body>

@@ -37,7 +37,6 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
     
-    int x=1;
    
 
     /**
@@ -56,7 +55,7 @@ public class registrarImagen extends HttpServlet {
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
         final String fileName = getFileName(filePart);
-        final String path ="\\web\\images";
+        final String path ="/tmp";
         OutputStream outta = null;
         InputStream filecontent = null;
         final PrintWriter out = response.getWriter();
@@ -75,8 +74,7 @@ public class registrarImagen extends HttpServlet {
             while((read = filecontent.read(bytes)) != -1){
                 outta.write(bytes, 0, read);
             }
-             
-                   
+         
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
             String clave = request.getParameter("clave");
@@ -86,12 +84,13 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
             
-            
+            int idI = OurDao.getIdi();
+           
             /*query = "select id from image";
             statement = OurDao.connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();*/          
         
-            OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            OurDao.enregistrar(idI, titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
             out.println("Nueva foto " + fileName + "subida al " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");

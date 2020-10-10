@@ -7,7 +7,6 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +37,19 @@ public class modificarImagen extends HttpServlet {
             
             OurDao.startDB();
             
+            String campo = request.getParameter("campo");
+            String valor = request.getParameter("valor");
+            switch (campo){
+                case "titulo": 
+                    ;
+                case "descripcion":
+                    ;
+                case "clave":
+                    ;
+                case "fechaC":
+                    ;
+                default: 
+            }
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
             String clave = request.getParameter("clave");

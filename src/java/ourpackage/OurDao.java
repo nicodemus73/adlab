@@ -33,24 +33,11 @@ public class OurDao {
         }
     }
     
-    public static void enregistrar(String titulo, String desc, String clave, 
+    public static void enregistrar(int idI, String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
+        
         PreparedStatement statement; 
-        ResultSet rs = null;
-        
-        String query = "SELECT * from image";
-
-        statement = connection.prepareStatement(query);
-        rs = statement.executeQuery();
-        //rs.last();
-        //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
-       int idI=0;
-        while (rs.next()){
-            idI = rs.getInt("ID"); 
-            System.out.println(idI);
-        }
-       
-        
+        String query;
         
         query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
         statement = connection.prepareStatement(query);
@@ -71,6 +58,26 @@ public class OurDao {
     
     public static void consultar(){
         
+    }
+    
+    
+    //get last id in the DB
+    public static int getIdi() throws SQLException{
+        int id=0; 
+        PreparedStatement statement; 
+        ResultSet rs;
+        
+        String query = "SELECT * from image";
+        statement = connection.prepareStatement(query);
+        rs = statement.executeQuery();
+        //rs.last();
+        //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
+        while (rs.next()){
+            id = rs.getInt("ID"); 
+            System.out.println(id);
+        }
+
+        return id;
     }
     
     public static ResultSet getAllImages() throws SQLException {
