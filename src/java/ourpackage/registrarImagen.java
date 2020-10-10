@@ -56,7 +56,13 @@ public class registrarImagen extends HttpServlet {
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
         final String fileName = getFileName(filePart);
-        final String path ="\\web\\images";
+        String basepath = registrarImagen.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getPath();
+        basepath = basepath.substring(0, basepath.lastIndexOf("web"));
+        final String path = basepath + "web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
         final PrintWriter out = response.getWriter();
