@@ -69,14 +69,13 @@ public class buscarImagen extends HttpServlet {
             if (map.isEmpty()) {
                 out.println("No hay resultados con las entradas correspondientes") ;
             } else {
-                out.println("adeu");
                 OurDao.startDB(); 
                 ArrayList<String> s = OurDao.consultar(map);
-                out.println("Llistat de imatges: ");
+                out.println("Llistat de imatges: <br><br>");
                 int i =0;
                 while (i < s.size()) {
                     out.println(s.get(i));
-                    out.println("");
+                    out.println("<br><br>");
                     ++i;
                 }
             }

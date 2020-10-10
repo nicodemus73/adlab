@@ -45,8 +45,6 @@ public class login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            String query;
-            PreparedStatement statement;
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
             connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
@@ -75,7 +73,8 @@ public class login extends HttpServlet {
             
          } catch (Exception e) {
             System.err.println(e.getMessage());
-        } finally {
+        } /*esto nose si hace falta aqui o se controla en el DAO 
+        finally {
             try {
                 if (connection != null) {
                     connection.close();
@@ -84,7 +83,7 @@ public class login extends HttpServlet {
                 // connection close failed.
                 System.err.println(e.getMessage());
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
