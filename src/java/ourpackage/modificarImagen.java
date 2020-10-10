@@ -41,22 +41,7 @@ public class modificarImagen extends HttpServlet {
             String valor = request.getParameter("valor");
             OurDao.enregistrarNou(campo, valor);
             
-            String titulo = request.getParameter("titulo");
-            String descripcion = request.getParameter("descripcion");
-            String clave = request.getParameter("clave");
-            String author = request.getParameter("author");
-            String fechaC = request.getParameter("fechaC");
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet modificarImagen</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet modificarImagen at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    
         } catch(Exception e){
             System.err.println(e.getMessage());
         }
