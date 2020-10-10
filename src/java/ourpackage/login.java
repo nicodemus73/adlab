@@ -61,26 +61,15 @@ public class login extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
             String usu = request.getParameter("usuari");
+            String psw = request.getParameter("password");
+
+            OurDao.startDB();
+            boolean found = OurDao.loggin(usu, psw);
+            if (found) response.sendRedirect("menu.jsp");
             
-            query = "select * from usuarios";
-            statement = connection.prepareStatement(query); 
-            ResultSet rs = statement.executeQuery();
-            boolean found = false;
-            while (rs.next() & !(found)){
-                if ((rs.getString("id_usuario").equals(usu)) & (request.getParameter("password").equals(rs.getString("password")))) {
-                    found = true;
-                    
-                    response.sendRedirect("menu.jsp");
-                }
-            }
-            if (found){
-                if (request.getParameter("password").equals(rs.getString("password")))
-                    response.sendRedirect("login");
-            }
-            if (!found) 
-                response.sendRedirect("error.jsp");
+            else response.sendRedirect("error.jsp");
             
-            
+            //fa falta fer el finally i el stopBD??? 
             out.println("</body>");
             out.println("</html>");
             

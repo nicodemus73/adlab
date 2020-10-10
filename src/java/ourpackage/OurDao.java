@@ -5,11 +5,14 @@
  */
 package ourpackage;
 
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -38,7 +41,19 @@ public class OurDao {
                 System.err.println(e.getMessage());
             }
     }
+    public static boolean loggin(String usuari, String psw) throws SQLException{
+        String query = "select * from usuarios";
     
+        statement = connection.prepareStatement(query); 
+            rs = statement.executeQuery();
+            boolean found = false;
+            while (rs.next() & !(found)){
+                if ((rs.getString("id_usuario").equals(usuari)) & (psw).equals(rs.getString("password"))) {
+                    found = true;
+                }
+            }
+            return found;
+    }    
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
         
@@ -70,7 +85,55 @@ public class OurDao {
         return 0;
     }
     
-    public static void consultar(){
+    public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
         
+        ArrayList<String> s = new ArrayList<>();
+
+        String[] aux = {null};    
+
+        palabra.forEach((String k, String v) -> {
+            String query = "SELECT id FROM IMAGE WHERE 1=1";
+
+            switch (k){
+                case "title": 
+                    query += " OR TITLE LIKE '"+v+"'";
+                    break;
+                    
+                case "descrpition":
+                    query += " OR DESCRIPTION LIKE '"+v+"'";
+                    break;
+                    
+                case "keywords":
+                    query += " OR KEYWORDS LIKE '"+v+"'";
+                    break;
+                    
+                case "author":
+                    
+                    query += " OR AUTHOR LIKE '"+v+"'";
+                    break;
+                    
+                case "cdate":
+                    query += " OR CREATION_DATE LIKE '"+v+"'";
+                    break;
+                    
+                case "filename":
+                    query += " OR FILENAME LIKE '"+v+"'";
+                    break;
+                    
+                default: 
+                    query = null;
+                    break;
+            }
+            aux[0] = query;
+        });
+            statement = connection.prepareStatement(aux[0]);
+
+            rs = statement.executeQuery();
+
+            while (rs.next()){
+                String id = rs.getString("ID");
+                s.add(id);
+            }
+            return s;
     }
 }

@@ -26,7 +26,7 @@
            <input type="text" name="fechaC"><br><br>
            Archivo:
            <input type="file" name="imagen"><br><br>
-            <input type="submit" name="submit" value="Submit">
+           <input type="submit" name="submit" value="Submit">
         </form>
     </body>
 </html>

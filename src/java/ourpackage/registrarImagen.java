@@ -64,8 +64,7 @@ public class registrarImagen extends HttpServlet {
         
         
         try {
-            String query; 
-            PreparedStatement statement; 
+            
             
             OurDao.startDB(); 
             
@@ -88,11 +87,7 @@ public class registrarImagen extends HttpServlet {
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
-            
-            
-            /*query = "select id from image";
-            statement = OurDao.connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();*/          
+                    
         
             OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
