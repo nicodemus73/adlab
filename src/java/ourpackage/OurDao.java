@@ -5,7 +5,6 @@
  */
 package ourpackage;
 
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,8 +21,8 @@ import java.util.HashMap;
 public class OurDao {
     
     static Connection connection = null; 
-    static PreparedStatement statement; 
-    static ResultSet rs = null;
+   // static PreparedStatement statement; 
+    //static ResultSet rs = null;
     
     
     public static void startDB () throws ClassNotFoundException, SQLException{
@@ -39,7 +38,8 @@ public class OurDao {
     }
     public static boolean loggin(String usuari, String psw) throws SQLException{
         String query = "select * from usuarios";
-    
+        PreparedStatement statement;
+        ResultSet rs; 
         statement = connection.prepareStatement(query); 
             rs = statement.executeQuery();
             boolean found = false;
@@ -52,26 +52,21 @@ public class OurDao {
     }    
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
-        PreparedStatement statement; 
-        ResultSet rs = null;
+        ResultSet rs;
         
-        String query = "SELECT * from image";
-
-        statement = connection.prepareStatement(query);
+        String query = "SELECT ID from image";
+        PreparedStatement statement = connection.prepareStatement(query);
         rs = statement.executeQuery();
         //rs.last();
         //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
-       int idI=0;
-        while (rs.next()){
+       int idI=1;
+       while (rs.next()){
             idI = rs.getInt("ID"); 
-            System.out.println(idI);
         }
-       
-        
-        
-        query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
+        idI ++; 
+         query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
         statement = connection.prepareStatement(query);
-        statement.setInt(1, idI+1);
+        statement.setInt(1, idI);
         statement.setString(2, titulo);
         statement.setString(3, desc);
         statement.setString(4, clave);
@@ -88,12 +83,14 @@ public class OurDao {
     
     public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
         
+        PreparedStatement statement;
+        ResultSet rs;
         ArrayList<String> s = new ArrayList<>();
 
         String[] aux = {null};    
 
         palabra.forEach((String k, String v) -> {
-            String query = "SELECT id FROM IMAGE WHERE 1=1";
+            String query = "SELECT id FROM IMAGE WHERE ID is null";
 
             switch (k){
                 case "title": 
@@ -127,10 +124,11 @@ public class OurDao {
             }
             aux[0] = query;
         });
+        
             statement = connection.prepareStatement(aux[0]);
 
             rs = statement.executeQuery();
-
+            
             while (rs.next()){
                 String id = rs.getString("ID");
                 s.add(id);
