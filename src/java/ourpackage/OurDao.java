@@ -77,8 +77,7 @@ public class OurDao {
         statement.executeUpdate();
     }
     
-    public static int esborrar(){
-        return 0;
+    public static void eliminar(){
     }
     
     public static boolean enregistrarNou(String campo, String valor){
