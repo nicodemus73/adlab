@@ -39,9 +39,14 @@ public class modificarImagen extends HttpServlet {
             
             String campo = request.getParameter("campo");
             String valor = request.getParameter("valor");
-            OurDao.enregistrarNou(campo, valor);
-            
-    
+            boolean ok = OurDao.enregistrarNou(campo, valor);
+            if (ok){
+                out.println("<p>El cambio se ha efectuado correctamente</p>");
+            }
+            else {
+                out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
+            }
+            out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
         } catch(Exception e){
             System.err.println(e.getMessage());
         }

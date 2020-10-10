@@ -81,15 +81,18 @@ public class OurDao {
         return 0;
     }
     
-    public static void enregistrarNou(String campo, String valor) throws SQLException{
+    public static boolean enregistrarNou(String campo, String valor){
         PreparedStatement statement;
         String query;
-        int id=0; 
-        query = "UPDATE image set "+campo+" = "+valor+" where ID = "+ id;
+        int id=10; 
+       try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ id;
         statement = connection.prepareStatement(query);
-       
         statement.executeUpdate();
-    
+        
+       } catch (SQLException e){
+           return false;
+       }
+       return true; 
     }
     
     public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{

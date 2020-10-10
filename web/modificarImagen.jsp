@@ -17,10 +17,10 @@
 
      <label for="campo">Elige un campo a modificar:</label>
      <select name="campo" id="campo">
-        <option value="titulo">Título</option>
-        <option value="descripcion">Descripción</option>
-        <option value="clave">Palabras clave</option>
-        <option value="fechaC">Fecha creación</option>
+        <option value="title">Título</option>
+        <option value="description">Descripción</option>
+        <option value="keywords">Palabras clave</option>
+        <option value="creation_date">Fecha creación</option>
     </select> 
            <br><br>
         <input type="text" name="valor"><br><br>
