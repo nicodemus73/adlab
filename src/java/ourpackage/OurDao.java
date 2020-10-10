@@ -22,6 +22,8 @@ import java.util.HashMap;
 public class OurDao {
     
     static Connection connection = null; 
+    static PreparedStatement statement; 
+    static ResultSet rs = null;
     
     
     public static void startDB () throws ClassNotFoundException, SQLException{
