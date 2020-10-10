@@ -37,14 +37,16 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
         
-        //http session
-        HttpSession session  = request.getSession(true);
-        String id = session.getId();
         Connection connection = null;
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+             String usu = request.getParameter("usuari");
+        String psw = request.getParameter("password");
+        
+        HttpSession session1 = request.getSession();
+        session1.setAttribute("user",usu);
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
             connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
@@ -58,8 +60,7 @@ public class login extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            String usu = request.getParameter("usuari");
-            String psw = request.getParameter("password");
+            
 
             OurDao.startDB();
             boolean found = OurDao.loggin(usu, psw);

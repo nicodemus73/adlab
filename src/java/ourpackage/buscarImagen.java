@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -29,7 +30,10 @@ import javax.servlet.annotation.WebServlet;
  */
 @WebServlet(name = "buscarImagen", urlPatterns = {"/buscarImagen"})
 @MultipartConfig
+
 public class buscarImagen extends HttpServlet {
+
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,6 +52,12 @@ public class buscarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
  
         try (PrintWriter out = response.getWriter()) {
+            HttpSession session1 = request.getSession(false);
+        if (session1 == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        } 
+            String user = (String) session1.getAttribute("user");
             /* TODO output your page here. You may use following sample code. */
             /*ArrayList<String> id = new ArrayList<>();
             ArrayList<String> tithle = new ArrayList<>();
@@ -68,6 +78,35 @@ public class buscarImagen extends HttpServlet {
 //afageixo el % per buscar patrons, paraules dintre de paraules
             if (map.isEmpty()) {
                 out.println("No hay resultados con las entradas correspondientes") ;
+                out.print("<br><br>");
+               //boton menu
+               String resp = "<a href=";
+               resp += "'";
+               resp += "menu.jsp";
+               resp += "'";
+               resp += ">Menu principal</a>";
+               out.println(resp);
+               
+               out.print("<br><br>");
+               
+               
+               
+               //boton busqueda
+               resp = "<a href=";
+               resp += "'";
+               resp += "buscarImagen.jsp";
+               resp += "'";
+               resp += ">Buscar una nueva imagen</a>";
+               out.println(resp);
+               /*
+               descomentaa aixo per veure el usuari de la sessio
+               out.print("<br><br>");
+               resp = "<h1>";
+               resp += user;
+               resp += "</h1>";
+               out.print(resp);*/
+               out.print("<br><br>");
+               
             } else {
                 OurDao.startDB(); 
                 ArrayList<String> s = OurDao.consultar(map);
