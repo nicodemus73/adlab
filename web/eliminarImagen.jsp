@@ -3,8 +3,6 @@
     Created on : 07-oct-2020, 16:51:19
     Author     : Samuel
 --%>
-<%@page import="ourpackage.OurDao"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,7 +12,7 @@
     </head>
     <body>
         <p>Estás seguro que quieres eliminar tu imagen?</p>
-        <form>
+        <form method="POST" action="eliminarImagen" >
         <input type="submit" name="Aceptar" value="Aceptar"/>
         <input type="submit" name="Cancelar" value="Cancelar"/>
         </form>

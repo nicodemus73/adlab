@@ -7,6 +7,9 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,18 +31,32 @@ public class eliminarImagen extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
+        boolean eliminat=false;
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            if (request.getParameter("Aceptar") != null)
-                OurDao.eliminar();
-            else if (request.getParameter("Cancelar")!=null)
+            if (request.getParameter("Aceptar") != null){
+                OurDao.startDB();
+                eliminat = OurDao.eliminar();
+                OurDao.stopDB();
+            }
+            else if (request.getParameter("Cancelar")!=null) {
                 out.println("Has cancelado la operación<br>");
-                out.println("<a href=\"eliminar.jsp\">Vuelve atrás</a>");
+            }
+            if (eliminat){
+                out.println("La foto ha sido eliminada correctamente<br>");
                 out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+            }
+            else {
+                out.println("No se ha podido eliminar la foto<br><br>");
+                out.println("<a href=\"eliminar.jsp\">Vuelve atrás</a><br><br>");
+                out.println("<a href=\"login.jsp\">Vuelve al Login</a><br>");
+            }
         }
     }
 
@@ -55,7 +72,11 @@ public class eliminarImagen extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(eliminarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -69,7 +90,13 @@ public class eliminarImagen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(eliminarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(eliminarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

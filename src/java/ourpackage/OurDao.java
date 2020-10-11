@@ -77,7 +77,18 @@ public class OurDao {
         statement.executeUpdate();
     }
     
-    public static void eliminar(){
+    public static boolean eliminar(){
+        int id = 3;
+        PreparedStatement statement;
+        String query;
+        try {
+            query= "delete from image where ID=4";
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();   
+        } catch (SQLException e){
+            return false;
+        }
+        return true;
     }
     
     public static boolean enregistrarNou(String campo, String valor){
