@@ -13,7 +13,7 @@
         <title>Login</title>
     </head>
     <body>
-        <h1>Bienvenido!</h1>
+        <h1>Hola! Accede a tu cuenta</h1>
         <form action="login" method="POST">
             Usuario: <input type="text"     name="usuari"/><br>
             Contraseña: <input type="password" name="password"/><br>

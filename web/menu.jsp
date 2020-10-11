@@ -9,10 +9,10 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Menú</title>
     </head>
     
-        <h1>Has accedit al Menu</h1>
+        <h1>Has accedido al Menú</h1>
         <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
         <a href="modificarImagen.jsp">Modifica Imagen</a><br><br>
         <a href="eliminarImagen.jsp">Elimina Imagen</a><br><br>

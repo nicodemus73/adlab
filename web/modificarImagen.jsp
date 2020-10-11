@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Modificar Imagen</title>
     </head>
     <body>
      <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
@@ -23,7 +23,7 @@
         <option value="creation_date">Fecha creación</option>
     </select> 
            <br><br>
-        <input type="text" name="valor"><br><br>
+        <input type="text" name="valor" required><br><br>
         
         <input type="submit" name="submit" value="Submit">
        </form>
