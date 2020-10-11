@@ -22,14 +22,15 @@ import java.util.HashMap;
 public class OurDao {
     
     static Connection connection = null; 
+    
    // static PreparedStatement statement; 
     //static ResultSet rs = null;
-    
+    //posar el resultset como global
     
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-       }
+       }//i el control de fallos aqui?
         
     
     public static void stopDB () throws SQLException{
@@ -95,7 +96,8 @@ public class OurDao {
     public static boolean enregistrarNou(String campo, String valor){
         PreparedStatement statement;
         String query;
-        int id=10; 
+        //int id = session1.getAttribute("id");
+        int id = 10;
        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ id;
         statement = connection.prepareStatement(query);
         statement.executeUpdate();

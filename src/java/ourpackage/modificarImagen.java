@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,7 +32,12 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session1 = request.getSession(false);
+        if (session1 == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        } 
+        boolean b = (boolean) session1.getAttribute("trobat");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
@@ -39,6 +45,8 @@ public class modificarImagen extends HttpServlet {
             
             String campo = request.getParameter("campo");
             String valor = request.getParameter("valor");
+            String x = (String) session1.getAttribute("ID");
+            if (b) out.println("<h1>hola "+x+"</h1>");
             boolean ok = OurDao.enregistrarNou(campo, valor);
             if (ok){
                 out.println("<p>El cambio se ha efectuado correctamente</p>");
