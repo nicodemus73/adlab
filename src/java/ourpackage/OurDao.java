@@ -110,50 +110,32 @@ public class OurDao {
     public static ResultSet consultar(HashMap<String, String> palabra) throws SQLException{
         PreparedStatement statement;
         ResultSet rs;
-        ArrayList<String> s = new ArrayList<>();
-
         String[] aux = {""};
-        
         String query2 = "SELECT * FROM IMAGE WHERE ID is null";
         palabra.forEach((String k, String v) -> {
             boolean b = false;
             String query = "";
             switch (k){
-                case "title": 
-                    if (!b) {
-                        b = true;
-                        query += " OR TITLE LIKE '"+v+"'";
-                    }
+                case "title":
+                    query    += " OR TITLE LIKE '"+v+"'";
+                    break;
                 case "descrpition":
-                    if (!b) {
-                        b = true;
-                        query += " OR DESCRIPTION LIKE '"+v+"'";
-                    }
+                    query += " OR DESCRIPTION LIKE '"+v+"'";
+                    break;
                 case "keywords":
-                    if (!b) {
-                        b = true;
-                        query += " OR KEYWORDS LIKE '"+v+"'";
-                    }
+                    query += " OR KEYWORDS LIKE '"+v+"'";
+                    break;
                 case "author":
-                    if (!b) {
-                        b = true;
-                        query += " OR AUTHOR LIKE '"+v+"'";
-                    }
+                    query += " OR AUTHOR LIKE '"+v+"'";
+                    break; 
                 case "cdate":
-                    if (!b) {
-                        b = true;
-                        query += " OR CREATION_DATE LIKE '"+v+"'";
-                    }
+                    query += " OR CREATION_DATE LIKE '"+v+"'";
+                    break;
                 case "filename":
-                    if (!b) {
-                        b = true;
-                        query += " OR FILENAME LIKE '"+v+"'";
-                    }
-                default: 
-                    if (!b) {
-                        b = true;
-                        query+="";
-                    }
+                    query += " OR FILENAME LIKE '"+v+"'";
+                    break;
+                default:                     
+                    query+="";
             }
             
             aux[0] += query;
@@ -161,10 +143,6 @@ public class OurDao {
         });
             statement = connection.prepareStatement(query2+aux[0]);
             rs = statement.executeQuery();
-            /*while (rs.next()){
-                String id = rs.getString("ID");
-                s.add(id);
-            }*/
             return rs;
     }
     
