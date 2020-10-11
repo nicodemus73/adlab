@@ -16,7 +16,7 @@
         <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
         <a href="modificarImagen.jsp">Modifica Imagen</a><br><br>
         <a href="eliminarImagen.jsp">Elimina Imagen</a><br><br>
-        <a href="list.jsp">Lista Imagenes</a><br><br>
+        <a href="listImg.jsp">Lista Imagenes</a><br><br>
         <a href="buscarImagen.jsp">Buscar Imagen</a><br><br>
         <a href="login.jsp">Vuelve al Login</a>
     
