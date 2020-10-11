@@ -97,13 +97,12 @@ public class registrarImagen extends HttpServlet {
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             
     } catch (FileNotFoundException fne){
-            out.println("\"You either did not specify a file to upload or are \"\n" +
-"                + \"trying to upload a file to a protected or nonexistent \"\n" +
-"                + \"location.");
+            out.println("\"Faltan campos por añadir.");
             out.println("<br/> ERROR: " + fne.getMessage());
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
+        e.printStackTrace();
     }
         finally {
             OurDao.stopDB();
