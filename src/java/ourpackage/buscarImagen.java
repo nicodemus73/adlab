@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,29 +77,28 @@ public class buscarImagen extends HttpServlet {
             if (!"".equals(request.getParameter("cdate"))) map.put("cdate", "%"+request.getParameter("cdate")+"%");
             if (!"".equals(request.getParameter("filename"))) map.put("filename", "%"+request.getParameter("filename")+"%");
 //afageixo el % per buscar patrons, paraules dintre de paraules
+
             if (map.isEmpty()) {
                 out.println("No hay resultados con las entradas correspondientes") ;
                 out.print("<br><br>");
                //boton menu
-               String resp = "<a href=";
-               resp += "'";
-               resp += "menu.jsp";
-               resp += "'";
-               resp += ">Menu principal</a>";
+               String resp = "<a href=\"menu.jsp\">Menu principal</a>";
+               
                out.println(resp);
                
                out.print("<br><br>");
-               
-               
-               
+               resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
                //boton busqueda
-               resp = "<a href=";
+               /*resp = "<a href=";
                resp += "'";
                resp += "buscarImagen.jsp";
                resp += "'";
-               resp += ">Buscar una nueva imagen</a>";
+               resp += ">Buscar una nueva imagen</a>";*/
                out.println(resp);
                /*
+               
+               imprimir de forma correcta: out.println("request.getParameter(\"filename\")"); amb les ralles abans les comillas
+               
                descomentaa aixo per veure el usuari de la sessio
                out.print("<br><br>");
                resp = "<h1>";
@@ -109,14 +109,46 @@ public class buscarImagen extends HttpServlet {
                
             } else {
                 OurDao.startDB(); 
-                ArrayList<String> s = OurDao.consultar(map);
-                out.println("Llistat de imatges: <br><br>");
-                int i =0;
-                while (i < s.size()) {
-                    out.println(s.get(i));
+                //ArrayList<String> s = OurDao.consultar(map);
+                ResultSet rs = OurDao.consultar(map);
+                out.println("Listado de imagenes: <br><br>");
+                
+                out.println("<table>\n" +
+"            <tr>\n" +
+"                <th>Titulo</th>\n" +
+"                <th>Descripcion</th>\n" +
+"                <th>Palabras Clave</th>\n" +
+"                <th>Autor</th>\n" +
+"                <th>Fecha de creacion</th>\n" +
+"                <th>Fecha de subida</th>\n" +
+"                <th>Nombre del archivo</th>\n" +
+"            </tr>");
+                while(rs.next()) {
+                /*    <tr>
+                <td><%out.println(rs.getString("TITLE"));%></td>
+                <td><%out.println(rs.getString("DESCRIPTION"));%></td>
+                <td><%out.println(rs.getString("KEYWORDS"));%></td>
+                <td><%out.println(rs.getString("AUTHOR"));%></td>
+                <td><%out.println(rs.getString("CREATION_DATE"));%></td>
+                <td><%out.println(rs.getString("STORAGE_DATE"));%></td>
+                <td><%out.println(rs.getString("FILENAME"));%></td>
+            </tr>*/
+                out.println("<tr>");
+                    out.println("<td>"+rs.getString("TITLE")+"</td>");
+                    out.println("<td>"+rs.getString("DESCRIPTION")+"</td>");
+                    out.println("<td>"+rs.getString("KEYWORDS")+"</td>");
+                    out.println("<td>"+rs.getString("AUTHOR")+"</td>");
+                    out.println("<td>"+rs.getString("CREATION_DATE")+"</td>");
+                    out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
+                    out.println("<td>"+rs.getString("FILENAME")+"</td>");
+                    
                     out.println("<br><br>");
-                    ++i;
+                    if (rs.getString("AUTHOR").equals(user)) out.print("<a href=\"modificarImagen.jsp\">Modificar esta imagen</a>");
+                
                 }
+                out.println("</table>");
+                
+                
             }
         } catch (IOException | ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());

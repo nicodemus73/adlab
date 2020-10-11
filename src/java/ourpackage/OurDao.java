@@ -5,6 +5,7 @@
  */
 package ourpackage;
 
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -105,59 +106,66 @@ public class OurDao {
        return true; 
     }
     
-    public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
-        
+    //public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
+    public static ResultSet consultar(HashMap<String, String> palabra) throws SQLException{
         PreparedStatement statement;
         ResultSet rs;
         ArrayList<String> s = new ArrayList<>();
 
-        String[] aux = {null};    
-
+        String[] aux = {""};
+        
+        String query2 = "SELECT * FROM IMAGE WHERE ID is null";
         palabra.forEach((String k, String v) -> {
-            String query = "SELECT id FROM IMAGE WHERE ID is null";
-
+            boolean b = false;
+            String query = "";
             switch (k){
                 case "title": 
-                    query += " OR TITLE LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR TITLE LIKE '"+v+"'";
+                    }
                 case "descrpition":
-                    query += " OR DESCRIPTION LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR DESCRIPTION LIKE '"+v+"'";
+                    }
                 case "keywords":
-                    query += " OR KEYWORDS LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR KEYWORDS LIKE '"+v+"'";
+                    }
                 case "author":
-                    
-                    query += " OR AUTHOR LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR AUTHOR LIKE '"+v+"'";
+                    }
                 case "cdate":
-                    query += " OR CREATION_DATE LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR CREATION_DATE LIKE '"+v+"'";
+                    }
                 case "filename":
-                    query += " OR FILENAME LIKE '"+v+"'";
-                    break;
-                    
+                    if (!b) {
+                        b = true;
+                        query += " OR FILENAME LIKE '"+v+"'";
+                    }
                 default: 
-                    query = null;
-                    break;
+                    if (!b) {
+                        b = true;
+                        query+="";
+                    }
             }
-            aux[0] = query;
-        });
-        
-            statement = connection.prepareStatement(aux[0]);
-
-            rs = statement.executeQuery();
             
-            while (rs.next()){
+            aux[0] += query;
+            
+        });
+            statement = connection.prepareStatement(query2+aux[0]);
+            rs = statement.executeQuery();
+            /*while (rs.next()){
                 String id = rs.getString("ID");
                 s.add(id);
-            }
-            return s;
+            }*/
+            return rs;
     }
     
     public static ResultSet getAllImages() throws SQLException {
