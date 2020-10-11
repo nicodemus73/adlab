@@ -7,11 +7,7 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author mo
+ * @author elchu
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,44 +33,47 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
-        Connection connection = null;
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String usu = request.getParameter("usuari");
-            String psw = request.getParameter("password");
-
-            HttpSession session1 = request.getSession();
-            session1.setAttribute("user",usu);
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.removeAttribute("user");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
+            }
+            
+            
+            response.setContentType("text/html"); 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");       
+            out.println("<title>Cerrar sesion</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            
-
-            OurDao.startDB();
-            boolean found = OurDao.loggin(usu, psw);
-            if (found) response.sendRedirect("menu.jsp");
-            
-            else response.sendRedirect("error.jsp");
-            
-            //fa falta fer el finally i el stopBD??? 
+            out.println("<h1>Has cerrado sesion correctamente</h1>");
             out.println("</body>");
             out.println("</html>");
+             /*
+            //request.getRequestDispatcher("/login.jsp").include(request, response);  
+              
+            HttpSession session=request.getSession();  
+            session.invalidate();  
+              
+           out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Cerrar sesion</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Has cerrado sesion correctamente</h1>");
+            out.println("</body>");
+            out.println("</html>");
+              
+            out.close();  */
             
-         } catch (Exception e) {
-            System.err.println(e.getMessage());
-        } 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

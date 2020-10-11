@@ -18,6 +18,7 @@
         <a href="eliminarImagen.jsp">Elimina Imagen</a><br><br>
         <a href="listImg.jsp">Lista Imagenes</a><br><br>
         <a href="buscarImagen.jsp">Busca Imagen</a><br><br>
-        <a href="login.jsp">Vuelve al Login</a>
+        <a href="login.jsp">Vuelve al Login</a><br><br>
+        <a href="logout.jsp">Cerrar sesion</a><br><br>
     
 
