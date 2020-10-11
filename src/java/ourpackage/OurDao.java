@@ -52,6 +52,16 @@ public class OurDao {
             }
             return found;
     }    
+    public static void newuser(String usuario, String passw) throws SQLException {
+        
+        PreparedStatement statement;
+        String query = "insert into usuarios values(?,?)";
+        statement = connection.prepareStatement(query);    
+        statement.setString(1, usuario);
+        statement.setString(2, passw);
+        statement.executeUpdate();
+
+    }
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
         ResultSet rs;
