@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,12 +38,18 @@ public class eliminarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         boolean eliminat=false;
+        HttpSession session1 = request.getSession(false);
+        if (session1 == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        } 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            /* TODO output your page here. You may use following sample code. */    
+            String x = (String) session1.getAttribute("ID");
             if (request.getParameter("Aceptar") != null){
                 OurDao.startDB();
-                eliminat = OurDao.eliminar();
+                eliminat = OurDao.eliminar(x);
                 OurDao.stopDB();
             }
             else if (request.getParameter("Cancelar")!=null) {

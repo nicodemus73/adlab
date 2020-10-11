@@ -79,13 +79,14 @@ public class OurDao {
         statement.executeUpdate();
     }
     
-    public static boolean eliminar(){
-        int id = 3;
+    public static boolean eliminar(String x){
+        
         PreparedStatement statement;
         String query;
         try {
-            query= "delete from image where ID=4";
+            query= "delete from image where ID = ?";
             statement = connection.prepareStatement(query);
+            statement.setString(1, x);
             statement.executeUpdate();   
         } catch (SQLException e){
             return false;
@@ -93,14 +94,12 @@ public class OurDao {
         return true;
     }
     
-    public static boolean enregistrarNou(String campo, String valor){
+    public static boolean enregistrarNou(String campo, String valor, String x){
         PreparedStatement statement;
         String query;
-        //int id = session1.getAttribute("id");
-        int id = 10;
-       try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ id;
-        statement = connection.prepareStatement(query);
-        statement.executeUpdate();
+        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ x;
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();
         
        } catch (SQLException e){
            return false;

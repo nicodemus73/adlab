@@ -75,20 +75,14 @@ public class buscarImagen extends HttpServlet {
                 out.print("<br><br>");
                //boton menu
                String resp = "<a href=\"menu.jsp\">Menu principal</a>";
-               
                out.println(resp);
-               
                out.print("<br><br>");
                resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
                //boton busqueda
-
                out.println(resp);
-               
                out.print("<br><br>");
-               
             } else {
                 OurDao.startDB(); 
-                //ArrayList<String> s = OurDao.consultar(map);
                 ResultSet rs = OurDao.consultar(map);
                 out.println("Listado de imagenes: <br><br>");
                 
@@ -115,21 +109,14 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
                     out.println("<td>"+rs.getString("FILENAME")+"</td>");
                     if (rs.getString("AUTHOR").equals(user)) {
-                        String x = rs.getString("ID");
                         session1.setAttribute("ID",rs.getString("ID")); 
-                        session1.setAttribute("trobat",true);
 
                         out.print("<td> <a href=\"modificarImagen.jsp\">Modificar esta imagen</a> </td>");
                         out.print("<td> <a href=\"eliminarImagen.jsp\">Eliminar esta imagen</a> </td>");
                     }
                     out.println("<br><br>");
-                    
-                        
-                        
                 }
                 out.println("</table>");
-                
-                
             }
         } catch (IOException | ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());

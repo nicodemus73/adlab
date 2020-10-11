@@ -46,8 +46,10 @@ public class modificarImagen extends HttpServlet {
             String campo = request.getParameter("campo");
             String valor = request.getParameter("valor");
             String x = (String) session1.getAttribute("ID");
-            if (b) out.println("<h1>hola "+x+"</h1>");
-            boolean ok = OurDao.enregistrarNou(campo, valor);
+            
+                out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
+            
+            boolean ok = OurDao.enregistrarNou(campo, valor, x);
             if (ok){
                 out.println("<p>El cambio se ha efectuado correctamente</p>");
             }
