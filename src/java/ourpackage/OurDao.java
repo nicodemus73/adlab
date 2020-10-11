@@ -5,6 +5,7 @@
  */
 package ourpackage;
 
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,14 +22,15 @@ import java.util.HashMap;
 public class OurDao {
     
     static Connection connection = null; 
+    
    // static PreparedStatement statement; 
     //static ResultSet rs = null;
-    
+    //posar el resultset como global
     
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-       }
+       }//i el control de fallos aqui?
         
     
     public static void stopDB () throws SQLException{
@@ -50,6 +52,16 @@ public class OurDao {
             }
             return found;
     }    
+    public static void newuser(String usuario, String passw) throws SQLException {
+        
+        PreparedStatement statement;
+        String query = "insert into usuarios values(?,?)";
+        statement = connection.prepareStatement(query);    
+        statement.setString(1, usuario);
+        statement.setString(2, passw);
+        statement.executeUpdate();
+
+    }
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
         ResultSet rs;
@@ -77,13 +89,14 @@ public class OurDao {
         statement.executeUpdate();
     }
     
-    public static boolean eliminar(){
-        int id = 3;
+    public static boolean eliminar(String x){
+        
         PreparedStatement statement;
         String query;
         try {
-            query= "delete from image where ID=4";
+            query= "delete from image where ID = ?";
             statement = connection.prepareStatement(query);
+            statement.setString(1, x);
             statement.executeUpdate();   
         } catch (SQLException e){
             return false;
@@ -91,13 +104,12 @@ public class OurDao {
         return true;
     }
     
-    public static boolean enregistrarNou(String campo, String valor){
+    public static boolean enregistrarNou(String campo, String valor, String x){
         PreparedStatement statement;
         String query;
-        int id=10; 
-       try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ id;
-        statement = connection.prepareStatement(query);
-        statement.executeUpdate();
+        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ x;
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();
         
        } catch (SQLException e){
            return false;
@@ -105,59 +117,44 @@ public class OurDao {
        return true; 
     }
     
-    public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
-        
+    //public static ArrayList<String> consultar(HashMap<String, String> palabra) throws SQLException{
+    public static ResultSet consultar(HashMap<String, String> palabra) throws SQLException{
         PreparedStatement statement;
         ResultSet rs;
-        ArrayList<String> s = new ArrayList<>();
-
-        String[] aux = {null};    
-
+        String[] aux = {""};
+        String query2 = "SELECT * FROM IMAGE WHERE ID is null";
         palabra.forEach((String k, String v) -> {
-            String query = "SELECT id FROM IMAGE WHERE ID is null";
-
+            boolean b = false;
+            String query = "";
             switch (k){
-                case "title": 
-                    query += " OR TITLE LIKE '"+v+"'";
+                case "title":
+                    query    += " OR TITLE LIKE '"+v+"'";
                     break;
-                    
                 case "descrpition":
                     query += " OR DESCRIPTION LIKE '"+v+"'";
                     break;
-                    
                 case "keywords":
                     query += " OR KEYWORDS LIKE '"+v+"'";
                     break;
-                    
                 case "author":
-                    
                     query += " OR AUTHOR LIKE '"+v+"'";
-                    break;
-                    
+                    break; 
                 case "cdate":
                     query += " OR CREATION_DATE LIKE '"+v+"'";
                     break;
-                    
                 case "filename":
                     query += " OR FILENAME LIKE '"+v+"'";
                     break;
-                    
-                default: 
-                    query = null;
-                    break;
+                default:                     
+                    query+="";
             }
-            aux[0] = query;
-        });
-        
-            statement = connection.prepareStatement(aux[0]);
-
-            rs = statement.executeQuery();
             
-            while (rs.next()){
-                String id = rs.getString("ID");
-                s.add(id);
-            }
-            return s;
+            aux[0] += query;
+            
+        });
+            statement = connection.prepareStatement(query2+aux[0]);
+            rs = statement.executeQuery();
+            return rs;
     }
     
     public static ResultSet getAllImages() throws SQLException {
