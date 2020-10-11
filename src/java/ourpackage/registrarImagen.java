@@ -39,10 +39,7 @@ import javax.servlet.http.Part;
 @WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
-    
-    int x=1;
-   
-
+  
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -89,7 +86,8 @@ public class registrarImagen extends HttpServlet {
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date); 
-                    
+                 
+            
         
             OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
@@ -97,12 +95,11 @@ public class registrarImagen extends HttpServlet {
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             
     } catch (FileNotFoundException fne){
-            out.println("\"Faltan campos por añadir.");
-            out.println("<br/> ERROR: " + fne.getMessage());
+            out.println("No has especificado una imagen a subir");
+          //out.println("<br/> ERROR: " + fne.getMessage());
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
-        e.printStackTrace();
     }
         finally {
             OurDao.stopDB();

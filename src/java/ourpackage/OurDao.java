@@ -60,7 +60,7 @@ public class OurDao {
         rs = statement.executeQuery();
         //rs.last();
         //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
-       int idI=1;
+       int idI=0;
        while (rs.next()){
             idI = rs.getInt("ID"); 
         }
