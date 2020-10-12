@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author elchu
  */
-@WebServlet(name = "registroUsuario", urlPatterns = {"/registroUsuario"})
-public class registroUsuario extends HttpServlet {
+@WebServlet(name = "registroUsuarios", urlPatterns = {"/registroUsuarios"})
+public class registroUsuarios extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,6 +54,8 @@ public class registroUsuario extends HttpServlet {
             } else {
                 OurDao.startDB();
                 OurDao.newuser(usuario, password);
+                out.println("<p>Tu usuarix "+usuario+" ha sido creado correctamente</p>");
+                out.println("<a href=\"menu.jsp\">Menú Principal</a><br><br>\n");
                 OurDao.stopDB();
             }
             
@@ -81,9 +83,9 @@ public class registroUsuario extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(registroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(registroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,9 +103,9 @@ public class registroUsuario extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(registroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(registroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

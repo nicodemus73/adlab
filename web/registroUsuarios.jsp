@@ -13,8 +13,8 @@
     </head>
     <body>
         <h1>Registrate en el sistema</h1>
-        <form action="registroUsuario" method="POST">
-            Usuario: <input type="text"     name="usuari"/><br>
+        <form action="registroUsuarios" method="POST">
+            Usuario: <input type="text"     name="usuario"/><br>
             Contraseña: <input type="password" name="password"/><br>
             <input type="Submit"   value="Enviar"/><br>
         </form>
