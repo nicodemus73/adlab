@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,15 +60,12 @@ public class registrarImagen extends HttpServlet {
                     .getCodeSource()
                     .getLocation()
                     .getPath();
-        basepath = basepath.substring(0, basepath.lastIndexOf("web"));
-        final String path = basepath + "web/images";
+        basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
+        final String path = basepath + "adlab/web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
         final PrintWriter out = response.getWriter();
         try {
-            String query; 
-            PreparedStatement statement;
-            
             OurDao.startDB(); 
             
             outta = new FileOutputStream(new File(path + File.separator + fileName));
@@ -90,22 +86,18 @@ public class registrarImagen extends HttpServlet {
             String fechaC = request.getParameter("fechaC");
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
-            String fechaS = dateFormat.format(date); 
-            
-            
-            /*query = "select id from image";
-            statement = OurDao.connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();*/          
+            String fechaS = dateFormat.format(date);         
         
-            OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
-            out.println("Nueva foto " + fileName + "subida al " + path + "<br><br>");   
+            out.println("Nueva foto " + fileName + " subida al " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             OurDao.stopDB();
             
     } catch (FileNotFoundException fne){
-            response.sendRedirect("error.jsp?page=registrarImagen");
-            out.println("\"Error. No has especificado un archivo a subir");
+            //response.sendRedirect("error.jsp?page=registrarImagen");
+            //out.println("\"Error. No has especificado un archivo a subir");
+            out.println(path);
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
