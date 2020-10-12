@@ -14,6 +14,12 @@
         <title>Listar imagenes</title>
     </head>
     <body>
+        <% 
+            HttpSession ses = request.getSession(false);
+            if(ses == null) {
+                response.sendRedirect("login.jsp");
+            } else {
+        %>
         <table>
             <tr>
                 <th>Titulo</th>
@@ -31,19 +37,38 @@
                     while(rs.next()) {
             %>
             <tr>
-                <td><%out.println(rs.getString("TITLE"));%></td>
-                <td><%out.println(rs.getString("DESCRIPTION"));%></td>
-                <td><%out.println(rs.getString("KEYWORDS"));%></td>
-                <td><%out.println(rs.getString("AUTHOR"));%></td>
-                <td><%out.println(rs.getString("CREATION_DATE"));%></td>
-                <td><%out.println(rs.getString("STORAGE_DATE"));%></td>
-                <td><%out.println(rs.getString("FILENAME"));%></td>
+                <td><%  out.println(rs.getString("TITLE"));%></td>
+                <td><%  out.println(rs.getString("DESCRIPTION"));%></td>
+                <td><%  out.println(rs.getString("KEYWORDS"));%></td>
+                <td><%
+                        String autor = rs.getString("AUTHOR");
+                        out.println(autor);
+                %></td>
+                <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
+                <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
+                <%
+                        String user = (String) ses.getAttribute("user");
+                        String filename = rs.getString("FILENAME");
+                        int id = rs.getInt("ID");%>
+                <td>
+                <%
+                        out.println("<a href=image.jsp?name="+filename+">"+filename+"</a>");
+                        if(autor.equals(user)){
+                %>
+                    <form method="POST">
+                        <input type="hidden" value="<%out.print(id);%>" name="id"/>
+                        <input type="submit" formaction="modificarImagen.jsp" value="Modificar"/>
+                        <input type="submit" formaction="eliminarImagen.jsp" value="Eliminar" />
+                    </form>
+                </td>
             </tr>
-            <%      }
+            <%          }
+                    }
                     OurDao.stopDB();
                 } catch(Exception e){
                     System.err.println(e.getMessage());
                 }
+            }
             %>
         </table>
     </body>
