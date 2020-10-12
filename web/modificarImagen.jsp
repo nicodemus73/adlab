@@ -9,21 +9,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Modificar Imagen</title>
     </head>
     <body>
-       <form method="POST" action="modificarImagen" >
-        <h1>Inserta los campos que quieras modificar</h1>
-        Titulo: 
-        <input type="text" name="titulo"><br><br>
-        Descripción: 
-        <input type="text" name="descripcion"><br><br>
-        Palabras clave: 
-        <input type="text" name="clave"><br><br>
-        Autor: 
-        <input type="text" name="author"><br><br>
-        Fecha creación:
-        <input type="text" name="fechaC"><br><br>
+     <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
+            <form method="POST" action="modificarImagen" >
+
+     <label for="campo">Elige un campo a modificar:</label>
+     <select name="campo" id="campo">
+        <option value="title">Título</option>
+        <option value="description">Descripción</option>
+        <option value="keywords">Palabras clave</option>
+        <option value="creation_date">Fecha creación</option>
+    </select> 
+           <br><br>
+        <input type="text" name="valor" required><br><br>
+        
         <input type="submit" name="submit" value="Submit">
        </form>
     </body>

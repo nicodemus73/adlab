@@ -19,6 +19,8 @@ import java.util.Calendar;
 
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -35,10 +37,7 @@ import javax.servlet.http.Part;
 @WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
-    
-    int x=1;
-   
-
+  
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,7 +48,7 @@ public class registrarImagen extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         
         //create path components to save the file
@@ -64,7 +63,9 @@ public class registrarImagen extends HttpServlet {
         final String path = basepath + "adlab/web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
-        final PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
+        
+        
         try {
             OurDao.startDB(); 
             
@@ -90,42 +91,46 @@ public class registrarImagen extends HttpServlet {
         
             OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
-            out.println("Nueva foto " + fileName + " subida al " + path + "<br><br>");   
+            out.println("New file " + fileName + " created at " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             OurDao.stopDB();
-            
+
     } catch (FileNotFoundException fne){
-            //response.sendRedirect("error.jsp?page=registrarImagen");
-            //out.println("\"Error. No has especificado un archivo a subir");
-            out.println(path);
+            out.println("No has especificado una imagen a subir");
+          //out.println("<br/> ERROR: " + fne.getMessage());
+          //Printear el path
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
     }
         finally {
+
             if (outta != null){
                 outta.close();
             }
             if (filecontent != null){
                 filecontent.close();
+                
             }
-            if(out != null){
+            if (out != null){
                 out.close();
+                
             }
         }
         
         
     }
     private String getFileName(final Part part) {
-        
-        final String partHeader = part.getHeader("content-disposition");
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
+    final String partHeader = part.getHeader("content-disposition");
+
+    for (String content : part.getHeader("content-disposition").split(";")) {
+        if (content.trim().startsWith("filename")) {
+            return content.substring(
+                    content.indexOf('=') + 1).trim().replace("\"", "");
         }
-        return null;
     }
+    return null;
+}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -138,7 +143,11 @@ public class registrarImagen extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -152,7 +161,11 @@ public class registrarImagen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -165,6 +178,3 @@ public class registrarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 }
-
-
-

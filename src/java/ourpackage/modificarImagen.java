@@ -7,12 +7,12 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,28 +32,32 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session1 = request.getSession(false);
+       if (session1 == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        } 
+       //boolean b = (boolean) session1.getAttribute("trobat");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
             OurDao.startDB();
             
-            String titulo = request.getParameter("titulo");
-            String descripcion = request.getParameter("descripcion");
-            String clave = request.getParameter("clave");
-            String author = request.getParameter("author");
-            String fechaC = request.getParameter("fechaC");
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet modificarImagen</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet modificarImagen at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           String campo = request.getParameter("campo");
+           String valor = request.getParameter("valor");
+                
+           String s = (String) session1.getAttribute("ID");
+           int x = Integer.parseInt(s);
+                out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
+                
+            boolean ok = OurDao.enregistrarNou(campo, valor, x);
+            if (ok){
+                out.println("<p>El cambio se ha efectuado correctamente</p>");
+            }
+            else {
+                out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
+            }
+            out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
         } catch(Exception e){
             System.err.println(e.getMessage());
         }
