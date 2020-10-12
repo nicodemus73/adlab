@@ -5,13 +5,11 @@
  */
 package ourpackage;
 
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -60,7 +58,6 @@ public class OurDao {
     }
     public static void enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
-        ResultSet rs;
         
         String query = "SELECT id from image";
         PreparedStatement statement = connection.prepareStatement(query);
