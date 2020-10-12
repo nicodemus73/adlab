@@ -33,22 +33,23 @@ public class modificarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session1 = request.getSession(false);
-        if (session1 == null) {
+       if (session1 == null) {
             response.sendRedirect("login.jsp");
             return;
         } 
-        boolean b = (boolean) session1.getAttribute("trobat");
+       //boolean b = (boolean) session1.getAttribute("trobat");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
             OurDao.startDB();
             
-            String campo = request.getParameter("campo");
-            String valor = request.getParameter("valor");
-            String x = (String) session1.getAttribute("ID");
-            
+           String campo = request.getParameter("campo");
+           String valor = request.getParameter("valor");
+                
+           String s = (String) session1.getAttribute("ID");
+           int x = Integer.parseInt(s);
                 out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
-            
+                
             boolean ok = OurDao.enregistrarNou(campo, valor, x);
             if (ok){
                 out.println("<p>El cambio se ha efectuado correctamente</p>");

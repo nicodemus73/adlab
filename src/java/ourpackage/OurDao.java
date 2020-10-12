@@ -89,14 +89,14 @@ public class OurDao {
         statement.executeUpdate();
     }
     
-    public static boolean eliminar(String x){
+    public static boolean eliminar(int x){
         
         PreparedStatement statement;
         String query;
         try {
             query= "delete from image where ID = ?";
             statement = connection.prepareStatement(query);
-            statement.setString(1, x);
+            statement.setInt(1, x);
             statement.executeUpdate();   
         } catch (SQLException e){
             return false;
@@ -104,10 +104,10 @@ public class OurDao {
         return true;
     }
     
-    public static boolean enregistrarNou(String campo, String valor, String x){
+    public static boolean enregistrarNou(String campo, String valor, int x){
         PreparedStatement statement;
         String query;
-        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+ x;
+        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+x;
             statement = connection.prepareStatement(query);
             statement.executeUpdate();
         
