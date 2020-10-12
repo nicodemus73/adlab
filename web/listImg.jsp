@@ -55,10 +55,10 @@
                         out.println("<a href=image.jsp?name="+filename+">"+filename+"</a>");
                         if(autor.equals(user)){
                 %>
-                    <form method="POST">
+                    <form action=selectImage method="POST">
                         <input type="hidden" value="<%out.print(id);%>" name="id"/>
-                        <input type="submit" formaction="modificarImagen.jsp" value="Modificar"/>
-                        <input type="submit" formaction="eliminarImagen.jsp" value="Eliminar" />
+                        <input type="submit" value="Modificar" name="action"/>
+                        <input type="submit" value="Eliminar" name="action"/>
                     </form>
                 </td>
             </tr>
