@@ -27,6 +27,7 @@
 		}
 		String requestUri = (String) request
 				.getAttribute("javax.servlet.error.request_uri");
+                System.err.println(requestUri);
 		if (requestUri == null) {
 			requestUri = "Unknown";
 		}

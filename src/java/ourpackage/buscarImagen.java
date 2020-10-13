@@ -116,8 +116,8 @@ public class buscarImagen extends HttpServlet {
                         out.println("<td><a href=image.jsp?name=" + filename + "&id=" + id + ">" + filename + "</a>");
                         if (autor.equals(user)) {
                             out.println("<form action=selectImage method=\"POST\">"
-                                    + "<input type=\"hidden\" value=\"" + filename + "\" name=\"name\""
-                                    + "<input type=\"hidden\" value=\"" + id + "\" name=\"id\"/>"
+                                    + "<input type=\"hidden\" value=\"" + filename + "\" name=\"name\"/>"
+                                    + "<input type=\"hidden\" value=\"" + Integer.toString(id) + "\" name=\"id\"/>"
                                     + "<input type=\"submit\" value=\"Modificar\" name=\"action\"/>"
                                     + "<input type=\"submit\" value=\"Eliminar\" name=\"action\"/> </form> </td>");
                         }

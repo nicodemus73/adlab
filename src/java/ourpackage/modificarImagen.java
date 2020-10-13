@@ -8,7 +8,6 @@ package ourpackage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +21,7 @@ import javax.servlet.http.HttpSession;
  * 
 public class LoginFilter implements Filter 
  */
-@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen","/buscarImagen.java"})
-@WebFilter(urlPatterns = { "/modificarImagen","/buscarImagen"})
+@WebServlet(name = "modificarImagen", urlPatterns = "/modificarImagen")
 public class modificarImagen extends HttpServlet {
 
     /**

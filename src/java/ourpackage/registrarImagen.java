@@ -17,7 +17,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-
 /**
  *
  * @author mo
@@ -38,7 +36,7 @@ import javax.servlet.http.Part;
 @WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
-  
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,29 +50,32 @@ public class registrarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession ses = request.getSession(false);
-        if(ses.getAttribute("user")==null){
+        if (ses.getAttribute("user") == null) {
             response.sendRedirect("login.jsp");
             return;
         }
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
         final String fileName = getFileName(filePart);
+        if (fileName == null || fileName.isEmpty()) throw new FileNotFoundException("No has especificado el archivo a subir");
+
         String basepath = registrarImagen.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .getPath();
+                .getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .getPath();
         basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
         final String path = basepath + "adlab/web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
         PrintWriter out = response.getWriter();
-        
+
         try {
-            OurDao.startDB(); 
-                   
+
+            OurDao.startDB();
+
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
             String clave = request.getParameter("clave");
@@ -82,61 +83,58 @@ public class registrarImagen extends HttpServlet {
             String fechaC = request.getParameter("fechaC");
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
-            String fechaS = dateFormat.format(date);         
-        
-            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
-            
-            
+            String fechaS = dateFormat.format(date);
+
+            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName);
+
             outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
             filecontent = filePart.getInputStream();
-            
+
             int read = 0;
             final byte[] bytes = new byte[1024];
-       
-            while((read = filecontent.read(bytes)) != -1){
+
+            while ((read = filecontent.read(bytes)) != -1) {
                 outta.write(bytes, 0, read);
             }
-            
-            out.println("New file " + fileName + " created at " + path + "<br><br>");   
+
+            out.println("New file " + fileName + " created at " + path + "<br><br>");
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
             OurDao.stopDB();
 
-    } catch (FileNotFoundException fne){
+        } catch (FileNotFoundException fne) {
             out.println("No has especificado una imagen a subir");
-          //out.println("<br/> ERROR: " + fne.getMessage());
-          //Printear el path
 
-    } catch (IOException | ClassNotFoundException | SQLException e) {
-        System.err.println(e.getMessage());
-    }
-        finally {
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
 
-            if (outta != null){
+            if (outta != null) {
                 outta.close();
             }
-            if (filecontent != null){
+            if (filecontent != null) {
                 filecontent.close();
-                
-            }
-            if (out != null){
-                out.close();
-                
-            }
-        }
-        
-        
-    }
-    private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
 
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+            if (out != null) {
+                out.close();
+
+            }
         }
+
     }
-    return null;
-}
+
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

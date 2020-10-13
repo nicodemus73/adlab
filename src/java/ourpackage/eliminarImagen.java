@@ -68,12 +68,11 @@ public class eliminarImagen extends HttpServlet {
             }
             if (eliminat){
                 out.println("La foto ha sido eliminada correctamente<br>");
-                out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+                out.println("<a href=\"menu.jsp\">Vuelve al menu</a>");
             }
             else {
                 out.println("No se ha podido eliminar la foto<br><br>");
-                out.println("<a href=\"eliminar.jsp\">Vuelve atrás</a><br><br>");
-                out.println("<a href=\"login.jsp\">Vuelve al Login</a><br>");
+                out.println("<a href=\"menu.jsp\">Vuelve atrás</a><br><br>");
             }
         } catch(Exception e){
             System.err.println(e.getMessage());

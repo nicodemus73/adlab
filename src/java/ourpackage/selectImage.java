@@ -6,7 +6,6 @@
 package ourpackage;
 
 import java.io.IOException;
-import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +34,7 @@ public class selectImage extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         HttpSession ses = request.getSession(false);
-        if(ses == null)response.sendRedirect("login.jsp");
+        if(ses == null) response.sendRedirect("login.jsp");
         else {
             int id = Integer.parseInt(request.getParameter("id"));
             ses.setAttribute("imageId", id);
@@ -49,8 +48,8 @@ public class selectImage extends HttpServlet {
     
     public static String getImageName(int id, String filename){
         
+        if(filename==null || filename.isEmpty()) return null;
         String[] splitted = filename.split("\\.");
-        //System.err.println(Arrays.toString(splitted));
         if(splitted.length != 2){
             System.err.println("Nombre de archivo incompatible: "+ filename +" Tamaño: "+splitted.length);
             return null;
