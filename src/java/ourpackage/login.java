@@ -47,26 +47,12 @@ public class login extends HttpServlet {
 
             HttpSession session1 = request.getSession();
             session1.setAttribute("user",usu);
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");       
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            
-
+    
             OurDao.startDB();
             boolean found = OurDao.loggin(usu, psw);
             if (found) response.sendRedirect("menu.jsp");
             
-            else response.sendRedirect("error.jsp");
+            else response.sendRedirect("error.jsp?");
             
             //fa falta fer el finally i el stopBD??? 
             out.println("</body>");

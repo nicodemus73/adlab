@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpSession;
 @MultipartConfig
 
 public class buscarImagen extends HttpServlet {
-
+    static String s;
     
 
     /**
@@ -96,8 +97,11 @@ public class buscarImagen extends HttpServlet {
 "                <th>Modificar</th>\n" +
 "                <th>Eliminar</th>\n" +
 "            </tr>");
+                HashMap<String, String> m = new HashMap<>();
+                Vector<String> v = new Vector<>();
+                int i = 0;
                 while(rs.next()) {
-              
+                
                 out.println("<tr>");
                     out.println("<td>"+rs.getString("TITLE")+"</td>");
                     out.println("<td>"+rs.getString("DESCRIPTION")+"</td>");
@@ -108,13 +112,24 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>"+rs.getString("FILENAME")+"</td>");
                     if (rs.getString("AUTHOR").equals(user)) {
                         session1.setAttribute("ID",rs.getString("ID")); 
-
+                        v.addElement(rs.getString("ID"));
+                                                
+                        
+                    
+                        //session1.setAttribute("vector",s[i]);
+                        s = rs.getString("ID");
+                        //aixi no m'agrada pq pots canviarlo desde el navegador
                         out.print("<td> <a href=\"modificarImagen.jsp\">Modificar esta imagen</a> </td>");
+                        //HttpServletResponse sendRedirect = response.sendRedirect(/modificarImagen.jsp); 
                         out.print("<td> <a href=\"eliminarImagen.jsp\">Eliminar esta imagen</a> </td>");
                     }
                     out.println("<br><br>");
                 }
                 out.println("</table>");
+                out.println("provandooooo: ");
+                for (int w = 0; w<v.size(); w++) {
+                    out.println(v.get(i));
+                }
             }
         } catch (IOException | ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
