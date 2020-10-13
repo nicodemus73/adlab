@@ -156,4 +156,19 @@ public class OurDao {
         ResultSet res = connection.prepareStatement(query).executeQuery();
         return res;
     }
+    
+    protected static boolean validateUsername(String username){
+        
+        return username!=null 
+                && !username.isEmpty() 
+                && !username.contains(" ");
+    }
+    
+    protected static boolean validatePassword(String password){
+        
+        return password!=null
+                && !password.isEmpty()
+                && !password.contains(" ")
+                && password.length()>6;
+    }
 }

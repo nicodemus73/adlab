@@ -37,34 +37,18 @@ public class registroUsuarios extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Registro de usuarios</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            
+        try (PrintWriter out = response.getWriter()) {           
             
             String usuario = request.getParameter("usuario");
             String password = request.getParameter("password");
-            if (usuario.isEmpty() || (usuario.equals(" "))) {
-                out.println("El usuario no puede ser nulo");
-            } else {
+            String opass = request.getParameter("opassword");
+            if(OurDao.validatePassword(password) && OurDao.validateUsername(usuario) && opass.equals(password)){
                 OurDao.startDB();
                 OurDao.newuser(usuario, password);
-                out.println("<p>Tu usuarix "+usuario+" ha sido creado correctamente</p>");
-                out.println("<a href=\"menu.jsp\">Menú Principal</a><br><br>\n");
                 OurDao.stopDB();
+            } else {
+                response.sendRedirect("error.jsp");
             }
-            
-            
-            
-            
-            
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 

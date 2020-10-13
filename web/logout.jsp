@@ -12,6 +12,10 @@
         <title>LogOut</title>
     </head>
     <body>
+        <% 
+            HttpSession ses = request.getSession(false);
+            if(ses.getAttribute("user")==null) response.sendRedirect("login.jsp");
+        %>
         <h1>Cerrar sesión</h1>
         <form action="logout" method="POST">
             ¿Seguro que quieres salir? <br>

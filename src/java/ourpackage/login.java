@@ -7,7 +7,6 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,29 +32,29 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
-        Connection connection = null;
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String usu = request.getParameter("usuari");
             String psw = request.getParameter("password");
 
             HttpSession session1 = request.getSession();
-            session1.setAttribute("user",usu);
-    
             OurDao.startDB();
-            boolean found = OurDao.loggin(usu, psw);
-            if (found) response.sendRedirect("menu.jsp");
-            else response.sendRedirect("error.jsp?");
-            
-            //fa falta fer el finally i el stopBD??? 
+            if (OurDao.validateUsername(usu) && OurDao.validatePassword(psw) && OurDao.loggin(usu, psw)) {
+                session1.setAttribute("user", usu);
+                response.sendRedirect("menu.jsp");
+            } else {
+                response.sendRedirect("error.jsp");
+            }
+
+            OurDao.stopDB();
             out.println("</body>");
             out.println("</html>");
-            
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        } 
+            //redirect al error.jsp
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

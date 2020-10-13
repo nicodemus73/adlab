@@ -16,6 +16,7 @@
         <form action="registroUsuarios" method="POST">
             Usuario: <input type="text"     name="usuario"/><br>
             Contraseña: <input type="password" name="password"/><br>
+            Confirma Contraseña: <input type="password" name="opassword"/><br>
             <input type="Submit"   value="Enviar"/><br>
         </form>
     </body>

@@ -9,20 +9,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
     </head>
     <body>
-        <% 
+        <%
             HttpSession ses = request.getSession(false);
-            if(ses.getAttribute("user")!=null) response.sendRedirect("menu.jsp");
+            if (ses.getAttribute("user") != null) {
+                response.sendRedirect("menu.jsp");
+            }
         %>
         <h1>Hola! Accede a tu cuenta</h1>
         <form action="login" method="POST">
             Usuario: <input type="text"     name="usuari"/><br>
             Contraseña: <input type="password" name="password"/><br>
-            <input type="Submit"   value="Enviar"/><br>
+            <input type="Submit"   value="Acceder"/><br>
             <br><br>
             <a href="registroUsuarios.jsp">Registrate aqui</a><br><br>
         </form>
