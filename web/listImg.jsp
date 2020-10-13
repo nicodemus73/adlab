@@ -44,17 +44,17 @@
                 <td><%
                         String autor = rs.getString("AUTHOR");
                         out.println(autor);
-                %></td>
+                    %></td>
                 <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
                 <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
                 <%
                         String filename = rs.getString("FILENAME");
                         int id = rs.getInt("ID");%>
                 <td>
-                <%
-                        out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
-                        if(autor.equals(user)){
-                %>
+                    <%
+                            out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
+                            if(autor.equals(user)){
+                    %>
                     <form action=selectImage method="POST">
                         <input type="hidden" value="<%out.print(filename);%>" name="name"/>
                         <input type="hidden" value="<%out.print(id);%>" name="id"/>

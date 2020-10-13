@@ -12,6 +12,12 @@
         <title>Registro de Usuario</title>
     </head>
     <body>
+        <%
+            HttpSession ses = request.getSession(false);
+            if (ses.getAttribute("user") != null) {
+                response.sendRedirect("menu.jsp");
+            }
+        %>
         <h1>Registrate en el sistema</h1>
         <form action="registroUsuarios" method="POST">
             Usuario: <input type="text"     name="usuario"/><br>

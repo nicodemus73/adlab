@@ -12,27 +12,27 @@
         <title>Buscar Imagen</title>
     </head>
     <body>
-        
+
         <h1>Búsqueda de imagenes</h1>
         <h2>Palabras clave a buscar (una por campo)</h2> 
         <br><br>
         <form method="POST" action="buscarImagen" enctype="multipart/form-data">
-           Titulo: 
-           <input type="text" value="" name="title"><br><br>
-           Nombre del archivo
-           <input type="text" name="filename"><br><br>
-           Descripción: 
-           <input type="text" name="description"><br><br>
-           Palabras clave: 
-           <input type="text" name="keywords"><br><br>
-           Autor: 
-           <input type="text" name="author"><br><br>
-           Fecha creación:
-           <input type="text" name="cdate"><br><br>
+            Titulo: 
+            <input type="text" value="" name="title"><br><br>
+            Nombre del archivo
+            <input type="text" name="filename"><br><br>
+            Descripción: 
+            <input type="text" name="description"><br><br>
+            Palabras clave: 
+            <input type="text" name="keywords"><br><br>
+            Autor: 
+            <input type="text" name="author"><br><br>
+            Fecha creación:
+            <input type="text" name="cdate"><br><br>
 
-        <input type="submit" name="Submit" value="Submit"> 
-        <br><br>
-        <a href="menu.jsp">Menu principal</a>
+            <input type="submit" name="Submit" value="Submit"> 
+            <br><br>
+            <a href="menu.jsp">Menu principal</a>
 
         </form>
     </body>

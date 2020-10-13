@@ -14,7 +14,9 @@
     <body>
         <%
             HttpSession ses = request.getSession(false);
-            if(ses.getAttribute("user")==null) response.sendRedirect("login.jsp");
+            if (ses.getAttribute("user") == null) {
+                response.sendRedirect("login.jsp");
+            }
         %>
         <form method="POST" action="registrarImagen" enctype="multipart/form-data">
             <h1>Inserta tu imagen en nuestra Base de datos</h1>

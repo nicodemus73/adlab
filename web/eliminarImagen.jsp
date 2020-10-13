@@ -17,9 +17,9 @@
         %>
         <p>Estás seguro que quieres eliminar tu imagen?</p>
         <form method="POST" action="eliminarImagen?ide=<%=request.getParameter("ide")%>" >
-        <input type="submit" name="Aceptar" value="Aceptar"/>
-        <input type="submit" name="Cancelar" value="Cancelar"/>
+            <input type="submit" name="Aceptar" value="Aceptar"/>
+            <input type="submit" name="Cancelar" value="Cancelar"/>
         </form>
-     
+
     </body>
 </html>

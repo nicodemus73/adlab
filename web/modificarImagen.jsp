@@ -13,19 +13,19 @@
         <title>Modificar Imagen</title>
     </head>
     <body>
-     <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
-            <form method="POST" action="modificarImagen?ide=<%=request.getParameter("ide")%>" >
+        <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
+        <form method="POST" action="modificarImagen?ide=<%=request.getParameter("ide")%>" >
 
-     <label for="campo">Elige un campo a modificar:</label>
-     <select name="campo" id="campo">
-        <option value="title">Título</option>
-        <option value="description">Descripción</option>
-        <option value="keywords">Palabras clave</option>
-        <option value="creation_date">Fecha creación</option>
-    </select> 
-           <br><br>
-        <input type="text" name="valor" required><br><br>
-        <input type="submit" name="submit" value="Submit">
-       </form>
+            <label for="campo">Elige un campo a modificar:</label>
+            <select name="campo" id="campo">
+                <option value="title">Título</option>
+                <option value="description">Descripción</option>
+                <option value="keywords">Palabras clave</option>
+                <option value="creation_date">Fecha creación</option>
+            </select> 
+            <br><br>
+            <input type="text" name="valor" required><br><br>
+            <input type="submit" name="submit" value="Submit">
+        </form>
     </body>
 </html>
