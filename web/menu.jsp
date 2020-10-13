@@ -20,8 +20,6 @@
         <h1>Has accedido al Menú</h1>
         <h2>Bienvenido, <%out.print(user);%></h2>
         <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
-        <a href="modificarImagen.jsp">Modifica Imagen</a><br><br>
-        <a href="eliminarImagen.jsp">Elimina Imagen</a><br><br>
         <a href="listImg.jsp">Lista Imagenes</a><br><br>
         <a href="buscarImagen.jsp">Busca Imagen</a><br><br>
         <a href="login.jsp">Vuelve al Login</a><br><br>

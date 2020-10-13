@@ -11,6 +11,10 @@
         <title>Eliminar imagen</title>
     </head>
     <body>
+        <%
+            HttpSession ses = request.getSession(false);
+            if(ses.getAttribute("user")== null) response.sendRedirect("login.jsp");
+        %>
         <p>Estás seguro que quieres eliminar tu imagen?</p>
         <form method="POST" action="eliminarImagen" >
         <input type="submit" name="Aceptar" value="Aceptar"/>

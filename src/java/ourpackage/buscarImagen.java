@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
@@ -108,6 +107,7 @@ public class buscarImagen extends HttpServlet {
                     if (autor.equals(user)) {
                         if(autor.equals(user)){
                             out.println("<form action=selectImage method=\"POST\">"
+                                    + "<input type=\"hidden\" value=\""+filename+"\" name=\"name\""
                                     + "<input type=\"hidden\" value=\""+id+"\" name=\"id\"/>"
                                     + "<input type=\"submit\" value=\"Modificar\" name=\"action\"/>"
                                     + "<input type=\"submit\" value=\"Eliminar\" name=\"action\"/> </form> </td>");

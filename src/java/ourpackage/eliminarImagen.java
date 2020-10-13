@@ -5,6 +5,7 @@
  */
 package ourpackage;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,18 +40,26 @@ public class eliminarImagen extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         boolean eliminat=false;
         HttpSession session1 = request.getSession(false);
-        if (session1 == null) {
+        if (session1.getAttribute("user") == null) {
             response.sendRedirect("login.jsp");
             return;
         } 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */    
-            String s = (String) session1.getAttribute("ID");
-             int x = Integer.parseInt(s);
+            /* TODO output your page here. You may use following sample code. */
+             int x = (int) session1.getAttribute("imageId");
             if (request.getParameter("Aceptar") != null){
                 OurDao.startDB();
                 eliminat = OurDao.eliminar(x);
+                String basepath = registrarImagen.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getPath();
+                basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
+                final String path = basepath + "adlab/web/images";
+                File image = new File(path+File.separator+(String)session1.getAttribute("imageName"));
+                eliminat = eliminat && image.delete();
                 OurDao.stopDB();
             }
             else if (request.getParameter("Cancelar")!=null) {
@@ -65,6 +74,9 @@ public class eliminarImagen extends HttpServlet {
                 out.println("<a href=\"eliminar.jsp\">Vuelve atrás</a><br><br>");
                 out.println("<a href=\"login.jsp\">Vuelve al Login</a><br>");
             }
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+            response.sendRedirect("error.jsp");
         }
     }
 

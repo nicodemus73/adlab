@@ -56,6 +56,7 @@
                         if(autor.equals(user)){
                 %>
                     <form action=selectImage method="POST">
+                        <input type="hidden" value="<%out.print(filename);%>" name="name"/>
                         <input type="hidden" value="<%out.print(id);%>" name="id"/>
                         <input type="submit" value="Modificar" name="action"/>
                         <input type="submit" value="Eliminar" name="action"/>

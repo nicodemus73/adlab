@@ -38,11 +38,22 @@ public class selectImage extends HttpServlet {
         else {
             int id = Integer.parseInt(request.getParameter("id"));
             ses.setAttribute("imageId", id);
+            ses.setAttribute("imageName", request.getParameter("name"));
             String action = request.getParameter("action");
             if("Modificar".equals(action)) response.sendRedirect("modificarImagen.jsp");
             else if("Eliminar".equals(action)) response.sendRedirect("eliminarImagen.jsp");
             else response.sendRedirect("error.jsp");
         }
+    }
+    
+    protected static String getImageName(int id, String filename){
+        
+        String[] splitted = filename.split(".");
+        if(splitted.length != 2){
+            System.err.println("Nombre de archivo incompatible: "+ filename);
+            return null;
+        }
+        return splitted[0] + Integer.toString(id) + '.' + splitted[1];
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -65,7 +65,6 @@ public class registrarImagen extends HttpServlet {
         InputStream filecontent = null;
         PrintWriter out = response.getWriter();
         
-        
         try {
             OurDao.startDB(); 
             

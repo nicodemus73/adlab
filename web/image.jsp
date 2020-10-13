@@ -19,7 +19,7 @@
     <body>
         <%
             HttpSession ses = request.getSession(false);
-            if(ses == null){
+            if(ses.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
             } else {
                 out.println("<img src=images/"+name);
