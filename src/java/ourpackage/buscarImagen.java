@@ -21,8 +21,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 
-
-
 /**
  *
  * @author elchu
@@ -30,7 +28,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "buscarImagen", urlPatterns = {"/buscarImagen"})
 @MultipartConfig
 
-public class buscarImagen extends HttpServlet {    
+public class buscarImagen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,82 +41,92 @@ public class buscarImagen extends HttpServlet {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession ses = request.getSession(false);
         String user = (String) ses.getAttribute("user");
-        if(user==null) response.sendRedirect("login.jsp");
-        else {
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        } else {
             try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
-            HashMap<String, String> map = new HashMap<>();
-            if (!"".equals(request.getParameter("title"))) map.put("title", "%"+request.getParameter("title")+"%");//
-            if (!"".equals(request.getParameter("description")))map.put("description", "%"+request.getParameter("description")+"%");
-            if (!"".equals(request.getParameter("keywords"))) map.put("keywords", "%"+request.getParameter("keywords")+"%");
-            if (!"".equals(request.getParameter("author"))) map.put("author", "%"+request.getParameter("author")+"%");
-            if (!"".equals(request.getParameter("cdate"))) map.put("cdate", "%"+request.getParameter("cdate")+"%");
-            if (!"".equals(request.getParameter("filename"))) map.put("filename", "%"+request.getParameter("filename")+"%");
-            //afageixo el % per buscar patrons, paraules dintre de paraules
+                /* TODO output your page here. You may use following sample code. */
 
-            if (map.isEmpty())  {
-                
-                out.println("No hay resultados con las entradas correspondientes") ;
-                out.print("<br><br>");
-                //boton menu
-                String resp = "<a href=\"menu.jsp\">Menu principal</a>";
-                out.println(resp);
-                out.print("<br><br>");
-                resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
-                //boton busqueda
-                out.println(resp);
-                out.print("<br><br>");
-            } else  {
-                OurDao.startDB(); 
-                ResultSet rs;
-                rs = OurDao.consultar(map);
-                out.println("Listado de imagenes: <br>");
-                  
-                out.println("<table>\n" +
-"            <tr>\n" +
-"                <th>Titulo</th>\n" +
-"                <th>Descripcion</th>\n" +
-"                <th>Palabras Clave</th>\n" +
-"                <th>Autor</th>\n" +
-"                <th>Fecha de creacion</th>\n" +
-"                <th>Fecha de subida</th>\n" +
-"                <th>Nombre del archivo</th>\n" +
-"            </tr>");
-                while(rs.next()) {
-                out.println("<tr>");
-                    out.println("<td>"+rs.getString("TITLE")+"</td>");
-                    out.println("<td>"+rs.getString("DESCRIPTION")+"</td>");
-                    out.println("<td>"+rs.getString("KEYWORDS")+"</td>");
-                    String autor = rs.getString("AUTHOR");
-                    out.println("<td>"+autor+"</td>");
-                    out.println("<td>"+rs.getString("CREATION_DATE")+"</td>");
-                    out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
-                    String filename = rs.getString("FILENAME");
-                    int id = rs.getInt("ID");
-                    out.println("<td><a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
-                    if (autor.equals(user)) {
-                        if(autor.equals(user)){
+                HashMap<String, String> map = new HashMap<>();
+                if (!"".equals(request.getParameter("title"))) {
+                    map.put("title", "%" + request.getParameter("title") + "%");//
+                }
+                if (!"".equals(request.getParameter("description"))) {
+                    map.put("description", "%" + request.getParameter("description") + "%");
+                }
+                if (!"".equals(request.getParameter("keywords"))) {
+                    map.put("keywords", "%" + request.getParameter("keywords") + "%");
+                }
+                if (!"".equals(request.getParameter("author"))) {
+                    map.put("author", "%" + request.getParameter("author") + "%");
+                }
+                if (!"".equals(request.getParameter("cdate"))) {
+                    map.put("cdate", "%" + request.getParameter("cdate") + "%");
+                }
+                if (!"".equals(request.getParameter("filename"))) {
+                    map.put("filename", "%" + request.getParameter("filename") + "%");
+                }
+                //afageixo el % per buscar patrons, paraules dintre de paraules
+
+                if (map.isEmpty()) {
+
+                    out.println("No hay resultados con las entradas correspondientes");
+                    out.print("<br><br>");
+                    //boton menu
+                    String resp = "<a href=\"menu.jsp\">Menu principal</a>";
+                    out.println(resp);
+                    out.print("<br><br>");
+                    resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
+                    //boton busqueda
+                    out.println(resp);
+                    out.print("<br><br>");
+                } else {
+                    OurDao.startDB();
+                    ResultSet rs;
+                    rs = OurDao.consultar(map);
+                    out.println("Listado de imagenes: <br>");
+
+                    out.println("<table>\n"
+                            + "            <tr>\n"
+                            + "                <th>Titulo</th>\n"
+                            + "                <th>Descripcion</th>\n"
+                            + "                <th>Palabras Clave</th>\n"
+                            + "                <th>Autor</th>\n"
+                            + "                <th>Fecha de creacion</th>\n"
+                            + "                <th>Fecha de subida</th>\n"
+                            + "                <th>Nombre del archivo</th>\n"
+                            + "            </tr>");
+                    while (rs.next()) {
+                        out.println("<tr>");
+                        out.println("<td>" + rs.getString("TITLE") + "</td>");
+                        out.println("<td>" + rs.getString("DESCRIPTION") + "</td>");
+                        out.println("<td>" + rs.getString("KEYWORDS") + "</td>");
+                        String autor = rs.getString("AUTHOR");
+                        out.println("<td>" + autor + "</td>");
+                        out.println("<td>" + rs.getString("CREATION_DATE") + "</td>");
+                        out.println("<td>" + rs.getString("STORAGE_DATE") + "</td>");
+                        String filename = rs.getString("FILENAME");
+                        int id = rs.getInt("ID");
+                        out.println("<td><a href=image.jsp?name=" + filename + "&id=" + id + ">" + filename + "</a>");
+                        if (autor.equals(user)) {
                             out.println("<form action=selectImage method=\"POST\">"
-                                    + "<input type=\"hidden\" value=\""+filename+"\" name=\"name\""
-                                    + "<input type=\"hidden\" value=\""+id+"\" name=\"id\"/>"
+                                    + "<input type=\"hidden\" value=\"" + filename + "\" name=\"name\""
+                                    + "<input type=\"hidden\" value=\"" + id + "\" name=\"id\"/>"
                                     + "<input type=\"submit\" value=\"Modificar\" name=\"action\"/>"
                                     + "<input type=\"submit\" value=\"Eliminar\" name=\"action\"/> </form> </td>");
                         }
                     }
+                    out.println("</table>");
                 }
-                out.println("</table>");
+            } catch (IOException | ClassNotFoundException | SQLException e) {
+                System.err.println(e.getMessage());
             }
-        } catch  (IOException | ClassNotFoundException | SQLException e) {
-            System.err.println(e.getMessage());
-        }
         }
     }
 
