@@ -15,11 +15,8 @@
         <h1>Cerrar sesión</h1>
         <form action="logout" method="POST">
             ¿Seguro que quieres salir? <br>
-            <input type="Submit"   value="Salir"/><br><br>
-            
+            <input type="Submit" value="Salir"/><br><br>
             <a href="menu.jsp">Volver al menú principal</a>
-            
-            
         </form>
     </body>
 </html>

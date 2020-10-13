@@ -22,7 +22,6 @@
         <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
         <a href="listImg.jsp">Lista Imagenes</a><br><br>
         <a href="buscarImagen.jsp">Busca Imagen</a><br><br>
-        <a href="login.jsp">Vuelve al Login</a><br><br>
         <a href="logout.jsp">Cerrar sesion</a><br><br>
     </body>
 </html>

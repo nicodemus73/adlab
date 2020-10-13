@@ -50,7 +50,7 @@ public class selectImage extends HttpServlet {
     public static String getImageName(int id, String filename){
         
         String[] splitted = filename.split("\\.");
-        System.err.println(Arrays.toString(splitted));
+        //System.err.println(Arrays.toString(splitted));
         if(splitted.length != 2){
             System.err.println("Nombre de archivo incompatible: "+ filename +" Tamaño: "+splitted.length);
             return null;
