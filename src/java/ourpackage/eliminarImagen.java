@@ -46,8 +46,8 @@ public class eliminarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */    
-            String s = (String) session1.getAttribute("ID");
-             int x = Integer.parseInt(s);
+            String s = (String) request.getParameter("ide");
+            int x = Integer.parseInt(s);
             if (request.getParameter("Aceptar") != null){
                 OurDao.startDB();
                 eliminat = OurDao.eliminar(x);

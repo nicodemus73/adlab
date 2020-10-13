@@ -34,10 +34,7 @@ import javax.servlet.http.HttpSession;
 @MultipartConfig
 
 public class buscarImagen extends HttpServlet {
-    static String[] s = new String[100];
-       
-    //static Vector<String> v = new Vector<>();
-    static int i;
+
     
 
     /**
@@ -75,21 +72,23 @@ public class buscarImagen extends HttpServlet {
 //afageixo el % per buscar patrons, paraules dintre de paraules
 
             if (map.isEmpty())  {
+                
                 out.println("No hay resultados con las entradas correspondientes") ;
                 out.print("<br><br>");
-               //boton menu
-               String resp = "<a href=\"menu.jsp\">Menu principal</a>";
-               out.println(resp);
-               out.print("<br><br>");
-               resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
-               //boton busqueda
-               out.println(resp);
-               out.print("<br><br>");
+                //boton menu
+                String resp = "<a href=\"menu.jsp\">Menu principal</a>";
+                out.println(resp);
+                out.print("<br><br>");
+                resp = "<a href=\"buscarImagen.jsp\">Buscar una nueva imagen</a>";
+                //boton busqueda
+                out.println(resp);
+                out.print("<br><br>");
             } else  {
                 OurDao.startDB(); 
-                ResultSet rs = OurDao.consultar(map);
-                out.println("Listado de imagenes: <br><br>");
-                //s[0] = "hoa";  
+                ResultSet rs;
+                rs = OurDao.consultar(map);
+                out.println("Listado de imagenes: <br>");
+                  
                 out.println("<table>\n" +
 "            <tr>\n" +
 "                <th>Titulo</th>\n" +
@@ -102,11 +101,7 @@ public class buscarImagen extends HttpServlet {
 "                <th>Modificar</th>\n" +
 "                <th>Eliminar</th>\n" +
 "            </tr>");
-                
-                
-                i = 0;
                 while(rs.next()) {
-                
                 out.println("<tr>");
                     out.println("<td>"+rs.getString("TITLE")+"</td>");
                     out.println("<td>"+rs.getString("DESCRIPTION")+"</td>");
@@ -116,26 +111,15 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
                     out.println("<td>"+rs.getString("FILENAME")+"</td>");
                     if (rs.getString("AUTHOR").equals(user)) {
-                        session1.setAttribute("ID",rs.getString("ID")); 
-                        //v.addElement(rs.getString("ID"));
-                                 
                         
-                    
-                        //session1.setAttribute("vector",s[i]);
-                        s[i] = rs.getString("ID");
                         String g = rs.getString("ID");
-                        out.println("hola: "+g+" adeu");
                         request.setAttribute("ide", g);
-                        i++;
-                        //aixi no m'agrada pq pots canviarlo desde el navegador
                         out.print("<td> <a href=\"modificarImagen.jsp?ide="+g+"\">Modificar esta imagen</a> </td>");
                         //HttpServletResponse sendRedirect = response.sendRedirect(/modificarImagen.jsp); 
-                        out.print("<td> <a href=\"eliminarImagen.jsp\">Eliminar esta imagen</a> </td>");
+                        out.print("<td> <a href=\"eliminarImagen.jsp?ide="+g+"\">Eliminar esta imagen</a> </td>");
                     }
-                    out.println("<br><br>");
                 }
                 out.println("</table>");
-                out.println("provandooooo: ");
 
             }
         } catch  (IOException | ClassNotFoundException | SQLException e) {
