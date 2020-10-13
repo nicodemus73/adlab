@@ -16,7 +16,7 @@
             if(ses.getAttribute("user")== null) response.sendRedirect("login.jsp");
         %>
         <p>Estás seguro que quieres eliminar tu imagen?</p>
-        <form method="POST" action="eliminarImagen?ide=<%=request.getParameter("ide")%>" >
+        <form method="POST" action="eliminarImagen%>" >
             <input type="submit" name="Aceptar" value="Aceptar"/>
             <input type="submit" name="Cancelar" value="Cancelar"/>
         </form>

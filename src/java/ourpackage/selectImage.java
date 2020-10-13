@@ -34,7 +34,7 @@ public class selectImage extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         HttpSession ses = request.getSession(false);
-        if(ses == null) response.sendRedirect("login.jsp");
+        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
         else {
             int id = Integer.parseInt(request.getParameter("id"));
             ses.setAttribute("imageId", id);
