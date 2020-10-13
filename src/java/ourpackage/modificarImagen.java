@@ -7,7 +7,6 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;

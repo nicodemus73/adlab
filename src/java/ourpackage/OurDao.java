@@ -160,7 +160,7 @@ public class OurDao {
     protected static boolean validateUsername(String username){
         
         return username!=null 
-                && !username.isEmpty() 
+                && !username.isEmpty()
                 && !username.contains(" ");
     }
     
@@ -169,6 +169,6 @@ public class OurDao {
         return password!=null
                 && !password.isEmpty()
                 && !password.contains(" ")
-                && password.length()>6;
+                && password.length()>5;
     }
 }
