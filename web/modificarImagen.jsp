@@ -14,7 +14,7 @@
     </head>
     <body>
      <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
-            <form method="POST" action="modificarImagen?ide=<%=request.getParameter("ide")%>
+            <form method="POST" action="modificarImagen?ide=<%=request.getParameter("ide")%>" >
 
      <label for="campo">Elige un campo a modificar:</label>
      <select name="campo" id="campo">

@@ -47,25 +47,24 @@ public class modificarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
+            
             OurDao.startDB();
             
            String campo = request.getParameter("campo");
            String valor = request.getParameter("valor");
-           String as = (String) request.getAttribute("ide");
-          
+           String as = (String) request.getParameter("ide");
+        
+           int x = Integer.parseInt(as);
+
+            boolean ok = OurDao.enregistrarNou(campo, valor, x);
            
-           int x = Integer.parseInt(as);//Integer.parseInt(kk);
-           /*out.println(x);
-                out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
-                //int x = 1;
-            */boolean ok = OurDao.enregistrarNou(campo, valor, x);
             if (ok){
                 out.println("<p>El cambio se ha efectuado correctamente</p>");
             }
             else {
                 out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
             }
-            out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+            out.println("<a href=\"menu.jsp\">Vuelve al Menú</a>");
         } catch(Exception e){
             System.err.println(e.getMessage());
         }
