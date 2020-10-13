@@ -26,7 +26,7 @@
             <input type="text" name="fechaC" required><br><br>
             Archivo:
             <input type="file" name="imagen"><br><br>
-            <input type="submit" name="submit" value="Submit">
+            <input type="submit" name="submit" value="Registrar">
         </form>
         <br><br><a href="login.jsp">Vuelve al Login</a>
         <br><br><a href="menu.jsp">Vuelve al Menú</a>

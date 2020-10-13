@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,6 +47,9 @@ public class registroUsuarios extends HttpServlet {
                 OurDao.startDB();
                 OurDao.newuser(usuario, password);
                 OurDao.stopDB();
+                HttpSession ses = request.getSession();
+                ses.setAttribute("user", usuario);
+                response.sendRedirect("menu.jsp");
             } else {
                 response.sendRedirect("error.jsp");
             }

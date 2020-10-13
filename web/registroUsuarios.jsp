@@ -18,6 +18,7 @@
             Contraseña: <input type="password" name="password"/><br>
             Confirma Contraseña: <input type="password" name="opassword"/><br>
             <input type="Submit"   value="Enviar"/><br>
-        </form>
+        </form><br><br>
+        <a href="login.jsp">Volver</a>
     </body>
 </html>

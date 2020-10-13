@@ -123,6 +123,8 @@ public class buscarImagen extends HttpServlet {
                         }
                     }
                     out.println("</table>");
+                    out.println("<a href=\"buscarImagen.jsp\">Hacer otra busqueda</a><br><br>");
+                    out.println("<a href=\"menu.jsp\">Vuelve al menu</a>");
                 }
             } catch (IOException | ClassNotFoundException | SQLException e) {
                 System.err.println(e.getMessage());
