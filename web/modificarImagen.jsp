@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +14,7 @@
     </head>
     <body>
      <h1>Elige el campo que quieras modificar e introduce el valor nuevo que le quieras dar</h1>  
-            <form method="POST" action="modificarImagen" >
+            <form method="POST" action="modificarImagen?ide=<%=request.getParameter("ide")%>
 
      <label for="campo">Elige un campo a modificar:</label>
      <select name="campo" id="campo">
@@ -24,7 +25,6 @@
     </select> 
            <br><br>
         <input type="text" name="valor" required><br><br>
-        
         <input type="submit" name="submit" value="Submit">
        </form>
     </body>

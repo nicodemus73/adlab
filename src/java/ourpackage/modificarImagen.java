@@ -7,7 +7,9 @@ package ourpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Vector;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +19,12 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author mo
+ * 
+ * 
+public class LoginFilter implements Filter 
  */
-@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen"})
+@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen","/buscarImagen.java"})
+@WebFilter(urlPatterns = { "/modificarImagen","/buscarImagen"})
 public class modificarImagen extends HttpServlet {
 
     /**
@@ -45,13 +51,14 @@ public class modificarImagen extends HttpServlet {
             
            String campo = request.getParameter("campo");
            String valor = request.getParameter("valor");
-                
-           String S = buscarImagen.s;
-           //mirar q i le estoy pasando
-           int x = Integer.parseInt(S);
+           String as = (String) request.getAttribute("ide");
+          
+           
+           int x = Integer.parseInt(as);//Integer.parseInt(kk);
+           /*out.println(x);
                 out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
-                
-            boolean ok = OurDao.enregistrarNou(campo, valor, x);
+                //int x = 1;
+            */boolean ok = OurDao.enregistrarNou(campo, valor, x);
             if (ok){
                 out.println("<p>El cambio se ha efectuado correctamente</p>");
             }

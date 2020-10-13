@@ -34,7 +34,10 @@ import javax.servlet.http.HttpSession;
 @MultipartConfig
 
 public class buscarImagen extends HttpServlet {
-    static String s;
+    static String[] s = new String[100];
+       
+    //static Vector<String> v = new Vector<>();
+    static int i;
     
 
     /**
@@ -55,10 +58,10 @@ public class buscarImagen extends HttpServlet {
  
         try (PrintWriter out = response.getWriter()) {
             HttpSession session1 = request.getSession(false);
-        if (session1 == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        } 
+            if (session1 == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            } 
             String user = (String) session1.getAttribute("user");
             /* TODO output your page here. You may use following sample code. */
             
@@ -71,7 +74,7 @@ public class buscarImagen extends HttpServlet {
             if (!"".equals(request.getParameter("filename"))) map.put("filename", "%"+request.getParameter("filename")+"%");
 //afageixo el % per buscar patrons, paraules dintre de paraules
 
-            if (map.isEmpty()) {
+            if (map.isEmpty())  {
                 out.println("No hay resultados con las entradas correspondientes") ;
                 out.print("<br><br>");
                //boton menu
@@ -82,11 +85,11 @@ public class buscarImagen extends HttpServlet {
                //boton busqueda
                out.println(resp);
                out.print("<br><br>");
-            } else {
+            } else  {
                 OurDao.startDB(); 
                 ResultSet rs = OurDao.consultar(map);
                 out.println("Listado de imagenes: <br><br>");
-                
+                //s[0] = "hoa";  
                 out.println("<table>\n" +
 "            <tr>\n" +
 "                <th>Titulo</th>\n" +
@@ -99,9 +102,9 @@ public class buscarImagen extends HttpServlet {
 "                <th>Modificar</th>\n" +
 "                <th>Eliminar</th>\n" +
 "            </tr>");
-                HashMap<String, String> m = new HashMap<>();
-                Vector<String> v = new Vector<>();
-                int i = 0;
+                
+                
+                i = 0;
                 while(rs.next()) {
                 
                 out.println("<tr>");
@@ -114,14 +117,18 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>"+rs.getString("FILENAME")+"</td>");
                     if (rs.getString("AUTHOR").equals(user)) {
                         session1.setAttribute("ID",rs.getString("ID")); 
-                        v.addElement(rs.getString("ID"));
-                                                
+                        //v.addElement(rs.getString("ID"));
+                                 
                         
                     
                         //session1.setAttribute("vector",s[i]);
-                        s = rs.getString("ID");
+                        s[i] = rs.getString("ID");
+                        String g = rs.getString("ID");
+                        out.println("hola: "+g+" adeu");
+                        request.setAttribute("ide", g);
+                        i++;
                         //aixi no m'agrada pq pots canviarlo desde el navegador
-                        out.print("<td> <a href=\"modificarImagen.jsp\">Modificar esta imagen</a> </td>");
+                        out.print("<td> <a href=\"modificarImagen.jsp?ide="+g+"\">Modificar esta imagen</a> </td>");
                         //HttpServletResponse sendRedirect = response.sendRedirect(/modificarImagen.jsp); 
                         out.print("<td> <a href=\"eliminarImagen.jsp\">Eliminar esta imagen</a> </td>");
                     }
@@ -129,11 +136,9 @@ public class buscarImagen extends HttpServlet {
                 }
                 out.println("</table>");
                 out.println("provandooooo: ");
-                for (int w = 0; w<v.size(); w++) {
-                    out.println(v.get(i));
-                }
+
             }
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch  (IOException | ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
         }
     }
