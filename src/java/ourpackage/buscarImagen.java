@@ -103,7 +103,7 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
                     String filename = rs.getString("FILENAME");
                     int id = rs.getInt("ID");
-                    out.println("<td><a href=image.jsp?name="+filename+">"+filename+"</a>");
+                    out.println("<td><a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
                     if (autor.equals(user)) {
                         if(autor.equals(user)){
                             out.println("<form action=selectImage method=\"POST\">"

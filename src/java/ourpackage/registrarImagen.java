@@ -46,6 +46,7 @@ public class registrarImagen extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -67,17 +68,6 @@ public class registrarImagen extends HttpServlet {
         
         try {
             OurDao.startDB(); 
-            
-            outta = new FileOutputStream(new File(path + File.separator + fileName));
-            filecontent = filePart.getInputStream();
-            
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-       
-            while((read = filecontent.read(bytes)) != -1){
-                outta.write(bytes, 0, read);
-            }
-             
                    
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -88,7 +78,18 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date);         
         
-            OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            
+            
+            outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
+            filecontent = filePart.getInputStream();
+            
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+       
+            while((read = filecontent.read(bytes)) != -1){
+                outta.write(bytes, 0, read);
+            }
             
             out.println("New file " + fileName + " created at " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");

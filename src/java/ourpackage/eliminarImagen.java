@@ -58,7 +58,8 @@ public class eliminarImagen extends HttpServlet {
                     .getPath();
                 basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
                 final String path = basepath + "adlab/web/images";
-                File image = new File(path+File.separator+(String)session1.getAttribute("imageName"));
+                String filename = (String)session1.getAttribute("imageName");
+                File image = new File(path+File.separator+selectImage.getImageName(x, filename));
                 eliminat = eliminat && image.delete();
                 OurDao.stopDB();
             }

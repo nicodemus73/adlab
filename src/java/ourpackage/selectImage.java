@@ -6,6 +6,7 @@
 package ourpackage;
 
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,11 +47,12 @@ public class selectImage extends HttpServlet {
         }
     }
     
-    protected static String getImageName(int id, String filename){
+    public static String getImageName(int id, String filename){
         
-        String[] splitted = filename.split(".");
+        String[] splitted = filename.split("\\.");
+        System.err.println(Arrays.toString(splitted));
         if(splitted.length != 2){
-            System.err.println("Nombre de archivo incompatible: "+ filename);
+            System.err.println("Nombre de archivo incompatible: "+ filename +" Tamaño: "+splitted.length);
             return null;
         }
         return splitted[0] + Integer.toString(id) + '.' + splitted[1];

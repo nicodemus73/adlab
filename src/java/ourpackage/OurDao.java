@@ -56,7 +56,7 @@ public class OurDao {
         statement.executeUpdate();
 
     }
-    public static void enregistrar(String titulo, String desc, String clave, 
+    public static int enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
         
         String query = "SELECT id from image";
@@ -78,6 +78,7 @@ public class OurDao {
         statement.setString(7, fechaS);
         statement.setString(8, fileName);
         statement.executeUpdate();
+        return idI;
     }
     
     public static boolean eliminar(int x){

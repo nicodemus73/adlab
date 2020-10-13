@@ -4,6 +4,7 @@
     Author     : Samuel
 --%>
 
+<%@page import="ourpackage.selectImage"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +23,7 @@
             if(ses.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
             } else {
-                out.println("<img src=images/"+name);
+                out.println("<img src=images/"+selectImage.getImageName(Integer.parseInt(request.getParameter("id")),name));
             }
         %>
     </body>

@@ -52,7 +52,7 @@
                         int id = rs.getInt("ID");%>
                 <td>
                 <%
-                        out.println("<a href=image.jsp?name="+filename+">"+filename+"</a>");
+                        out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
                         if(autor.equals(user)){
                 %>
                     <form action=selectImage method="POST">
@@ -71,6 +71,7 @@
                 }
             }
             %>
-        </table>
+        </table><br><br>
+        <a href="menu.jsp">Vuelve al menu</a>
     </body>
 </html>
