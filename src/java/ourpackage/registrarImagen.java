@@ -27,6 +27,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -52,6 +53,11 @@ public class registrarImagen extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         
+        HttpSession ses = request.getSession(false);
+        if(ses.getAttribute("user")==null){
+            response.sendRedirect("login.jsp");
+            return;
+        }
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
         final String fileName = getFileName(filePart);
