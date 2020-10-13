@@ -47,14 +47,13 @@ public class login extends HttpServlet {
             OurDao.startDB();
             boolean found = OurDao.loggin(usu, psw);
             if (found) response.sendRedirect("menu.jsp");
-            
             else response.sendRedirect("error.jsp?");
             
             //fa falta fer el finally i el stopBD??? 
             out.println("</body>");
             out.println("</html>");
             
-         } catch (Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         } 
     }

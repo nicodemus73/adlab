@@ -12,13 +12,11 @@
         <title>Buscar Imagen</title>
     </head>
     <body>
-        <form method="POST" action="buscarImagen" enctype="multipart/form-data">
-            
-
+        
         <h1>Búsqueda de imagenes</h1>
         <h2>Palabras clave a buscar (una por campo)</h2> 
-            
         <br><br>
+        <form method="POST" action="buscarImagen" enctype="multipart/form-data">
            Titulo: 
            <input type="text" value="" name="title"><br><br>
            Nombre del archivo

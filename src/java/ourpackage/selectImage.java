@@ -6,10 +6,8 @@
 package ourpackage;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Vector;
+import java.util.Arrays;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +16,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author mo
- * 
- * 
-public class LoginFilter implements Filter 
+ * @author Samuel
  */
-@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen","/buscarImagen.java"})
-@WebFilter(urlPatterns = { "/modificarImagen","/buscarImagen"})
-public class modificarImagen extends HttpServlet {
+@WebServlet(name = "selectImage", urlPatterns = {"/selectImage"})
+public class selectImage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,29 +32,30 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
         HttpSession ses = request.getSession(false);
-        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
+        if(ses == null)response.sendRedirect("login.jsp");
         else {
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-            
-                OurDao.startDB(); 
-                String campo = request.getParameter("campo");
-                String valor = request.getParameter("valor");
-                
-                int id = (int) ses.getAttribute("imageId");
-                boolean ok = OurDao.enregistrarNou(campo, valor, id);
-                if (ok){
-                    out.println("<p>El cambio se ha efectuado correctamente</p>");
-                }
-                else {
-                    out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
-                }
-                out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
-            } catch(Exception e){
-                System.err.println(e.getMessage());
-            }
+            int id = Integer.parseInt(request.getParameter("id"));
+            ses.setAttribute("imageId", id);
+            ses.setAttribute("imageName", request.getParameter("name"));
+            String action = request.getParameter("action");
+            if("Modificar".equals(action)) response.sendRedirect("modificarImagen.jsp");
+            else if("Eliminar".equals(action)) response.sendRedirect("eliminarImagen.jsp");
+            else response.sendRedirect("error.jsp");
         }
+    }
+    
+    public static String getImageName(int id, String filename){
+        
+        String[] splitted = filename.split("\\.");
+        System.err.println(Arrays.toString(splitted));
+        if(splitted.length != 2){
+            System.err.println("Nombre de archivo incompatible: "+ filename +" Tamaño: "+splitted.length);
+            return null;
+        }
+        return splitted[0] + Integer.toString(id) + '.' + splitted[1];
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -14,6 +14,13 @@
         <title>Listar imagenes</title>
     </head>
     <body>
+        <% 
+            HttpSession ses = request.getSession(false);
+            String user = (String) ses.getAttribute("user");
+            if(user == null) {
+                response.sendRedirect("login.jsp");
+            } else {
+        %>
         <table>
             <tr>
                 <th>Titulo</th>
@@ -31,20 +38,40 @@
                     while(rs.next()) {
             %>
             <tr>
-                <td><%out.println(rs.getString("TITLE"));%></td>
-                <td><%out.println(rs.getString("DESCRIPTION"));%></td>
-                <td><%out.println(rs.getString("KEYWORDS"));%></td>
-                <td><%out.println(rs.getString("AUTHOR"));%></td>
-                <td><%out.println(rs.getString("CREATION_DATE"));%></td>
-                <td><%out.println(rs.getString("STORAGE_DATE"));%></td>
-                <td><%out.println(rs.getString("FILENAME"));%></td>
+                <td><%  out.println(rs.getString("TITLE"));%></td>
+                <td><%  out.println(rs.getString("DESCRIPTION"));%></td>
+                <td><%  out.println(rs.getString("KEYWORDS"));%></td>
+                <td><%
+                        String autor = rs.getString("AUTHOR");
+                        out.println(autor);
+                %></td>
+                <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
+                <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
+                <%
+                        String filename = rs.getString("FILENAME");
+                        int id = rs.getInt("ID");%>
+                <td>
+                <%
+                        out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
+                        if(autor.equals(user)){
+                %>
+                    <form action=selectImage method="POST">
+                        <input type="hidden" value="<%out.print(filename);%>" name="name"/>
+                        <input type="hidden" value="<%out.print(id);%>" name="id"/>
+                        <input type="submit" value="Modificar" name="action"/>
+                        <input type="submit" value="Eliminar" name="action"/>
+                    </form>
+                </td>
             </tr>
-            <%      }
+            <%          }
+                    }
                     OurDao.stopDB();
                 } catch(Exception e){
                     System.err.println(e.getMessage());
                 }
+            }
             %>
-        </table>
+        </table><br><br>
+        <a href="menu.jsp">Vuelve al menu</a>
     </body>
 </html>

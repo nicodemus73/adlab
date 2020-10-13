@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,6 +46,7 @@ public class registrarImagen extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -55,28 +54,20 @@ public class registrarImagen extends HttpServlet {
         
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
-        final String fileName = (String) getFileName(filePart);
-        final String path ="/tmp";
+        final String fileName = getFileName(filePart);
+        String basepath = registrarImagen.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getPath();
+        basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
+        final String path = basepath + "adlab/web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
         PrintWriter out = response.getWriter();
         
-        
         try {
-            
-            
             OurDao.startDB(); 
-            
-            outta = new FileOutputStream(new File(path + File.separator + fileName));
-            filecontent = filePart.getInputStream();
-            
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-       
-            while((read = filecontent.read(bytes)) != -1){
-                outta.write(bytes, 0, read);
-            }
-             
                    
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -85,29 +76,40 @@ public class registrarImagen extends HttpServlet {
             String fechaC = request.getParameter("fechaC");
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
-            String fechaS = dateFormat.format(date); 
-                 
-            
+            String fechaS = dateFormat.format(date);         
         
-            OurDao.enregistrar( titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
+            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName ); 
             
-            out.println("New file " + fileName + "created at " + path + "<br><br>");   
+            
+            outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
+            filecontent = filePart.getInputStream();
+            
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+       
+            while((read = filecontent.read(bytes)) != -1){
+                outta.write(bytes, 0, read);
+            }
+            
+            out.println("New file " + fileName + " created at " + path + "<br><br>");   
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
-            
+            OurDao.stopDB();
+
     } catch (FileNotFoundException fne){
             out.println("No has especificado una imagen a subir");
           //out.println("<br/> ERROR: " + fne.getMessage());
+          //Printear el path
 
     } catch (IOException | ClassNotFoundException | SQLException e) {
         System.err.println(e.getMessage());
     }
         finally {
-            OurDao.stopDB();
+
             if (outta != null){
                 outta.close();
             }
             if (filecontent != null){
-                outta.close();
+                filecontent.close();
                 
             }
             if (out != null){

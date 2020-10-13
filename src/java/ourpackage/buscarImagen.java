@@ -12,12 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
@@ -33,9 +30,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "buscarImagen", urlPatterns = {"/buscarImagen"})
 @MultipartConfig
 
-public class buscarImagen extends HttpServlet {
-
-    
+public class buscarImagen extends HttpServlet {    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,14 +47,12 @@ public class buscarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
- 
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession session1 = request.getSession(false);
-            if (session1 == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            } 
-            String user = (String) session1.getAttribute("user");
+        
+        HttpSession ses = request.getSession(false);
+        String user = (String) ses.getAttribute("user");
+        if(user==null) response.sendRedirect("login.jsp");
+        else {
+            try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             
             HashMap<String, String> map = new HashMap<>();
@@ -69,7 +62,7 @@ public class buscarImagen extends HttpServlet {
             if (!"".equals(request.getParameter("author"))) map.put("author", "%"+request.getParameter("author")+"%");
             if (!"".equals(request.getParameter("cdate"))) map.put("cdate", "%"+request.getParameter("cdate")+"%");
             if (!"".equals(request.getParameter("filename"))) map.put("filename", "%"+request.getParameter("filename")+"%");
-//afageixo el % per buscar patrons, paraules dintre de paraules
+            //afageixo el % per buscar patrons, paraules dintre de paraules
 
             if (map.isEmpty())  {
                 
@@ -98,32 +91,34 @@ public class buscarImagen extends HttpServlet {
 "                <th>Fecha de creacion</th>\n" +
 "                <th>Fecha de subida</th>\n" +
 "                <th>Nombre del archivo</th>\n" +
-"                <th>Modificar</th>\n" +
-"                <th>Eliminar</th>\n" +
 "            </tr>");
                 while(rs.next()) {
                 out.println("<tr>");
                     out.println("<td>"+rs.getString("TITLE")+"</td>");
                     out.println("<td>"+rs.getString("DESCRIPTION")+"</td>");
                     out.println("<td>"+rs.getString("KEYWORDS")+"</td>");
-                    out.println("<td>"+rs.getString("AUTHOR")+"</td>");
+                    String autor = rs.getString("AUTHOR");
+                    out.println("<td>"+autor+"</td>");
                     out.println("<td>"+rs.getString("CREATION_DATE")+"</td>");
                     out.println("<td>"+rs.getString("STORAGE_DATE")+"</td>");
-                    out.println("<td>"+rs.getString("FILENAME")+"</td>");
-                    if (rs.getString("AUTHOR").equals(user)) {
-                        
-                        String g = rs.getString("ID");
-                        request.setAttribute("ide", g);
-                        out.print("<td> <a href=\"modificarImagen.jsp?ide="+g+"\">Modificar esta imagen</a> </td>");
-                        //HttpServletResponse sendRedirect = response.sendRedirect(/modificarImagen.jsp); 
-                        out.print("<td> <a href=\"eliminarImagen.jsp?ide="+g+"\">Eliminar esta imagen</a> </td>");
+                    String filename = rs.getString("FILENAME");
+                    int id = rs.getInt("ID");
+                    out.println("<td><a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
+                    if (autor.equals(user)) {
+                        if(autor.equals(user)){
+                            out.println("<form action=selectImage method=\"POST\">"
+                                    + "<input type=\"hidden\" value=\""+filename+"\" name=\"name\""
+                                    + "<input type=\"hidden\" value=\""+id+"\" name=\"id\"/>"
+                                    + "<input type=\"submit\" value=\"Modificar\" name=\"action\"/>"
+                                    + "<input type=\"submit\" value=\"Eliminar\" name=\"action\"/> </form> </td>");
+                        }
                     }
                 }
                 out.println("</table>");
-
             }
         } catch  (IOException | ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
+        }
         }
     }
 

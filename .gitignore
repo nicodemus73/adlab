@@ -11,3 +11,5 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+web/images/*.png
+web/images/*.jpg

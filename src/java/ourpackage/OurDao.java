@@ -5,13 +5,11 @@
  */
 package ourpackage;
 
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,14 +21,10 @@ public class OurDao {
     
     static Connection connection = null; 
     
-   // static PreparedStatement statement; 
-    //static ResultSet rs = null;
-    //posar el resultset como global
-    
     public static void startDB () throws ClassNotFoundException, SQLException{
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-       }//i el control de fallos aqui?
+       }
         
     
     public static void stopDB () throws SQLException{
@@ -62,19 +56,16 @@ public class OurDao {
         statement.executeUpdate();
 
     }
-    public static void enregistrar(String titulo, String desc, String clave, 
+    public static int enregistrar(String titulo, String desc, String clave, 
             String author, String fechaC, String fechaS, String fileName) throws SQLException{
-        ResultSet rs;
         
-        String query = "SELECT ID from image";
+        String query = "SELECT id from image";
         PreparedStatement statement = connection.prepareStatement(query);
-        rs = statement.executeQuery();
-        //rs.last();
-        //int newId = rs.getInt("id") + 1; // Ids comenzando por 1?
+        ResultSet rs = statement.executeQuery();
+
        int idI=0;
-       while (rs.next()){
-            idI = rs.getInt("ID"); 
-        }
+       while (rs.next()) idI = rs.getInt("ID");
+
         idI ++; 
          query = "insert into IMAGE  values(?, ?, ?, ?, ?, ?, ?, ?)";
         statement = connection.prepareStatement(query);
@@ -87,6 +78,7 @@ public class OurDao {
         statement.setString(7, fechaS);
         statement.setString(8, fileName);
         statement.executeUpdate();
+        return idI;
     }
     
     public static boolean eliminar(int x){
