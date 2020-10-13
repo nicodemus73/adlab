@@ -16,7 +16,8 @@
     <body>
         <% 
             HttpSession ses = request.getSession(false);
-            if(ses == null) {
+            String user = (String) ses.getAttribute("user");
+            if(user == null) {
                 response.sendRedirect("login.jsp");
             } else {
         %>
@@ -47,7 +48,6 @@
                 <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
                 <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
                 <%
-                        String user = (String) ses.getAttribute("user");
                         String filename = rs.getString("FILENAME");
                         int id = rs.getInt("ID");%>
                 <td>

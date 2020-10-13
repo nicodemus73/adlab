@@ -32,35 +32,28 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session1 = request.getSession(false);
-       if (session1 == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        } 
-       //boolean b = (boolean) session1.getAttribute("trobat");
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        HttpSession ses = request.getSession(false);
+        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
+        else {
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
             
-            OurDao.startDB();
-            
-           String campo = request.getParameter("campo");
-           String valor = request.getParameter("valor");
+                OurDao.startDB(); 
+                String campo = request.getParameter("campo");
+                String valor = request.getParameter("valor");
                 
-           String S = buscarImagen.s;
-           //mirar q i le estoy pasando
-           int x = Integer.parseInt(S);
-                out.println("<h1>hola "+x+"</h1>");//aixo es una prova, x es la ID de la imatge a modificar
-                
-            boolean ok = OurDao.enregistrarNou(campo, valor, x);
-            if (ok){
-                out.println("<p>El cambio se ha efectuado correctamente</p>");
+                int id = (int) ses.getAttribute("imageId");
+                boolean ok = OurDao.enregistrarNou(campo, valor, id);
+                if (ok){
+                    out.println("<p>El cambio se ha efectuado correctamente</p>");
+                }
+                else {
+                    out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
+                }
+                out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+            } catch(Exception e){
+                System.err.println(e.getMessage());
             }
-            else {
-                out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
-            }
-            out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
-        } catch(Exception e){
-            System.err.println(e.getMessage());
         }
     }
 

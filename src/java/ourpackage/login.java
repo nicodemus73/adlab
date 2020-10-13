@@ -8,10 +8,6 @@ package ourpackage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,14 +47,13 @@ public class login extends HttpServlet {
             OurDao.startDB();
             boolean found = OurDao.loggin(usu, psw);
             if (found) response.sendRedirect("menu.jsp");
-            
             else response.sendRedirect("error.jsp?");
             
             //fa falta fer el finally i el stopBD??? 
             out.println("</body>");
             out.println("</html>");
             
-         } catch (Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         } 
     }

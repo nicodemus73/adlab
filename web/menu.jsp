@@ -14,10 +14,11 @@
     <body>
         <%
         HttpSession ses = request.getSession(false);
-        if(ses == null) response.sendRedirect("login.jsp");
-        out.println(ses.getAttribute("user"));
+        String user = (String) ses.getAttribute("user");
+        if(user == null) response.sendRedirect("login.jsp");
         %>
         <h1>Has accedido al Menú</h1>
+        <h2>Bienvenido, <%out.print(user);%></h2>
         <a href="registrarImagen.jsp">Registra Imagen</a><br><br>
         <a href="modificarImagen.jsp">Modifica Imagen</a><br><br>
         <a href="eliminarImagen.jsp">Elimina Imagen</a><br><br>
