@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -96,4 +97,89 @@ public class ImageWS {
         }
         return null;
     }*/
+
+    /**
+     * Web service operation
+     * @param image
+     * @return 
+     */
+    @WebMethod(operationName = "ModifyImage")
+    public int ModifyImage(@WebParam(name = "image") Image image) {
+        //TODO write your implementation code here:
+        return 0;
+    }
+
+    /**
+     * Web service operation
+     * @param image
+     * @return 
+     */
+    @WebMethod(operationName = "DeleteImage")
+    public int DeleteImage(@WebParam(name = "image") Image image) {
+        //TODO write your implementation code here:
+        return 0;
+    }
+
+    /**
+     * Web service operation
+     * @return 
+     */
+    @WebMethod(operationName = "ListImages")
+    public List ListImages() {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "SearchbyId")
+    private Image SearchbyId(@WebParam(name = "id") int id) {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     * @param title
+     * @return 
+     */
+    @WebMethod(operationName = "SearchbyTitle")
+    public List SearchbyTitle(@WebParam(name = "title") String title) {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     * @param creaDate
+     * @return 
+     */
+    @WebMethod(operationName = "SearchbyCreaDate")
+    public List SearchbyCreaDate(@WebParam(name = "creaDate") String creaDate) {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     * @param author
+     * @return 
+     */
+    @WebMethod(operationName = "SearchbyAuthor")
+    public List SearchbyAuthor(@WebParam(name = "author") String author) {
+        //TODO write your implementation code here:
+        return null;
+    }
+
+    /**
+     * Web service operation
+     * @param keywords
+     * @return 
+     */
+    @WebMethod(operationName = "SearchbyKeywords")
+    public List SearchbyKeywords(@WebParam(name = "keywords") String keywords) {
+        //TODO write your implementation code here:
+        return null;
+    }
 }
