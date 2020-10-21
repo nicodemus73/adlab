@@ -14,7 +14,7 @@ public class Image {
     String title;
     String author;
     String description;
-    String[] keywords;
+    String keywords;
     String creationDate;
     String fileName;
 
@@ -50,11 +50,11 @@ public class Image {
         this.description = description;
     }
 
-    public String[] getKeywords() {
+    public String getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(String[] keywords) {
+    public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
 

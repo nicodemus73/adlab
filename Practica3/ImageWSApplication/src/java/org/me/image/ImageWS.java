@@ -5,6 +5,11 @@
  */
 package org.me.image;
 
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -38,24 +43,18 @@ public class ImageWS {
         final String path = basepath + "adlab/web/images";
         //OutputStream outta = null;
         //InputStream filecontent = null;
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
+        String fechaS = dateFormat.format(date);
 
         try {
 
             OurDao.startDB();
 
-            String titulo = request.getParameter("titulo");
-            String descripcion = request.getParameter("descripcion");
-            String clave = request.getParameter("clave");
-            String author = request.getParameter("author");
-            String fechaC = request.getParameter("fechaC");
-            Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
-            String fechaS = dateFormat.format(date);
+            image.id = OurDao.enregistrar(image.title, image.description, image.keywords, image.author, image.creationDate, fechaS, image.fileName);
 
-            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName);
-
-            outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
-            filecontent = filePart.getInputStream();
+            /*outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
+            /filecontent = filePart.getInputStream();
 
             int read = 0;
             final byte[] bytes = new byte[1024];
@@ -63,17 +62,12 @@ public class ImageWS {
             while ((read = filecontent.read(bytes)) != -1) {
                 outta.write(bytes, 0, read);
             }
-
-            out.println("New file " + fileName + " created at " + path + "<br><br>");
-            out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
+            */
             OurDao.stopDB();
 
-        } catch (FileNotFoundException fne) {
-            out.println("No has especificado una imagen a subir");
-
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
+        } /*finally {
 
             if (outta != null) {
                 outta.close();
@@ -86,9 +80,11 @@ public class ImageWS {
                 out.close();
 
             }
-        }
+        }*/
+        return image.id;
     }
 
+    /*
     private String getFileName(final Part part) {
         final String partHeader = part.getHeader("content-disposition");
 
@@ -99,5 +95,5 @@ public class ImageWS {
             }
         }
         return null;
-    }
+    }*/
 }
