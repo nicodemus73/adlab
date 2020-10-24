@@ -38,14 +38,13 @@ public class OurDao {
         ResultSet rs; 
         statement = connection.prepareStatement(query); 
             rs = statement.executeQuery();
-            return rs.next();
-            /*boolean found = false;
+            boolean found = false;
             while (rs.next() & !(found)){
                 if ((rs.getString("id_usuario").equals(usuari)) & (psw).equals(rs.getString("password"))) {
                     found = true;
                 }
             }
-            return found;*/
+            return found;
     }    
     public static void newuser(String usuario, String passw) throws SQLException {
         
