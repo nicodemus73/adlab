@@ -5,6 +5,9 @@
  */
 package imagews_client_application;
 
+import java.util.Scanner;
+import org.me.image.Image;
+
 /**
  *
  * @author Samuel
@@ -15,7 +18,76 @@ public class ImageWS_Client_Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        System.out.println("Introduce el usuario: ");
+        Scanner us = new Scanner(System.in);
+        String user = us.nextLine();
+        boolean exit = false;
+        while (!exit) {//poner condicion q in<5
+           System.out.println("1 - Registrar imagen");
+           System.out.println("2 - Listar imagen");
+           System.out.println("3 - Buscar imagen");
+           System.out.println("4 - Modificar imagen");
+           System.out.println("5 - Salir");
+           Scanner sc = new Scanner(System.in); 
+           int in = sc.nextInt();
+           switch (in) {
+                case 1:
+                    Image tmp = new Image();
+                    sc.nextLine();
+                    System.out.println("Titulo: ");
+                    tmp.setTitle(sc.nextLine());
+                    System.out.println("Autor: ");
+                    tmp.setAuthor(sc.nextLine());
+                    System.out.println("Drescripción: ");
+                    tmp.setDescription(sc.nextLine());
+                    System.out.println("Keywords (separadas por un espacio) : ");
+                    tmp.setKeywords(sc.nextLine());
+                    System.out.println("Fecha de creación en formato yyyy/mm/dd: ");
+                    tmp.setCreationDate(sc.nextLine());
+                    registrerImage(tmp);
+                    System.out.println("hola1");
+                    break;
+                case 2:
+                    System.out.println("hola2");
+                    break;
+                case 3: 
+                    System.out.println("Introduce el campo por el que buscar: (id, titulo, fecha, autor, palabras clave)");
+                    //canviar aquest switch per fer cerca combinada
+                    String s = sc.nextLine();
+                    Scanner search = new Scanner(System.in);
+                    switch (s) {
+                        case "id":
+                            //mhauria de sortir abaix
+                            /*System.out.println("Introduce el id de la imagen: ");
+                            int in2 = sc.nextInt();
+                            Object image = SearchById(in2);
+                            Image mobj = Image.class.cast(image);
+                            System.out.println("Títol: " + mobj.getTitol());*/
+                            break;
+                        case "titulo":
+                            
+                            break;
+                        case "fecha":
+                            
+                            break;
+                        case "autor":
+                            
+                            break;
+                        case "palabras clave":
+                            
+                            break;
+                            
+                        default: break;
+                            
+                    }
+                    
+                case 5: 
+                    exit = true;
+                    break;
+                default: break;
+                    
+           }
+        }
     }
 
     private static int registrerImage(org.me.image.Image image) {
