@@ -19,13 +19,14 @@ import org.me.image.ImageWS_Service;
 /**
  *
  * @author mo
- * 
- * 
-public class LoginFilter implements Filter 
+ *
+ *
+ * public class LoginFilter implements Filter
  */
 @WebServlet(name = "modificarImagen", urlPatterns = "/modificarImagen")
 public class modificarImagen extends HttpServlet {
-	@WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
     private ImageWS_Service service;
 
     /**
@@ -40,39 +41,33 @@ public class modificarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession ses = request.getSession(false);
-        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
-        else {
+        if (ses.getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+        } else {
             response.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = response.getWriter()) {
-            
+
                 String campo = request.getParameter("campo");
                 String valor = request.getParameter("valor");
-                
+
                 int id = (int) ses.getAttribute("imageId");
-                boolean ok = false;
-                OurDao.startDB(); 
                 String titulo = request.getParameter("titulo");
                 String descripcion = request.getParameter("descripcion");
                 String clave = request.getParameter("clave");
                 String fechaC = request.getParameter("fechaC");
                 String fN = request.getParameter("fileN");
-      
-                
-                int id = (int) ses.getAttribute("imageId");
-               
-                
-                boolean ok = OurDao.enregistrarCanvi(titulo, descripcion, clave, fechaC, fN, id);
-                if (ok){
+
+                boolean ok = false; //OurDao.enregistrarCanvi(titulo, descripcion, clave, fechaC, fN, id);
+                if (ok) {
                     out.println("<p>El cambio se ha efectuado correctamente</p>");
                     out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
-                }
-                else {
+                } else {
                     out.println("No s'ha efectuat correctament");
                     out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
 
                 }
-                    
-            } catch(Exception e){
+
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
         }
