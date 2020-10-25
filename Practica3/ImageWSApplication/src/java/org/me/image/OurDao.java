@@ -10,7 +10,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -156,14 +158,26 @@ public class OurDao {
             return rs;
     }
     
-    public static ResultSet getAllImages() throws SQLException {
+     public static List<Image> getAllImages() throws SQLException {
         
         if(connection == null) return null; //No se ha iniciado la conexión
         String query = "select * from image";
         ResultSet res = connection.prepareStatement(query).executeQuery();
-        return res;
+        ArrayList<Image> list = new ArrayList<>(); 
+        while(res.next()){
+            list.add(new Image(
+                    res.getInt("ID"),
+                    res.getString("TITLE"),
+                    res.getString("AUTHOR"),
+                    res.getString("DESCRIPTION"),
+                    res.getString("KEYWORDS"),
+                    res.getString("CREATION_DATE"),
+                    res.getString("STORAGE_DATE"),
+                    res.getString("FILENAME")
+            ));
+        }
+        return list;
     }
-    
     public static ResultSet getImage(int id) throws SQLException {
         
         if(connection == null) return null; //No se ha iniciado la conexión
