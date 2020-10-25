@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="fileName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="keywords" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="storageDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -39,6 +40,7 @@ import javax.xml.bind.annotation.XmlType;
     "fileName",
     "id",
     "keywords",
+    "storageDate",
     "title"
 })
 public class Image {
@@ -49,6 +51,7 @@ public class Image {
     protected String fileName;
     protected int id;
     protected String keywords;
+    protected String storageDate;
     protected String title;
 
     /**
@@ -185,6 +188,30 @@ public class Image {
      */
     public void setKeywords(String value) {
         this.keywords = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad storageDate.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getStorageDate() {
+        return storageDate;
+    }
+
+    /**
+     * Define el valor de la propiedad storageDate.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStorageDate(String value) {
+        this.storageDate = value;
     }
 
     /**

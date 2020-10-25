@@ -27,6 +27,21 @@ public interface ImageWS {
 
     /**
      * 
+     * @param id
+     * @return
+     *     returns org.me.image.Image
+     */
+    @WebMethod(operationName = "SearchbyId")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "SearchbyId", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyId")
+    @ResponseWrapper(localName = "SearchbyIdResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyIdResponse")
+    @Action(input = "http://image.me.org/ImageWS/SearchbyIdRequest", output = "http://image.me.org/ImageWS/SearchbyIdResponse")
+    public Image searchbyId(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
      * @param image
      * @return
      *     returns int
@@ -42,21 +57,6 @@ public interface ImageWS {
 
     /**
      * 
-     * @param author
-     * @return
-     *     returns java.util.List<java.lang.Object>
-     */
-    @WebMethod(operationName = "SearchbyAuthor")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "SearchbyAuthor", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyAuthor")
-    @ResponseWrapper(localName = "SearchbyAuthorResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyAuthorResponse")
-    @Action(input = "http://image.me.org/ImageWS/SearchbyAuthorRequest", output = "http://image.me.org/ImageWS/SearchbyAuthorResponse")
-    public List<Object> searchbyAuthor(
-        @WebParam(name = "author", targetNamespace = "")
-        String author);
-
-    /**
-     * 
      * @param image
      * @return
      *     returns int
@@ -67,6 +67,36 @@ public interface ImageWS {
     @ResponseWrapper(localName = "ModifyImageResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.ModifyImageResponse")
     @Action(input = "http://image.me.org/ImageWS/ModifyImageRequest", output = "http://image.me.org/ImageWS/ModifyImageResponse")
     public int modifyImage(
+        @WebParam(name = "image", targetNamespace = "")
+        Image image);
+
+    /**
+     * 
+     * @param title
+     * @return
+     *     returns java.util.List<java.lang.Object>
+     */
+    @WebMethod(operationName = "SearchbyTitle")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "SearchbyTitle", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyTitle")
+    @ResponseWrapper(localName = "SearchbyTitleResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyTitleResponse")
+    @Action(input = "http://image.me.org/ImageWS/SearchbyTitleRequest", output = "http://image.me.org/ImageWS/SearchbyTitleResponse")
+    public List<Object> searchbyTitle(
+        @WebParam(name = "title", targetNamespace = "")
+        String title);
+
+    /**
+     * 
+     * @param image
+     * @return
+     *     returns int
+     */
+    @WebMethod(operationName = "DeleteImage")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "DeleteImage", targetNamespace = "http://image.me.org/", className = "org.me.image.DeleteImage")
+    @ResponseWrapper(localName = "DeleteImageResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.DeleteImageResponse")
+    @Action(input = "http://image.me.org/ImageWS/DeleteImageRequest", output = "http://image.me.org/ImageWS/DeleteImageResponse")
+    public int deleteImage(
         @WebParam(name = "image", targetNamespace = "")
         Image image);
 
@@ -99,18 +129,21 @@ public interface ImageWS {
 
     /**
      * 
-     * @param image
+     * @param password
+     * @param username
      * @return
-     *     returns int
+     *     returns boolean
      */
-    @WebMethod(operationName = "DeleteImage")
+    @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "DeleteImage", targetNamespace = "http://image.me.org/", className = "org.me.image.DeleteImage")
-    @ResponseWrapper(localName = "DeleteImageResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.DeleteImageResponse")
-    @Action(input = "http://image.me.org/ImageWS/DeleteImageRequest", output = "http://image.me.org/ImageWS/DeleteImageResponse")
-    public int deleteImage(
-        @WebParam(name = "image", targetNamespace = "")
-        Image image);
+    @RequestWrapper(localName = "registerUser", targetNamespace = "http://image.me.org/", className = "org.me.image.RegisterUser")
+    @ResponseWrapper(localName = "registerUserResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.RegisterUserResponse")
+    @Action(input = "http://image.me.org/ImageWS/registerUserRequest", output = "http://image.me.org/ImageWS/registerUserResponse")
+    public boolean registerUser(
+        @WebParam(name = "username", targetNamespace = "")
+        String username,
+        @WebParam(name = "password", targetNamespace = "")
+        String password);
 
     /**
      * 
@@ -129,17 +162,35 @@ public interface ImageWS {
 
     /**
      * 
-     * @param title
+     * @param password
+     * @param username
+     * @return
+     *     returns boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "loginUser", targetNamespace = "http://image.me.org/", className = "org.me.image.LoginUser")
+    @ResponseWrapper(localName = "loginUserResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.LoginUserResponse")
+    @Action(input = "http://image.me.org/ImageWS/loginUserRequest", output = "http://image.me.org/ImageWS/loginUserResponse")
+    public boolean loginUser(
+        @WebParam(name = "username", targetNamespace = "")
+        String username,
+        @WebParam(name = "password", targetNamespace = "")
+        String password);
+
+    /**
+     * 
+     * @param author
      * @return
      *     returns java.util.List<java.lang.Object>
      */
-    @WebMethod(operationName = "SearchbyTitle")
+    @WebMethod(operationName = "SearchbyAuthor")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "SearchbyTitle", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyTitle")
-    @ResponseWrapper(localName = "SearchbyTitleResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyTitleResponse")
-    @Action(input = "http://image.me.org/ImageWS/SearchbyTitleRequest", output = "http://image.me.org/ImageWS/SearchbyTitleResponse")
-    public List<Object> searchbyTitle(
-        @WebParam(name = "title", targetNamespace = "")
-        String title);
+    @RequestWrapper(localName = "SearchbyAuthor", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyAuthor")
+    @ResponseWrapper(localName = "SearchbyAuthorResponse", targetNamespace = "http://image.me.org/", className = "org.me.image.SearchbyAuthorResponse")
+    @Action(input = "http://image.me.org/ImageWS/SearchbyAuthorRequest", output = "http://image.me.org/ImageWS/SearchbyAuthorResponse")
+    public List<Object> searchbyAuthor(
+        @WebParam(name = "author", targetNamespace = "")
+        String author);
 
 }

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <definitions 
+ xmlns="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="ImageWS" targetNamespace="http://image.me.org/" xmlns:tns="http://image.me.org/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" 
+ >
+    <message name="RegistrerImage"/>
+    <message name="RegistrerImageResponse"/>
+    <message name="ModifyImage"/>
+    <message name="ModifyImageResponse"/>
+    <message name="DeleteImage"/>
+    <message name="DeleteImageResponse"/>
+    <message name="ListImages"/>
+    <message name="ListImagesResponse"/>
+    <message name="SearchbyId"/>
+    <message name="SearchbyIdResponse"/>
+    <message name="SearchbyTitle"/>
+    <message name="SearchbyTitleResponse"/>
+    <message name="SearchbyCreaDate"/>
+    <message name="SearchbyCreaDateResponse"/>
+    <message name="SearchbyAuthor"/>
+    <message name="SearchbyAuthorResponse"/>
+    <message name="SearchbyKeywords"/>
+    <message name="SearchbyKeywordsResponse"/>
+    <message name="registerUser"/>
+    <message name="registerUserResponse"/>
+    <message name="loginUser"/>
+    <message name="loginUserResponse"/>
+    <portType name="ImageWS">
+        <operation name="RegistrerImage">
+            <input message="tns:RegistrerImage"/>
+            <output message="tns:RegistrerImageResponse"/>
+        </operation>
+        <operation name="ModifyImage">
+            <input message="tns:ModifyImage"/>
+            <output message="tns:ModifyImageResponse"/>
+        </operation>
+        <operation name="DeleteImage">
+            <input message="tns:DeleteImage"/>
+            <output message="tns:DeleteImageResponse"/>
+        </operation>
+        <operation name="ListImages">
+            <input message="tns:ListImages"/>
+            <output message="tns:ListImagesResponse"/>
+        </operation>
+        <operation name="SearchbyId">
+            <input message="tns:SearchbyId"/>
+            <output message="tns:SearchbyIdResponse"/>
+        </operation>
+        <operation name="SearchbyTitle">
+            <input message="tns:SearchbyTitle"/>
+            <output message="tns:SearchbyTitleResponse"/>
+        </operation>
+        <operation name="SearchbyCreaDate">
+            <input message="tns:SearchbyCreaDate"/>
+            <output message="tns:SearchbyCreaDateResponse"/>
+        </operation>
+        <operation name="SearchbyAuthor">
+            <input message="tns:SearchbyAuthor"/>
+            <output message="tns:SearchbyAuthorResponse"/>
+        </operation>
+        <operation name="SearchbyKeywords">
+            <input message="tns:SearchbyKeywords"/>
+            <output message="tns:SearchbyKeywordsResponse"/>
+        </operation>
+        <operation name="registerUser">
+            <input message="tns:registerUser"/>
+            <output message="tns:registerUserResponse"/>
+        </operation>
+        <operation name="loginUser">
+            <input message="tns:loginUser"/>
+            <output message="tns:loginUserResponse"/>
+        </operation>
+    </portType>
+    <binding name="ImageWSPortBinding" type="tns:ImageWS">
+        <wsp:PolicyReference URI="#ImageWSPortBindingPolicy"/>
+        <operation name="RegistrerImage">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="ModifyImage">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="DeleteImage">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="ListImages">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="SearchbyId">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="SearchbyTitle">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="SearchbyCreaDate">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="SearchbyAuthor">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="SearchbyKeywords">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="registerUser">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="loginUser">
+            <input/>
+            <output/>
+        </operation>
+    </binding>
+    <service name="ImageWS">
+        <port name="ImageWSPort" binding="tns:ImageWSPortBinding"/>
+    </service>
+    <wsp:Policy wsu:Id="ImageWSPortBindingPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <wsoma:OptimizedMimeSerialization/>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</definitions>

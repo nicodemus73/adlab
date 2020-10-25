@@ -36,10 +36,16 @@ public class ObjectFactory {
     private final static QName _SearchbyAuthorResponse_QNAME = new QName("http://image.me.org/", "SearchbyAuthorResponse");
     private final static QName _SearchbyCreaDate_QNAME = new QName("http://image.me.org/", "SearchbyCreaDate");
     private final static QName _SearchbyCreaDateResponse_QNAME = new QName("http://image.me.org/", "SearchbyCreaDateResponse");
+    private final static QName _SearchbyId_QNAME = new QName("http://image.me.org/", "SearchbyId");
+    private final static QName _SearchbyIdResponse_QNAME = new QName("http://image.me.org/", "SearchbyIdResponse");
     private final static QName _SearchbyKeywords_QNAME = new QName("http://image.me.org/", "SearchbyKeywords");
     private final static QName _SearchbyKeywordsResponse_QNAME = new QName("http://image.me.org/", "SearchbyKeywordsResponse");
     private final static QName _SearchbyTitle_QNAME = new QName("http://image.me.org/", "SearchbyTitle");
     private final static QName _SearchbyTitleResponse_QNAME = new QName("http://image.me.org/", "SearchbyTitleResponse");
+    private final static QName _LoginUser_QNAME = new QName("http://image.me.org/", "loginUser");
+    private final static QName _LoginUserResponse_QNAME = new QName("http://image.me.org/", "loginUserResponse");
+    private final static QName _RegisterUser_QNAME = new QName("http://image.me.org/", "registerUser");
+    private final static QName _RegisterUserResponse_QNAME = new QName("http://image.me.org/", "registerUserResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.me.image
@@ -145,6 +151,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link SearchbyId }
+     * 
+     */
+    public SearchbyId createSearchbyId() {
+        return new SearchbyId();
+    }
+
+    /**
+     * Create an instance of {@link SearchbyIdResponse }
+     * 
+     */
+    public SearchbyIdResponse createSearchbyIdResponse() {
+        return new SearchbyIdResponse();
+    }
+
+    /**
      * Create an instance of {@link SearchbyKeywords }
      * 
      */
@@ -174,6 +196,38 @@ public class ObjectFactory {
      */
     public SearchbyTitleResponse createSearchbyTitleResponse() {
         return new SearchbyTitleResponse();
+    }
+
+    /**
+     * Create an instance of {@link LoginUser }
+     * 
+     */
+    public LoginUser createLoginUser() {
+        return new LoginUser();
+    }
+
+    /**
+     * Create an instance of {@link LoginUserResponse }
+     * 
+     */
+    public LoginUserResponse createLoginUserResponse() {
+        return new LoginUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link RegisterUser }
+     * 
+     */
+    public RegisterUser createRegisterUser() {
+        return new RegisterUser();
+    }
+
+    /**
+     * Create an instance of {@link RegisterUserResponse }
+     * 
+     */
+    public RegisterUserResponse createRegisterUserResponse() {
+        return new RegisterUserResponse();
     }
 
     /**
@@ -293,6 +347,24 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchbyId }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "SearchbyId")
+    public JAXBElement<SearchbyId> createSearchbyId(SearchbyId value) {
+        return new JAXBElement<SearchbyId>(_SearchbyId_QNAME, SearchbyId.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchbyIdResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "SearchbyIdResponse")
+    public JAXBElement<SearchbyIdResponse> createSearchbyIdResponse(SearchbyIdResponse value) {
+        return new JAXBElement<SearchbyIdResponse>(_SearchbyIdResponse_QNAME, SearchbyIdResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SearchbyKeywords }{@code >}}
      * 
      */
@@ -326,6 +398,42 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://image.me.org/", name = "SearchbyTitleResponse")
     public JAXBElement<SearchbyTitleResponse> createSearchbyTitleResponse(SearchbyTitleResponse value) {
         return new JAXBElement<SearchbyTitleResponse>(_SearchbyTitleResponse_QNAME, SearchbyTitleResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LoginUser }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "loginUser")
+    public JAXBElement<LoginUser> createLoginUser(LoginUser value) {
+        return new JAXBElement<LoginUser>(_LoginUser_QNAME, LoginUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LoginUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "loginUserResponse")
+    public JAXBElement<LoginUserResponse> createLoginUserResponse(LoginUserResponse value) {
+        return new JAXBElement<LoginUserResponse>(_LoginUserResponse_QNAME, LoginUserResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUser }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "registerUser")
+    public JAXBElement<RegisterUser> createRegisterUser(RegisterUser value) {
+        return new JAXBElement<RegisterUser>(_RegisterUser_QNAME, RegisterUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://image.me.org/", name = "registerUserResponse")
+    public JAXBElement<RegisterUserResponse> createRegisterUserResponse(RegisterUserResponse value) {
+        return new JAXBElement<RegisterUserResponse>(_RegisterUserResponse_QNAME, RegisterUserResponse.class, null, value);
     }
 
 }
