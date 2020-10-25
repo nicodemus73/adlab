@@ -233,17 +233,18 @@ public class ImageWS {
      */
     @WebMethod(operationName = "loginUser")
     public boolean loginUser(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
+        boolean logged = false;
         try {
             OurDao.startDB();
             if (!OurDao.validatePassword(password) || !OurDao.validateUsername(username)) {
                 throw new IllegalArgumentException("Contraseña o usuario con formato invalido");
             }
-            OurDao.loggin(username, password);
+            logged = OurDao.loggin(username, password);
             OurDao.stopDB();
         } catch (ClassNotFoundException | IllegalArgumentException | SQLException e) {
             System.err.println(e.getMessage());
             return false;
         }
-        return true;
+        return logged;
     }
 }
