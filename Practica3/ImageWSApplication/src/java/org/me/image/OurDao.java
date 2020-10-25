@@ -143,7 +143,7 @@ public class OurDao {
             return rs;
     }
     
-    public static ResultSet getAllImages() throws SQLException {
+    public static List<Image> getAllImages() throws SQLException {
         
         if(connection == null) return null; //No se ha iniciado la conexión
         String query = "select * from image";

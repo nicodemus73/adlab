@@ -8,6 +8,7 @@ package org.me.image;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ImageWS {
      */
     @WebMethod(operationName = "RegistrerImage")
     public int RegistrerImage(@WebParam(name = "image") Image image) {
-        if (image.fileName == null || image.fileName.isEmpty()) {
+        if (image.getFileName() == null || image.getFileName().isEmpty()) {
             //throw new FileNotFoundException();
         }
 
@@ -52,7 +53,7 @@ public class ImageWS {
 
             OurDao.startDB();
 
-            image.id = OurDao.enregistrar(image.title, image.description, image.keywords, image.author, image.creationDate, fechaS, image.fileName);
+            image.setId(OurDao.enregistrar(image.getTitle(), image.getDescription(), image.getKeywords(), image.getAuthor(), image.getCreationDate(), fechaS, image.getFileName()));
 
             /*outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
             /filecontent = filePart.getInputStream();
@@ -82,7 +83,7 @@ public class ImageWS {
 
             }
         }*/
-        return image.id;
+        return image.getId();
     }
 
     /*
@@ -126,8 +127,63 @@ public class ImageWS {
      */
     @WebMethod(operationName = "ListImages")
     public List ListImages() {
-        //TODO write your implementation code here:
-        return null;
+        
+        ArrayList<Image> list = new ArrayList<>();
+        try {
+            OurDao.startDB();
+        } catch(ClassNotFoundException | SQLException e) {
+            
+        }
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Palabras Clave</th>
+                <th>Autor</th>
+                <th>Fecha de creacion</th>
+                <th>Fecha de subida</th>
+                <th>Nombre del archivo</th>
+            </tr>
+            <% 
+                try{
+                    OurDao.startDB();
+                    ResultSet rs = OurDao.getAllImages();
+                    while(rs.next()) {
+            %>
+            <tr>
+                <td><%  out.println(rs.getString("TITLE"));%></td>
+                <td><%  out.println(rs.getString("DESCRIPTION"));%></td>
+                <td><%  out.println(rs.getString("KEYWORDS"));%></td>
+                <td><%
+                        String autor = rs.getString("AUTHOR");
+                        out.println(autor);
+                    %></td>
+                <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
+                <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
+                <%
+                        String filename = rs.getString("FILENAME");
+                        int id = rs.getInt("ID");%>
+                <td>
+                    <%
+                            out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
+                            if(autor.equals(user)){
+                    %>
+                    <form action=selectImage method="POST">
+                        <input type="hidden" value="<%out.print(filename);%>" name="name"/>
+                        <input type="hidden" value="<%out.print(id);%>" name="id"/>
+                        <input type="submit" value="Modificar" name="action"/>
+                        <input type="submit" value="Eliminar" name="action"/>
+                    </form>
+                </td>
+            </tr>
+            <%          }
+                    }
+                    OurDao.stopDB();
+                } catch(Exception e){
+                    System.err.println(e.getMessage());
+                }
+            }
+            %>
     }
 
     /**

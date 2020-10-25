@@ -10,13 +10,23 @@ package org.me.image;
  * @author Samuel
  */
 public class Image {
-    int id;
-    String title;
-    String author;
-    String description;
-    String keywords;
-    String creationDate;
-    String fileName;
+
+    private int id;
+    private String title;
+    private String author;
+    private String description;
+    private String keywords;
+    private String creationDate;
+    private String fileName;
+
+    public Image(String title, String author, String description, String keywords, String creationDate, String fileName) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.keywords = keywords;
+        this.creationDate = creationDate;
+        this.fileName = fileName;
+    }
 
     public int getId() {
         return id;
