@@ -43,7 +43,7 @@ public class list extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             HttpSession ses = request.getSession(false);
-            String user = (String) ses.getAttribute("user");
+            String user = "Test"; //(String) ses.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
             } else {
@@ -62,55 +62,32 @@ public class list extends HttpServlet {
                     List<Object> list = listImages();
                     for (Object o : list) {
                         Image img = (Image) o;
-                        String title = img.getTitle();
-                        out.println("<tr><td>");
-                        out.print(img.getTitle());
-                        out.println("</td>"+img.getDescription()); % > <  / td
-                                > <td> <  % out.println(img.getKeywords()); % > <  / td
-                                > <td>
-                                <  % String autor = img.getAuthor();
-                        out.println(autor);
-                         % > <  / td
-                                > <td> <  % out.println(img.getCreationDate()); % > <  / td
-                                > <td> <  % out.println(img.getStorageDate()); % > <  / td
-                                > <
-                                 % String filename = img.getFileName();
-                        int id = img.getId(); %
-                                > <td>
-                                <  % out.println("<a href=image.jsp?name=" + filename + "&id=" + id + ">" + filename + "</a>");
+                        String filename = img.getFileName();
+                        String autor = img.getAuthor();
+                        int id = img.getId();
+
+                        out.println("<tr><td>" + img.getTitle() + "</td>");
+                        out.println("<td>" + img.getDescription() + "</td>");
+                        out.println("<td>" + img.getKeywords() + "</td>");
+                        out.println("<td>" + autor + "</td>");
+                        out.println("<td>" + img.getCreationDate() + "</td>");
+                        out.println("<td>" + img.getStorageDate() + "</td>");
+                        out.println("<td><a href=image.jsp?name=" + filename + "&id=" + id + ">" + filename + "</a>");
                         if (autor.equals(user)) {
-                             %
-                                    > <form 
-                            
-                            action = selectImage method = "POST"
-                                    > <input 
-                            
-                            type = "hidden" value = "<%out.print(filename);%>" name = "name" /
-                                    > <input 
-                            
-                            type = "hidden" value = "<%out.print(id);%>" name = "id" /
-                                    > <input 
-                            
-                            type = "submit" value = "Modificar" name = "action" /
-                                    > <input 
-                            
-                            type = "submit" value = "Eliminar" name = "action" /
-                                    > <  / form
-                                    > <  / td
-                                    > <  / tr
-                                    > <  %          }
+                            out.println("<form action = selectImage method = \"POST\">"
+                                    + "<input type = \"hidden\" value = \"" + filename + "\" name = \"name\" />"
+                                    + "<input type = \"hidden\" value = " + id + " name = \"id\" />"
+                                    + "<input type = \"submit\" value = \"Modificar\" name = \"action\" />"
+                                    + "<input type = \"submit\" value = \"Eliminar\" name = \"action\" /> </form>");
+                        }
+                        out.println(" </td> </tr>");
                     }
+                    out.println("</table><br><br><a href=\"menu.jsp\"> Vuelve al menu</a>");
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
             }
         }
-         %
-                > <  / table > <br> < br
-                > <a 
-        
-        href = "menu.jsp" > Vuelve al menu</a
-                > <  / body >
     }
 
     private java.util.List<java.lang.Object> listImages() {
