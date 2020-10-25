@@ -90,13 +90,7 @@ public class ClientServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int registrerImage(org.me.image.Image image) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.registrerImage(image);
-    }
-
+   
     private int modifyImage(org.me.image.Image image) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.

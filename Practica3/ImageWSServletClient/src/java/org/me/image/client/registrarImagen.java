@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.xml.ws.WebServiceRef;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -29,6 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+
+import org.me.image.ImageWS_Service;
+import org.me.image.Image;
 /**
  *
  * @author mo
@@ -74,8 +78,6 @@ public class registrarImagen extends HttpServlet {
 
         try {
 
-            OurDao.startDB();
-
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
             String clave = request.getParameter("clave");
@@ -85,9 +87,19 @@ public class registrarImagen extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date);
 
-            int id = OurDao.enregistrar(titulo, descripcion, clave, author, fechaC, fechaS, fileName);
-
-            outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
+            //AQUI FALTA MANDAR IMAGEN A REGISTRAR
+            Image img = new Image();
+            
+            img.setAuthor(author);
+            img.setCreationDate(fechaC);
+            img.setKeywords(clave);
+            img.setTitle(titulo);
+            img.setDescription(descripcion);
+            img.setFileName(fileName);
+            
+            int id = registrerImage(img);
+            
+            //outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
             filecontent = filePart.getInputStream();
 
             int read = 0;
@@ -99,13 +111,10 @@ public class registrarImagen extends HttpServlet {
 
             out.println("New file " + fileName + " created at " + path + "<br><br>");
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
-            OurDao.stopDB();
 
         } catch (FileNotFoundException fne) {
             out.println("No has especificado una imagen a subir");
 
-        } catch (IOException | ClassNotFoundException | SQLException e) {
-            System.err.println(e.getMessage());
         } finally {
 
             if (outta != null) {
@@ -181,4 +190,12 @@ public class registrarImagen extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+ private int registrerImage(org.me.image.Image image) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        org.me.image.ImageWS port = service.getImageWSPort();
+        return port.registrerImage(image);
+    }
+
 }
