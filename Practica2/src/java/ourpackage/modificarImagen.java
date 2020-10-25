@@ -42,18 +42,22 @@ public class modificarImagen extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
             
                 OurDao.startDB(); 
-                String campo = request.getParameter("campo");
-                String valor = request.getParameter("valor");
+                String titulo = request.getParameter("titulo");
+                String descripcion = request.getParameter("descripcion");
+                String clave = request.getParameter("clave");
+                String author = request.getParameter("author");
+                String fechaC = request.getParameter("fechaC");
+                String fileName = request.getParameter("fileName");
                 
                 int id = (int) ses.getAttribute("imageId");
-                boolean ok = OurDao.enregistrarNou(campo, valor, id);
+                out.println("ESTE ES EL NUEVO TITULO" +titulo);
+                boolean ok = OurDao.enregistrarCanvi(titulo, fechaC, clave, fechaC, fileName, id);
                 if (ok){
                     out.println("<p>El cambio se ha efectuado correctamente</p>");
+                    out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
                 }
-                else {
-                    out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
-                }
-                out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+                else out.println("No s'ha efectuat correctament");
+                    
             } catch(Exception e){
                 System.err.println(e.getMessage());
             }

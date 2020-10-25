@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.WebServiceRef;
+import org.me.image.ImageWS_Service;
 
 /**
  *
@@ -19,7 +21,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "logout", urlPatterns = {"/logout"})
 public class logout extends HttpServlet {
-
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+    private ImageWS_Service service;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

@@ -5,6 +5,7 @@
  */
 package ourpackage;
 
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -96,12 +97,44 @@ public class OurDao {
         return true;
     }
     
-    public static boolean enregistrarNou(String campo, String valor, int x){
+    /*public static boolean enregistrarNou(String campo, String valor, int x){
         PreparedStatement statement;
         String query;
         try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+x;
             statement = connection.prepareStatement(query);
             statement.executeUpdate();
+        
+       } catch (SQLException e){
+           return false;
+       }
+       return true; 
+    }*/
+    
+      public static boolean enregistrarCanvi(String tituloU, String descU, String claveU, 
+            String dataU, String fnU, int id) throws SQLException{
+        String query;
+        PreparedStatement st;
+        try {
+            query = "UPDATE IMAGE SET TITLE =COALESCE(?, TITLE), DESCRIPTION=?, KEYWORDS=?, CREATION_DATE = ?, FILENAME=? WHERE ID = ?";
+                /*+ "TITLE=?, "
+                + "DESCRIPTION =?,"
+                + "KEYWORDS = ?,"
+                + "CREATION_DATE = ?,"
+                + "FILENAME = ?"
+                    + "WHERE ID = ?";*/
+            out.println("el ID de la foto a modificar es: "+id);
+            out.println("el titulo nuevo es: "+tituloU);
+            out.println("la descripcion a modificar es "+ descU);
+        
+            st = connection.prepareStatement(query);
+            st.setString(1, tituloU);
+            st.setString(2, descU); 
+            st.setString(3, claveU);
+            st.setString(4, dataU); 
+            st.setString(5, fnU);
+            st.setInt(6, id);
+
+            st.executeUpdate();
         
        } catch (SQLException e){
            return false;
@@ -154,6 +187,17 @@ public class OurDao {
         if(connection == null) return null; //No se ha iniciado la conexión
         String query = "select * from image";
         ResultSet res = connection.prepareStatement(query).executeQuery();
+        return res;
+    }
+    
+    public static ResultSet getImage(int id) throws SQLException {
+        
+        if(connection == null) return null; //No se ha iniciado la conexión
+        PreparedStatement st; 
+        String query = "select * from image where id =?";
+        st = connection.prepareStatement(query);
+        st.setInt(1, id);
+        ResultSet res = st.executeQuery();
         return res;
     }
     
