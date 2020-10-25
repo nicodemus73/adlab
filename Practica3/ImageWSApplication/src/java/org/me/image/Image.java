@@ -32,7 +32,6 @@ public class Image {
         this.storageDate = storageDate;
         this.fileName = fileName;
     }
-    
 
     public Image(String title, String author, String description, String keywords, String creationDate, String storageDate, String fileName) {
         this.title = title;
