@@ -21,7 +21,7 @@ import javax.jws.WebParam;
  */
 @WebService(serviceName = "ImageWS")
 public class ImageWS {
-
+    
     /**
      * Web service operation
      *
@@ -143,9 +143,11 @@ public class ImageWS {
 
     /**
      * Web service operation
+     * @param id
+     * @return 
      */
     @WebMethod(operationName = "SearchbyId")
-    private Image SearchbyId(@WebParam(name = "id") int id) {
+    public Image SearchbyId(@WebParam(name = "id") int id) {
         //TODO write your implementation code here:
         return null;
     }
@@ -196,5 +198,29 @@ public class ImageWS {
     public List SearchbyKeywords(@WebParam(name = "keywords") String keywords) {
         //TODO write your implementation code here:
         return null;
+    }
+
+    /**
+     * Web service operation
+     * @param username
+     * @param password
+     * @return 
+     */
+    @WebMethod(operationName = "registerUser")
+    public boolean registerUser(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
+        //TODO write your implementation code here:
+        return false;
+    }
+
+    /**
+     * Web service operation
+     * @param username
+     * @param password
+     * @return 
+     */
+    @WebMethod(operationName = "loginUser")
+    public boolean loginUser(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
+        //TODO write your implementation code here:
+        return false;
     }
 }

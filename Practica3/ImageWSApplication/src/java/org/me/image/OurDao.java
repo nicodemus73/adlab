@@ -46,7 +46,7 @@ public class OurDao {
         
         PreparedStatement statement;
         String query = "insert into usuarios values(?,?)";
-        statement = connection.prepareStatement(query);    
+        statement = connection.prepareStatement(query);
         statement.setString(1, usuario);
         statement.setString(2, passw);
         statement.executeUpdate();

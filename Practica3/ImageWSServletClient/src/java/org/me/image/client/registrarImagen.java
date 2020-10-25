@@ -30,9 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-
 import org.me.image.ImageWS_Service;
 import org.me.image.Image;
+
 /**
  *
  * @author mo
@@ -40,6 +40,7 @@ import org.me.image.Image;
 @WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
     private ImageWS_Service service;
 
@@ -65,15 +66,17 @@ public class registrarImagen extends HttpServlet {
         //create path components to save the file
         final Part filePart = request.getPart("imagen");
         final String fileName = getFileName(filePart);
-        if (fileName == null || fileName.isEmpty()) throw new FileNotFoundException("No has especificado el archivo a subir");
+        if (fileName == null || fileName.isEmpty()) {
+            throw new FileNotFoundException("No has especificado el archivo a subir");
+        }
 
         String basepath = registrarImagen.class
                 .getProtectionDomain()
                 .getCodeSource()
                 .getLocation()
                 .getPath();
-        basepath = basepath.substring(0, basepath.lastIndexOf("adlab"));
-        final String path = basepath + "adlab/web/images";
+        basepath = basepath.substring(0, basepath.lastIndexOf("ImageWSServletClient"));
+        final String path = basepath + "ImageWSServletClient/web/images";
         OutputStream outta = null;
         InputStream filecontent = null;
         PrintWriter out = response.getWriter();
@@ -91,25 +94,15 @@ public class registrarImagen extends HttpServlet {
 
             //AQUI FALTA MANDAR IMAGEN A REGISTRAR
             Image img = new Image();
-            
+
             img.setAuthor(author);
             img.setCreationDate(fechaC);
             img.setKeywords(clave);
             img.setTitle(titulo);
             img.setDescription(descripcion);
             img.setFileName(fileName);
-            
+
             int id = registrerImage(img);
-            
-            //outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
-            filecontent = filePart.getInputStream();
-
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-
-            while ((read = filecontent.read(bytes)) != -1) {
-                outta.write(bytes, 0, read);
-            }
 
             out.println("New file " + fileName + " created at " + path + "<br><br>");
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
@@ -132,6 +125,33 @@ public class registrarImagen extends HttpServlet {
             }
         }
 
+    }
+
+    private boolean saveImage(Part image, int imageId, String filename, String path) throws IOException {
+        
+        OutputStream outta = null;
+        InputStream filecontent = null;
+        try {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            
+            outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(imageId, filename)));
+            filecontent = image.getInputStream();
+
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                outta.write(bytes, 0, read);
+            }
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        } finally {
+            if(outta!=null) outta.close();
+            if(filecontent!=null) filecontent.close();
+        }
     }
 
     private String getFileName(final Part part) {
@@ -193,7 +213,7 @@ public class registrarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
- private int registrerImage(org.me.image.Image image) {
+    private int registrerImage(org.me.image.Image image) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         org.me.image.ImageWS port = service.getImageWSPort();
