@@ -36,7 +36,7 @@ public class ImageWS_Client_Application {
            int in = sc.nextInt();
            switch (in) {
                
-                case 1:
+                case 1: //registrar
                     Image tmp = new Image();
                     sc.nextLine();
                     System.out.println("Titulo: ");
@@ -52,90 +52,63 @@ public class ImageWS_Client_Application {
                     registrerImage(tmp);
                     System.out.println("hola1");
                     break;
-                case 2:
-                    System.out.println("hola2");
+                case 2://listar
+                    System.out.println("listar");
                     break;
-                case 3: 
-                    System.out.println("Introduce el campo por el que buscar: (id, titulo, fecha, autor, palabras clave)");
+                case 3: //buscar
+                    System.out.println("Introduce el campo por el que buscar: (titulo, fecha, autor, palabras clave)");
                     //canviar aquest switch per fer cerca combinada
                     String s = sc.nextLine();
-                    Scanner search = new Scanner(System.in);
                     String aux;
                     List<Object> lista = new ArrayList<>();
                     Iterator<Object> it = lista.iterator();
                     switch (s) {
-                        
-                        case "id":
-                            //mhauria de sortir abaix
-                            /*System.out.println("Introduce el id de la imagen: ");
-                            int in2 = sc.nextInt();
-                            Object image = SearchById(in2);
-                            Image mobj = Image.class.cast(image);
-                            System.out.println("Títol: " + mobj.getTitol());*/
-                            break;
-                            
                         case "titulo":
                             System.out.println("Introduce el titulo de la imagen: ");
                             aux = sc.nextLine();
                             lista = searchbyTitle(aux);
-                            it = lista.iterator();
-                            while (it.hasNext()) {
-                                Object img = it.next();
-                                Image image = Image.class.cast(img);
-                                System.out.println("Título: " + image.getTitle());
-                                System.out.println("Fecha creación: " + image.getCreationDate());
-                                System.out.println("Autor: " + image.getAuthor());
-                                System.out.println("Palabras clave: " + image.getKeywords());
-                                System.out.println("");
-                            }
-                            
                             break;
                             
                         case "fecha":
-                            
+                            System.out.println("Introduce el titulo de la imagen: ");
+                            aux = sc.nextLine();
+                            lista = searchbyCreaDate(aux);
                             break;
+                            
                         case "autor":
                             System.out.println("Introduce el autor de la imagen: ");
                             aux = sc.nextLine();
                             lista = searchbyAuthor(aux);
-                            it = lista.iterator();
-                            while (it.hasNext()) {
-                                Object img = it.next();
-                                Image image = Image.class.cast(img);
-                                System.out.println("Título: " + image.getTitle());
-                                System.out.println("Fecha creación: " + image.getCreationDate());
-                                System.out.println("Autor: " + image.getAuthor());
-                                System.out.println("Palabras clave: " + image.getKeywords());
-                                System.out.println("");
-                            }
                             break;
+                            
                         case "palabras clave":
                             System.out.println("Introduce el autor de la imagen: ");
                             aux = sc.nextLine();
                             lista = searchbyKeywords(aux);
-                            it = lista.iterator();
-                            while (it.hasNext()) {
-                                Object img = it.next();
-                                Image image = Image.class.cast(img);
-                                System.out.println("Título: " + image.getTitle());
-                                System.out.println("Fecha creación: " + image.getCreationDate());
-                                System.out.println("Autor: " + image.getAuthor());
-                                System.out.println("Palabras clave: " + image.getKeywords());
-                                System.out.println("");
-                            }
                             break;
                             
                         default: 
                             System.out.println("Entrada incorrecta");
                             break;
-                            
                     }
+                    it = lista.iterator();
+                        while (it.hasNext()) {
+                            Object img = it.next();
+                            Image image = Image.class.cast(img);
+                            System.out.println("Título: " + image.getTitle());
+                            System.out.println("Fecha creación: " + image.getCreationDate());
+                            System.out.println("Autor: " + image.getAuthor());
+                            System.out.println("Palabras clave: " + image.getKeywords());
+                            System.out.println("");
+                        }
                     
                 case 4: 
-                    
+                    //modificar
+                    System.out.println("modificar:");
                     break;
                     
                 case 5: 
+                    //salir
                     exit = true;
                     break;
                 default: 
