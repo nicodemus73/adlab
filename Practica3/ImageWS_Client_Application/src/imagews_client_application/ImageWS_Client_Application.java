@@ -25,7 +25,9 @@ public class ImageWS_Client_Application {
         Scanner us = new Scanner(System.in);
         String user = us.nextLine();
         String psw = us.nextLine();
-        */boolean exit = false;
+        */
+        System.out.println("Menu de la practica 3");
+        boolean exit = false;
         while (!exit) {//poner condicion q in<5
            System.out.println("1 - Registrar imagen");
            System.out.println("2 - Listar imagen");
@@ -38,7 +40,7 @@ public class ImageWS_Client_Application {
                
                 case 1: //registrar
                     Image tmp = new Image();
-                    sc.nextLine();
+                    //sc.nextLine();
                     System.out.println("Titulo: ");
                     tmp.setTitle(sc.nextLine());
                     System.out.println("Autor: ");
@@ -58,39 +60,45 @@ public class ImageWS_Client_Application {
                 case 3: //buscar
                     System.out.println("Introduce el campo por el que buscar: (titulo, fecha, autor, palabras clave)");
                     //canviar aquest switch per fer cerca combinada
-                    String s = sc.nextLine();
+                    
+                    System.out.println("bbbb");
                     String aux;
                     List<Object> lista = new ArrayList<>();
                     Iterator<Object> it = lista.iterator();
+                    Scanner p1 = new Scanner(System.in);
+                    String s = p1.nextLine();
+                    Scanner p = new Scanner(System.in);
                     switch (s) {
+                        
                         case "titulo":
                             System.out.println("Introduce el titulo de la imagen: ");
-                            aux = sc.nextLine();
+                            aux = p.nextLine();
                             lista = searchbyTitle(aux);
                             break;
                             
                         case "fecha":
-                            System.out.println("Introduce el titulo de la imagen: ");
-                            aux = sc.nextLine();
+                            System.out.println("Introduce la fecha (yyy/mm/dd) de la imagen: ");
+                            aux = p.nextLine();
                             lista = searchbyCreaDate(aux);
                             break;
                             
                         case "autor":
                             System.out.println("Introduce el autor de la imagen: ");
-                            aux = sc.nextLine();
+                            aux = p.nextLine();
                             lista = searchbyAuthor(aux);
                             break;
                             
                         case "palabras clave":
-                            System.out.println("Introduce el autor de la imagen: ");
-                            aux = sc.nextLine();
+                            System.out.println("Introduce las palabras clave de la imagen: ");
+                            aux = p.nextLine();
                             lista = searchbyKeywords(aux);
                             break;
                             
-                        default: 
-                            System.out.println("Entrada incorrecta");
-                            break;
+                        /*default: 
+                            System.out.println("prova1");
+                            break;*/
                     }
+                    System.out.println("aaaaa");
                     it = lista.iterator();
                         while (it.hasNext()) {
                             Object img = it.next();
@@ -101,6 +109,7 @@ public class ImageWS_Client_Application {
                             System.out.println("Palabras clave: " + image.getKeywords());
                             System.out.println("");
                         }
+                    break;
                     
                 case 4: 
                     //modificar
@@ -112,7 +121,7 @@ public class ImageWS_Client_Application {
                     exit = true;
                     break;
                 default: 
-                    System.out.println("Entrada incorrecta");
+                    System.out.println("prova2");
                     break;
                     
            }
