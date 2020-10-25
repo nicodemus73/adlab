@@ -4,6 +4,8 @@
     Author     : mo
 --%>
 
+<%@page import="javax.xml.ws.WebServiceRef"%>
+<%@page import="org.me.image.ImageWS_Service"%>
 <%@page import="java.util.List"%>
 <%@page import="org.me.image.Image"%>
 <%@page import="org.me.image.client.WSConnection"%>
@@ -16,6 +18,8 @@
     </head>
     <body>
         <%
+                //@WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+                //ImageWS_Service service;
             HttpSession ses = request.getSession(false);
             String user = (String) ses.getAttribute("user");
             if (user == null) {

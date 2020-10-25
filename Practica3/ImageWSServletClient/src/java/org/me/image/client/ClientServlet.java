@@ -39,8 +39,8 @@ public class ClientServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //response.sendRedirect("listImg.jsp");
-        List<Object> list = (new WSConnection()).listImages();
+        response.sendRedirect("list");
+        List<Object> list = listImages();
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
