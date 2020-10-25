@@ -56,6 +56,7 @@ public class registrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession ses = request.getSession(false);
@@ -77,66 +78,38 @@ public class registrarImagen extends HttpServlet {
                 .getPath();
         basepath = basepath.substring(0, basepath.lastIndexOf("ImageWSServletClient"));
         final String path = basepath + "ImageWSServletClient/web/images";
-        OutputStream outta = null;
-        InputStream filecontent = null;
-        PrintWriter out = response.getWriter();
 
-        try {
-
-            String titulo = request.getParameter("titulo");
-            String descripcion = request.getParameter("descripcion");
-            String clave = request.getParameter("clave");
-            String author = request.getParameter("author");
-            String fechaC = request.getParameter("fechaC");
+        Image img = new Image();
+        try (PrintWriter out = response.getWriter()) {
+            img.setTitle(request.getParameter("titulo"));
+            img.setAuthor(request.getParameter("author"));
+            img.setCreationDate(request.getParameter("fechaC"));
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
             String fechaS = dateFormat.format(date);
-
-            //AQUI FALTA MANDAR IMAGEN A REGISTRAR
-            Image img = new Image();
-
-            img.setAuthor(author);
-            img.setCreationDate(fechaC);
-            img.setKeywords(clave);
-            img.setTitle(titulo);
-            img.setDescription(descripcion);
+            img.setKeywords(fechaS);
+            img.setDescription(request.getParameter("descripcion"));
             img.setFileName(fileName);
-
-            int id = registrerImage(img);
-
-            out.println("New file " + fileName + " created at " + path + "<br><br>");
             out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
-
-        } catch (FileNotFoundException fne) {
-            out.println("No has especificado una imagen a subir");
-
-        } finally {
-
-            if (outta != null) {
-                outta.close();
-            }
-            if (filecontent != null) {
-                filecontent.close();
-
-            }
-            if (out != null) {
-                out.close();
-
-            }
         }
-
+        int id = registerImage(img);
+        if (!saveImage(filePart, id, fileName, path)) {
+            System.err.println("La imagen no se ha guardado correctamente");
+        }
     }
 
     private boolean saveImage(Part image, int imageId, String filename, String path) throws IOException {
-        
+
         OutputStream outta = null;
         InputStream filecontent = null;
+        boolean saved = false;
         try {
+
             File dir = new File(path);
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            
+
             outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(imageId, filename)));
             filecontent = image.getInputStream();
 
@@ -146,11 +119,17 @@ public class registrarImagen extends HttpServlet {
             while ((read = filecontent.read(bytes)) != -1) {
                 outta.write(bytes, 0, read);
             }
-        } catch(Exception e){
+            saved = true;
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
-            if(outta!=null) outta.close();
-            if(filecontent!=null) filecontent.close();
+            if (outta != null) {
+                outta.close();
+            }
+            if (filecontent != null) {
+                filecontent.close();
+            }
+            return saved;
         }
     }
 
@@ -213,7 +192,7 @@ public class registrarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int registrerImage(org.me.image.Image image) {
+    private int registerImage(org.me.image.Image image) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         org.me.image.ImageWS port = service.getImageWSPort();

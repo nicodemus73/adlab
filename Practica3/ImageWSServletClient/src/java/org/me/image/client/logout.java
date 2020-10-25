@@ -12,19 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.WebServiceRef;
-import org.me.image.ImageWS_Service;
 
 /**
  *
- * @author mo
+ * @author elchu
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
-    
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
-    private ImageWS_Service service;
-    
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,24 +31,11 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String usu = request.getParameter("usuari");
-            String psw = request.getParameter("password");
-
-            HttpSession session1 = request.getSession();
-            if (User.validateUsername(usu) && User.validatePassword(psw) && loginUser(usu, psw)) {
-                session1.setAttribute("user", usu);
-                response.sendRedirect("menu.jsp");
-            } else {
-                //Mejorar!!!!
-                response.sendRedirect("error.jsp");
-            }
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            response.sendRedirect("error.jsp");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            response.sendRedirect("login.jsp");
         }
     }
 
@@ -96,10 +78,4 @@ public class login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private boolean loginUser(java.lang.String username, java.lang.String password) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.loginUser(username, password);
-    }
 }

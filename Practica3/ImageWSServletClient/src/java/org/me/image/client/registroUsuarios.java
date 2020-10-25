@@ -6,6 +6,10 @@
 package org.me.image.client;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +21,14 @@ import org.me.image.ImageWS_Service;
 
 /**
  *
- * @author mo
+ * @author elchu
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
-    
+@WebServlet(name = "registroUsuarios", urlPatterns = {"/registroUsuarios"})
+public class registroUsuarios extends HttpServlet {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
     private ImageWS_Service service;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,26 +37,23 @@ public class login extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String usu = request.getParameter("usuari");
-            String psw = request.getParameter("password");
 
-            HttpSession session1 = request.getSession();
-            if (User.validateUsername(usu) && User.validatePassword(psw) && loginUser(usu, psw)) {
-                session1.setAttribute("user", usu);
-                response.sendRedirect("menu.jsp");
-            } else {
-                //Mejorar!!!!
-                response.sendRedirect("error.jsp");
-            }
+        String usuario = request.getParameter("usuario");
+        String password = request.getParameter("password");
+        String opass = request.getParameter("opassword");
+        if (User.validatePassword(password) && User.validateUsername(usuario) && opass.equals(password) && registerUser(usuario, password)) {
 
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+            HttpSession ses = request.getSession();
+            ses.setAttribute("user", usuario);
+            response.sendRedirect("menu.jsp");
+        } else {
+            //Mejorar!!
             response.sendRedirect("error.jsp");
         }
     }
@@ -69,7 +70,13 @@ public class login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -83,7 +90,13 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(registroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -96,10 +109,11 @@ public class login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private boolean loginUser(java.lang.String username, java.lang.String password) {
+    private boolean registerUser(java.lang.String username, java.lang.String password) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         org.me.image.ImageWS port = service.getImageWSPort();
-        return port.loginUser(username, password);
+        return port.registerUser(username, password);
     }
+
 }
