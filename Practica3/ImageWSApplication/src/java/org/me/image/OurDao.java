@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ourpackage;
+package org.me.image;
 
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -91,18 +90,7 @@ public class OurDao {
         return true;
     }
     
-    /*public static boolean enregistrarNou(String campo, String valor, int x){
-        PreparedStatement statement;
-        String query;
-        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+x;
-            statement = connection.prepareStatement(query);
-            statement.executeUpdate();
-        
-       } catch (SQLException e){
-           return false;
-       }
-       return true; 
-    }*/
+   
     
       public static boolean enregistrarCanvi(String tituloU, String descU, String claveU,
             String dataU, String fN, int id) throws SQLException{
