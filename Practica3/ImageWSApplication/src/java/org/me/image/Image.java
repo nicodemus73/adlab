@@ -106,9 +106,4 @@ public class Image {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
-    @Override
-    public String toString() {
-        return "Image{" + "id=" + id + ", title=" + title + ", author=" + author + ", description=" + description + ", keywords=" + keywords + ", creationDate=" + creationDate + ", storageDate=" + storageDate + ", fileName=" + fileName + '}';
-    }
 }

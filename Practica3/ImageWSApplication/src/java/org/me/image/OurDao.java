@@ -87,6 +87,7 @@ public class OurDao {
             statement.setInt(1, x);
             statement.executeUpdate();   
         } catch (SQLException e){
+            System.err.println(e.getMessage());
             return false;
         }
         return true;
