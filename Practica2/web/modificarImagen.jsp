@@ -29,7 +29,6 @@
                 <th>Palabras Clave</th>
                 <th>Autor</th>
                 <th>Fecha de creacion</th>
-                <th>Fecha de subida</th>
                 <th>Nombre del archivo</th>
             </tr>
             <% 
@@ -71,20 +70,18 @@
             }
             %>
         </table><br><br>
-        <h2>Escribe los valores que quieras modificar</h2>  
+        <h2>Escribe todos los valores, tanto los que quieras modificar com los que no</h2>  
         <form method="POST" action="modificarImagen">
             Titulo: 
-            <input type="text" name="titulo" value="titulo" required><br><br>
+            <input type="text" name="titulo" required><br><br>
             Descripción: 
-            <input type="text" name="descripcion" value="descr" required><br><br>
+            <input type="text" name="descripcion" required><br><br>
             Palabras clave: 
             <input type="text" name="clave" required><br><br>
-            Autor: 
-            <input type="text" name="author" required><br><br>
             Fecha creación:
             <input type="text" name="fechaC" required><br><br>
-            Archivo:
-            <input type="text" name="filename"><br><br>
+            Nombre archivo:
+            <input type="text" name="fileN" required><br><br>
             <input type="submit" name="submit" value="Modifcar">
         </form>
         <br><br><a href="menu.jsp">Vuelve al Menú</a>

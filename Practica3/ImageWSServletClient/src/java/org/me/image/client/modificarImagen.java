@@ -25,7 +25,7 @@ public class LoginFilter implements Filter
  */
 @WebServlet(name = "modificarImagen", urlPatterns = "/modificarImagen")
 public class modificarImagen extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+	@WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
     private ImageWS_Service service;
 
     /**
@@ -50,13 +50,28 @@ public class modificarImagen extends HttpServlet {
                 
                 int id = (int) ses.getAttribute("imageId");
                 boolean ok = false;
+                OurDao.startDB(); 
+                String titulo = request.getParameter("titulo");
+                String descripcion = request.getParameter("descripcion");
+                String clave = request.getParameter("clave");
+                String fechaC = request.getParameter("fechaC");
+                String fN = request.getParameter("fileN");
+      
+                
+                int id = (int) ses.getAttribute("imageId");
+               
+                
+                boolean ok = OurDao.enregistrarCanvi(titulo, descripcion, clave, fechaC, fN, id);
                 if (ok){
                     out.println("<p>El cambio se ha efectuado correctamente</p>");
+                    out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
                 }
                 else {
-                    out.println("<p>Ha habido algun error, por favor</p> <a href=\"buscarImagen.jsp\"> inténtalo de nuevo</a>");
+                    out.println("No s'ha efectuat correctament");
+                    out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
+
                 }
-                out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+                    
             } catch(Exception e){
                 System.err.println(e.getMessage());
             }

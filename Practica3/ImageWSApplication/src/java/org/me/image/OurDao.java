@@ -41,7 +41,7 @@ public class OurDao {
         statement.setString(2,psw);
         ResultSet rs = statement.executeQuery();
         return rs.next();
-    }    
+    }   
     public static void newuser(String usuario, String passw) throws SQLException {
         
         PreparedStatement statement;
@@ -87,18 +87,30 @@ public class OurDao {
             statement.setInt(1, x);
             statement.executeUpdate();   
         } catch (SQLException e){
-            System.err.println(e.getMessage());
             return false;
         }
         return true;
     }
     
-    public static boolean enregistrarNou(String campo, String valor, int x){
-        PreparedStatement statement;
+   
+    
+      public static boolean enregistrarCanvi(String tituloU, String descU, String claveU,
+            String dataU, String fN, int id) throws SQLException{
         String query;
-        try { query = "UPDATE image set "+campo+" = '"+valor+"' where ID = "+x;
-            statement = connection.prepareStatement(query);
-            statement.executeUpdate();
+        PreparedStatement st;
+        try {
+            query = "UPDATE IMAGE SET TITLE = ?, DESCRIPTION=?, KEYWORDS=?, CREATION_DATE = ?, FILENAME = ? WHERE ID = ?";
+       
+        
+            st = connection.prepareStatement(query);
+            st.setString(1, tituloU);
+            st.setString(2, descU); 
+            st.setString(3, claveU);
+            st.setString(4, dataU);
+            st.setString(5, fN);
+            st.setInt(6, id);
+
+            st.executeUpdate();
         
        } catch (SQLException e){
            return false;
@@ -146,7 +158,7 @@ public class OurDao {
             return rs;
     }
     
-    public static List<Image> getAllImages() throws SQLException {
+     public static List<Image> getAllImages() throws SQLException {
         
         if(connection == null) return null; //No se ha iniciado la conexión
         String query = "select * from image";
@@ -165,6 +177,16 @@ public class OurDao {
             ));
         }
         return list;
+    }
+    public static ResultSet getImage(int id) throws SQLException {
+        
+        if(connection == null) return null; //No se ha iniciado la conexión
+        PreparedStatement st; 
+        String query = "select * from image where id =?";
+        st = connection.prepareStatement(query);
+        st.setInt(1, id);
+        ResultSet res = st.executeQuery();
+        return res;
     }
     
     protected static boolean validateUsername(String username){

@@ -45,18 +45,23 @@ public class modificarImagen extends HttpServlet {
                 String titulo = request.getParameter("titulo");
                 String descripcion = request.getParameter("descripcion");
                 String clave = request.getParameter("clave");
-                String author = request.getParameter("author");
                 String fechaC = request.getParameter("fechaC");
-                String fileName = request.getParameter("fileName");
+                String fN = request.getParameter("fileN");
+      
                 
                 int id = (int) ses.getAttribute("imageId");
-                out.println("ESTE ES EL NUEVO TITULO" +titulo);
-                boolean ok = OurDao.enregistrarCanvi(titulo, fechaC, clave, fechaC, fileName, id);
+               
+                
+                boolean ok = OurDao.enregistrarCanvi(titulo, descripcion, clave, fechaC, fN, id);
                 if (ok){
                     out.println("<p>El cambio se ha efectuado correctamente</p>");
-                    out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
+                    out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
                 }
-                else out.println("No s'ha efectuat correctament");
+                else {
+                    out.println("No s'ha efectuat correctament");
+                    out.println("<a href=\"menu.jsp\">Vuelve al Menu</a>");
+
+                }
                     
             } catch(Exception e){
                 System.err.println(e.getMessage());

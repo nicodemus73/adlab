@@ -34,19 +34,13 @@ public class OurDao {
         }
     }
     public static boolean loggin(String usuari, String psw) throws SQLException{
-        String query = "select * from usuarios";
-        PreparedStatement statement;
-        ResultSet rs; 
-        statement = connection.prepareStatement(query); 
-            rs = statement.executeQuery();
-            boolean found = false;
-            while (rs.next() & !(found)){
-                if ((rs.getString("id_usuario").equals(usuari)) & (psw).equals(rs.getString("password"))) {
-                    found = true;
-                }
-            }
-            return found;
-    }    
+        String query = "select * from usuarios WHERE id_usuario = ? AND password = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1,usuari);
+        statement.setString(2,psw);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
+    }   
     public static void newuser(String usuario, String passw) throws SQLException {
         
         PreparedStatement statement;
@@ -110,28 +104,20 @@ public class OurDao {
        return true; 
     }*/
     
-      public static boolean enregistrarCanvi(String tituloU, String descU, String claveU, 
-            String dataU, String fnU, int id) throws SQLException{
+      public static boolean enregistrarCanvi(String tituloU, String descU, String claveU,
+            String dataU, String fN, int id) throws SQLException{
         String query;
         PreparedStatement st;
         try {
-            query = "UPDATE IMAGE SET TITLE =COALESCE(?, TITLE), DESCRIPTION=?, KEYWORDS=?, CREATION_DATE = ?, FILENAME=? WHERE ID = ?";
-                /*+ "TITLE=?, "
-                + "DESCRIPTION =?,"
-                + "KEYWORDS = ?,"
-                + "CREATION_DATE = ?,"
-                + "FILENAME = ?"
-                    + "WHERE ID = ?";*/
-            out.println("el ID de la foto a modificar es: "+id);
-            out.println("el titulo nuevo es: "+tituloU);
-            out.println("la descripcion a modificar es "+ descU);
+            query = "UPDATE IMAGE SET TITLE = ?, DESCRIPTION=?, KEYWORDS=?, CREATION_DATE = ?, FILENAME = ? WHERE ID = ?";
+       
         
             st = connection.prepareStatement(query);
             st.setString(1, tituloU);
             st.setString(2, descU); 
             st.setString(3, claveU);
-            st.setString(4, dataU); 
-            st.setString(5, fnU);
+            st.setString(4, dataU);
+            st.setString(5, fN);
             st.setInt(6, id);
 
             st.executeUpdate();
