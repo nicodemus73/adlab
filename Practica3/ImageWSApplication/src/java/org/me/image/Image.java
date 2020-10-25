@@ -17,16 +17,39 @@ public class Image {
     private String description;
     private String keywords;
     private String creationDate;
+    private String storageDate;
     private String fileName;
 
-    public Image(String title, String author, String description, String keywords, String creationDate, String fileName) {
+    public Image(){}
+
+    public Image(int id, String title, String author, String description, String keywords, String creationDate, String storageDate, String fileName) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
         this.keywords = keywords;
         this.creationDate = creationDate;
+        this.storageDate = storageDate;
         this.fileName = fileName;
     }
+
+    public Image(String title, String author, String description, String keywords, String creationDate, String storageDate, String fileName) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.keywords = keywords;
+        this.creationDate = creationDate;
+        this.storageDate = storageDate;
+        this.fileName = fileName;
+    }
+
+    public String getStorageDate() {
+        return storageDate;
+    }
+
+    public void setStorageDate(String storageDate) {
+        this.storageDate = storageDate;
+    }    
 
     public int getId() {
         return id;
@@ -82,5 +105,10 @@ public class Image {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" + "id=" + id + ", title=" + title + ", author=" + author + ", description=" + description + ", keywords=" + keywords + ", creationDate=" + creationDate + ", storageDate=" + storageDate + ", fileName=" + fileName + '}';
     }
 }

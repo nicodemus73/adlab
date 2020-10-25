@@ -64,12 +64,13 @@ public class ImageWS {
             while ((read = filecontent.read(bytes)) != -1) {
                 outta.write(bytes, 0, read);
             }
-            */
+             */
             OurDao.stopDB();
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
-        } /*finally {
+        }
+        /*finally {
 
             if (outta != null) {
                 outta.close();
@@ -98,11 +99,11 @@ public class ImageWS {
         }
         return null;
     }*/
-
     /**
      * Web service operation
+     *
      * @param image
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "ModifyImage")
     public int ModifyImage(@WebParam(name = "image") Image image) {
@@ -112,8 +113,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param image
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "DeleteImage")
     public int DeleteImage(@WebParam(name = "image") Image image) {
@@ -123,67 +125,21 @@ public class ImageWS {
 
     /**
      * Web service operation
-     * @return 
+     *
+     * @return
      */
     @WebMethod(operationName = "ListImages")
     public List ListImages() {
         
-        ArrayList<Image> list = new ArrayList<>();
+        List<Image> list = null;
         try {
             OurDao.startDB();
-        } catch(ClassNotFoundException | SQLException e) {
-            
+            list = OurDao.getAllImages();
+            OurDao.stopDB();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
         }
-        <table>
-            <tr>
-                <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Palabras Clave</th>
-                <th>Autor</th>
-                <th>Fecha de creacion</th>
-                <th>Fecha de subida</th>
-                <th>Nombre del archivo</th>
-            </tr>
-            <% 
-                try{
-                    OurDao.startDB();
-                    ResultSet rs = OurDao.getAllImages();
-                    while(rs.next()) {
-            %>
-            <tr>
-                <td><%  out.println(rs.getString("TITLE"));%></td>
-                <td><%  out.println(rs.getString("DESCRIPTION"));%></td>
-                <td><%  out.println(rs.getString("KEYWORDS"));%></td>
-                <td><%
-                        String autor = rs.getString("AUTHOR");
-                        out.println(autor);
-                    %></td>
-                <td><%  out.println(rs.getString("CREATION_DATE"));%></td>
-                <td><%  out.println(rs.getString("STORAGE_DATE"));%></td>
-                <%
-                        String filename = rs.getString("FILENAME");
-                        int id = rs.getInt("ID");%>
-                <td>
-                    <%
-                            out.println("<a href=image.jsp?name="+filename+"&id="+id+">"+filename+"</a>");
-                            if(autor.equals(user)){
-                    %>
-                    <form action=selectImage method="POST">
-                        <input type="hidden" value="<%out.print(filename);%>" name="name"/>
-                        <input type="hidden" value="<%out.print(id);%>" name="id"/>
-                        <input type="submit" value="Modificar" name="action"/>
-                        <input type="submit" value="Eliminar" name="action"/>
-                    </form>
-                </td>
-            </tr>
-            <%          }
-                    }
-                    OurDao.stopDB();
-                } catch(Exception e){
-                    System.err.println(e.getMessage());
-                }
-            }
-            %>
+        return list;
     }
 
     /**
@@ -197,8 +153,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param title
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyTitle")
     public List SearchbyTitle(@WebParam(name = "title") String title) {
@@ -208,8 +165,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param creaDate
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyCreaDate")
     public List SearchbyCreaDate(@WebParam(name = "creaDate") String creaDate) {
@@ -219,8 +177,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param author
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyAuthor")
     public List SearchbyAuthor(@WebParam(name = "author") String author) {
@@ -230,8 +189,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param keywords
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyKeywords")
     public List SearchbyKeywords(@WebParam(name = "keywords") String keywords) {
