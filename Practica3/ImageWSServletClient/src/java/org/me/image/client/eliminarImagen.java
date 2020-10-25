@@ -52,8 +52,7 @@ public class eliminarImagen extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
              int x = (int) session1.getAttribute("imageId");
             if (request.getParameter("Aceptar") != null){
-                OurDao.startDB();
-                eliminat = OurDao.eliminar(x);
+                eliminat = false;//CAMBIAR
                 String basepath = registrarImagen.class
                     .getProtectionDomain()
                     .getCodeSource()
@@ -64,7 +63,6 @@ public class eliminarImagen extends HttpServlet {
                 String filename = (String)session1.getAttribute("imageName");
                 File image = new File(path+File.separator+selectImage.getImageName(x, filename));
                 eliminat = eliminat && image.delete();
-                OurDao.stopDB();
             }
             else if (request.getParameter("Cancelar")!=null) {
                 out.println("Has cancelado la operación<br>");

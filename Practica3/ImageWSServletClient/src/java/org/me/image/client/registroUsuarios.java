@@ -47,7 +47,7 @@ public class registroUsuarios extends HttpServlet {
             String usuario = request.getParameter("usuario");
             String password = request.getParameter("password");
             String opass = request.getParameter("opassword");
-            if(OurDao.validatePassword(password) && OurDao.validateUsername(usuario) && opass.equals(password)){
+            /*if(OurDao.validatePassword(password) && OurDao.validateUsername(usuario) && opass.equals(password)){
                 OurDao.startDB();
                 OurDao.newuser(usuario, password);
                 OurDao.stopDB();
@@ -56,7 +56,7 @@ public class registroUsuarios extends HttpServlet {
                 response.sendRedirect("menu.jsp");
             } else {
                 response.sendRedirect("error.jsp");
-            }
+            }*/
         }
     }
 

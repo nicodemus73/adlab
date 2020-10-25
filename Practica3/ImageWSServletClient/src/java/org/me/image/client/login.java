@@ -42,15 +42,13 @@ public class login extends HttpServlet {
             String psw = request.getParameter("password");
 
             HttpSession session1 = request.getSession();
-            OurDao.startDB();
-            if (OurDao.validateUsername(usu) && OurDao.validatePassword(psw) && OurDao.loggin(usu, psw)) {
+            /*if (OurDao.validateUsername(usu) && OurDao.validatePassword(psw) && OurDao.loggin(usu, psw)) {
                 session1.setAttribute("user", usu);
                 response.sendRedirect("menu.jsp");
             } else {
                 response.sendRedirect("error.jsp");
-            }
+            }*/
 
-            OurDao.stopDB();
             out.println("</body>");
             out.println("</html>");
 

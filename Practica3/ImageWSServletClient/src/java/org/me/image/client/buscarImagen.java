@@ -90,9 +90,8 @@ public class buscarImagen extends HttpServlet {
                     out.println(resp);
                     out.print("<br><br>");
                 } else {
-                    OurDao.startDB();
                     ResultSet rs;
-                    rs = OurDao.consultar(map);
+                    //rs = OurDao.consultar(map);
                     out.println("Listado de imagenes: <br>");
 
                     out.println("<table>\n"
@@ -105,7 +104,7 @@ public class buscarImagen extends HttpServlet {
                             + "                <th>Fecha de subida</th>\n"
                             + "                <th>Nombre del archivo</th>\n"
                             + "            </tr>");
-                    while (rs.next()) {
+                    /*while (rs.next()) {
                         out.println("<tr>");
                         out.println("<td>" + rs.getString("TITLE") + "</td>");
                         out.println("<td>" + rs.getString("DESCRIPTION") + "</td>");
@@ -124,12 +123,12 @@ public class buscarImagen extends HttpServlet {
                                     + "<input type=\"submit\" value=\"Modificar\" name=\"action\"/>"
                                     + "<input type=\"submit\" value=\"Eliminar\" name=\"action\"/> </form> </td>");
                         }
-                    }
+                    }*/
                     out.println("</table>");
                     out.println("<a href=\"buscarImagen.jsp\">Hacer otra busqueda</a><br><br>");
                     out.println("<a href=\"menu.jsp\">Vuelve al menu</a>");
                 }
-            } catch (IOException | ClassNotFoundException | SQLException e) {
+            } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
         }

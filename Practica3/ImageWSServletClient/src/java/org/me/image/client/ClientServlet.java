@@ -7,12 +7,14 @@ package org.me.image.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import org.me.image.Image;
 import org.me.image.ImageWS_Service;
 
 /**
@@ -37,6 +39,8 @@ public class ClientServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        //response.sendRedirect("listImg.jsp");
+        List<Object> list = (new WSConnection()).listImages();
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -46,6 +50,7 @@ public class ClientServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ClientServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h2>Titulo imagen 1: "+((Image)list.get(0)).getTitle()+"</h2>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -90,54 +95,11 @@ public class ClientServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-   
-    private int modifyImage(org.me.image.Image image) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.modifyImage(image);
-    }
-
     private java.util.List<java.lang.Object> listImages() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         org.me.image.ImageWS port = service.getImageWSPort();
         return port.listImages();
-    }
-
-    private int deleteImage(org.me.image.Image image) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.deleteImage(image);
-    }
-
-    private java.util.List<java.lang.Object> searchbyAuthor(java.lang.String author) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyAuthor(author);
-    }
-
-    private java.util.List<java.lang.Object> searchbyCreaDate(java.lang.String creaDate) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyCreaDate(creaDate);
-    }
-
-    private java.util.List<java.lang.Object> searchbyKeywords(java.lang.String keywords) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyKeywords(keywords);
-    }
-
-    private java.util.List<java.lang.Object> searchbyTitle(java.lang.String title) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyTitle(title);
     }
 
 }

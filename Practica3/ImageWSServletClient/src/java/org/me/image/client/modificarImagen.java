@@ -45,12 +45,11 @@ public class modificarImagen extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = response.getWriter()) {
             
-                OurDao.startDB(); 
                 String campo = request.getParameter("campo");
                 String valor = request.getParameter("valor");
                 
                 int id = (int) ses.getAttribute("imageId");
-                boolean ok = OurDao.enregistrarNou(campo, valor, id);
+                boolean ok = false;
                 if (ok){
                     out.println("<p>El cambio se ha efectuado correctamente</p>");
                 }
