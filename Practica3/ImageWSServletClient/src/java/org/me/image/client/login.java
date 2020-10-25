@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ourpackage;
+package org.me.image.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,17 +13,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.WebServiceRef;
+import org.me.image.ImageWS_Service;
 
 /**
  *
  * @author mo
- * 
- * 
-public class LoginFilter implements Filter 
  */
-@WebServlet(name = "modificarImagen", urlPatterns = "/modificarImagen")
-public class modificarImagen extends HttpServlet {
-
+@WebServlet(name = "login", urlPatterns = {"/login"})
+public class login extends HttpServlet {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+    private ImageWS_Service service;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,32 +35,28 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession ses = request.getSession(false);
-        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
-        else {
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-            
-                OurDao.startDB(); 
-                String titulo = request.getParameter("titulo");
-                String descripcion = request.getParameter("descripcion");
-                String clave = request.getParameter("clave");
-                String author = request.getParameter("author");
-                String fechaC = request.getParameter("fechaC");
-                String fileName = request.getParameter("fileName");
-                
-                int id = (int) ses.getAttribute("imageId");
-                out.println("ESTE ES EL NUEVO TITULO" +titulo);
-                boolean ok = OurDao.enregistrarCanvi(titulo, fechaC, clave, fechaC, fileName, id);
-                if (ok){
-                    out.println("<p>El cambio se ha efectuado correctamente</p>");
-                    out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
-                }
-                else out.println("No s'ha efectuat correctament");
-                    
-            } catch(Exception e){
-                System.err.println(e.getMessage());
+
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String usu = request.getParameter("usuari");
+            String psw = request.getParameter("password");
+
+            HttpSession session1 = request.getSession();
+            OurDao.startDB();
+            if (OurDao.validateUsername(usu) && OurDao.validatePassword(psw) && OurDao.loggin(usu, psw)) {
+                session1.setAttribute("user", usu);
+                response.sendRedirect("menu.jsp");
+            } else {
+                response.sendRedirect("error.jsp");
             }
+
+            OurDao.stopDB();
+            out.println("</body>");
+            out.println("</html>");
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            //redirect al error.jsp
         }
     }
 

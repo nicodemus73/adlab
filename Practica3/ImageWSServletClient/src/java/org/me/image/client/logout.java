@@ -3,27 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ourpackage;
+package org.me.image.client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.WebServiceRef;
+import org.me.image.ImageWS_Service;
 
 /**
  *
- * @author mo
- * 
- * 
-public class LoginFilter implements Filter 
+ * @author elchu
  */
-@WebServlet(name = "modificarImagen", urlPatterns = "/modificarImagen")
-public class modificarImagen extends HttpServlet {
-
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ImageWSApplication/ImageWS.wsdl")
+    private ImageWS_Service service;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,33 +34,15 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession ses = request.getSession(false);
-        if(ses.getAttribute("user") == null) response.sendRedirect("login.jsp");
-        else {
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-            
-                OurDao.startDB(); 
-                String titulo = request.getParameter("titulo");
-                String descripcion = request.getParameter("descripcion");
-                String clave = request.getParameter("clave");
-                String author = request.getParameter("author");
-                String fechaC = request.getParameter("fechaC");
-                String fileName = request.getParameter("fileName");
-                
-                int id = (int) ses.getAttribute("imageId");
-                out.println("ESTE ES EL NUEVO TITULO" +titulo);
-                boolean ok = OurDao.enregistrarCanvi(titulo, fechaC, clave, fechaC, fileName, id);
-                if (ok){
-                    out.println("<p>El cambio se ha efectuado correctamente</p>");
-                    out.println("<a href=\"login.jsp\">Vuelve al Login</a>");
-                }
-                else out.println("No s'ha efectuat correctament");
-                    
-            } catch(Exception e){
-                System.err.println(e.getMessage());
+        response.setContentType("text/html;charset=UTF-8");
+        /* TODO output your page here. You may use following sample code. */
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            //RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+                //dispatcher.forward(request, response);
+                response.sendRedirect("login.jsp");
             }
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
