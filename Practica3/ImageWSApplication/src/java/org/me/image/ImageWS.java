@@ -30,7 +30,7 @@ public class ImageWS {
      */
     @WebMethod(operationName = "RegistrerImage")
     public int RegistrerImage(@WebParam(name = "image") Image image) {
-        if (image.fileName == null || image.fileName.isEmpty()) {
+        if (image.getFileName() == null || image.getFileName().isEmpty()) {
             //throw new FileNotFoundException();
         }
 
@@ -52,7 +52,7 @@ public class ImageWS {
 
             OurDao.startDB();
 
-            image.id = OurDao.enregistrar(image.title, image.description, image.keywords, image.author, image.creationDate, fechaS, image.fileName);
+            image.setId(OurDao.enregistrar(image.getTitle(), image.getDescription(), image.getKeywords(), image.getAuthor(), image.getCreationDate(), fechaS, image.getFileName()));
 
             /*outta = new FileOutputStream(new File(path + File.separator + selectImage.getImageName(id, fileName)));
             /filecontent = filePart.getInputStream();
@@ -63,12 +63,13 @@ public class ImageWS {
             while ((read = filecontent.read(bytes)) != -1) {
                 outta.write(bytes, 0, read);
             }
-            */
+             */
             OurDao.stopDB();
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
-        } /*finally {
+        }
+        /*finally {
 
             if (outta != null) {
                 outta.close();
@@ -82,7 +83,7 @@ public class ImageWS {
 
             }
         }*/
-        return image.id;
+        return image.getId();
     }
 
     /*
@@ -97,11 +98,11 @@ public class ImageWS {
         }
         return null;
     }*/
-
     /**
      * Web service operation
+     *
      * @param image
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "ModifyImage")
     public int ModifyImage(@WebParam(name = "image") Image image) {
@@ -111,8 +112,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param image
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "DeleteImage")
     public int DeleteImage(@WebParam(name = "image") Image image) {
@@ -122,12 +124,21 @@ public class ImageWS {
 
     /**
      * Web service operation
-     * @return 
+     *
+     * @return
      */
     @WebMethod(operationName = "ListImages")
     public List ListImages() {
-        //TODO write your implementation code here:
-        return null;
+        
+        List<Image> list = null;
+        try {
+            OurDao.startDB();
+            list = OurDao.getAllImages();
+            OurDao.stopDB();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return list;
     }
 
     /**
@@ -141,8 +152,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param title
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyTitle")
     public List SearchbyTitle(@WebParam(name = "title") String title) {
@@ -152,8 +164,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param creaDate
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyCreaDate")
     public List SearchbyCreaDate(@WebParam(name = "creaDate") String creaDate) {
@@ -163,8 +176,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param author
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyAuthor")
     public List SearchbyAuthor(@WebParam(name = "author") String author) {
@@ -174,8 +188,9 @@ public class ImageWS {
 
     /**
      * Web service operation
+     *
      * @param keywords
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "SearchbyKeywords")
     public List SearchbyKeywords(@WebParam(name = "keywords") String keywords) {
